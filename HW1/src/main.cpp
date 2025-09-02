@@ -4,7 +4,7 @@
 int main()
 {
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    sf::RenderWindow window(sf::VideoMode(640, 480), "SFML window");
     // Load a sprite to display
     sf::Texture texture;
     if (!texture.loadFromFile("boid-sm.png"))
@@ -16,12 +16,16 @@ int main()
         return EXIT_FAILURE;
     sf::Text text("Hello SFML", font, 50);
     // Load a music to play
-    sf::Music music;
-    if (!music.openFromFile("file_example_OOG_1MG.ogg"))
-        return EXIT_FAILURE;
-    // Play the music
-    music.play();
+    // sf::Music music;
+    // if (!music.openFromFile("file_example_OOG_1MG.ogg"))
+    //     return EXIT_FAILURE;
+    // // Play the music
+    // music.play();
     // Start the game loop
+
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
+
     while (window.isOpen())
     {
         // Process events
@@ -33,12 +37,16 @@ int main()
                 window.close();
         }
         // Clear screen
-        window.clear();
+        window.clear(sf::Color::White);
         // Draw the sprite
         window.draw(sprite);
         // Draw the string
         window.draw(text);
+        // Draw the shape
+        window.draw(shape);
         // Update the window
+
+        sprite.move(sf::Vector2f(0.1f, 0.f));
         window.display();
     }
     return EXIT_SUCCESS;
