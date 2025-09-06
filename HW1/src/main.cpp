@@ -5,8 +5,9 @@
 
 int main()
 {
-    float spriteSpeed = 0.1f;
+    float spriteSpeed = 0.5f;
     float* spriteSpeedPtr = &spriteSpeed;
+    bool spriteStopped = false; // false = moving, true = stopped 
     
     std::cout << "Sprite speed: " << *spriteSpeedPtr << std::endl; // AI generated
 
@@ -45,8 +46,7 @@ int main()
         }
         // Clear screen
         window.clear(sf::Color::White);
-        // Draw the sprite
-        window.draw(sprite);
+        
         // Draw the string
         window.draw(text);
         // Draw the shape
@@ -56,6 +56,8 @@ int main()
         // If in top left corner, move right
         if (sprite.getPosition().x >= 0 and sprite.getPosition().y <= 0){
             sprite.move(sf::Vector2f(*spriteSpeedPtr, 0.f));
+            // Draw the sprite
+            window.draw(sprite);
         }
         // If in top right corner, rotate 90 degrees and move down
         if (sprite.getPosition().x >= 640 and sprite.getPosition().y >= 0){
@@ -64,9 +66,39 @@ int main()
                 sprite.setRotation(90.f);
             }
             sprite.move(sf::Vector2f(0.f, *spriteSpeedPtr));
+            // Draw the sprite
+            window.draw(sprite);
+        }
+        if (sprite.getPosition().x >= 0 and sprite.getPosition().y >= 480){
+            // Rotate 90 degrees if not already rotated like when first reaching this corner
+            if (sprite.getRotation() != 180.f){
+                sprite.setRotation(180.f);
+            }
+            sprite.move(sf::Vector2f(-1.0f * *spriteSpeedPtr, 0.f));
+            // Draw the sprite
+            window.draw(sprite);
+        }
+        if (sprite.getPosition().x <= 0 and sprite.getPosition().y >= 0 and spriteStopped == false){
+            // Rotate 90 degrees if not already rotated like when first reaching this corner
+            if (sprite.getRotation() != 270.f){
+                sprite.setRotation(270.f);
+            }
+            // if (sprite.getPosition().y <= 0){
+            //     sprite.setRotation(0.f);
+            // }
+            if (sprite.getPosition().y <= 0){
+                spriteStopped = true;
+                std::cout << "Sprite Stopped" << std::endl;
+            }
+
+            if (spriteStopped != true){
+                sprite.move(sf::Vector2f(0.f, -1.0f * *spriteSpeedPtr));
+                // Draw the sprite
+                window.draw(sprite);
+            }
         }
 
-        std::cout << sprite.getPosition().x << " " << sprite.getPosition().y << std::endl; // AI generated
+        // std::cout << sprite.getPosition().x << " " << sprite.getPosition().y << std::endl; // AI generated
         window.display();
     }
     return EXIT_SUCCESS;
