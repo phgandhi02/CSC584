@@ -1,13 +1,20 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
 int main()
 {
+    float spriteSpeed = 0.1f;
+    float* spriteSpeedPtr = &spriteSpeed;
+    
+    std::cout << "Sprite speed: " << *spriteSpeedPtr << std::endl; // AI generated
+
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(640, 480), "SFML window");
     // Load a sprite to display
     sf::Texture texture;
-    if (!texture.loadFromFile("boid-sm.png"))
+    if (!texture.loadFromFile("/home/prem/CSC584/HW1/src/boid-sm.png"))
         return EXIT_FAILURE;
     sf::Sprite sprite(texture);
     // Create a graphical text to display
@@ -43,10 +50,23 @@ int main()
         // Draw the string
         window.draw(text);
         // Draw the shape
-        window.draw(shape);
+        // window.draw(shape);
         // Update the window
 
-        sprite.move(sf::Vector2f(0.1f, 0.f));
+        // If in top left corner, move right
+        if (sprite.getPosition().x >= 0 and sprite.getPosition().y <= 0){
+            sprite.move(sf::Vector2f(*spriteSpeedPtr, 0.f));
+        }
+        // If in top right corner, rotate 90 degrees and move down
+        if (sprite.getPosition().x >= 640 and sprite.getPosition().y >= 0){
+            // Rotate 90 degrees if not already rotated like when first reaching this corner
+            if (sprite.getRotation() != 90.f){
+                sprite.setRotation(90.f);
+            }
+            sprite.move(sf::Vector2f(0.f, *spriteSpeedPtr));
+        }
+
+        std::cout << sprite.getPosition().x << " " << sprite.getPosition().y << std::endl; // AI generated
         window.display();
     }
     return EXIT_SUCCESS;
