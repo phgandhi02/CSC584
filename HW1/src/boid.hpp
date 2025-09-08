@@ -1,3 +1,4 @@
+//  Used Gemini to guide my thinking.
 #ifndef BOID_HPP
 #define BOID_HPP
 
@@ -14,6 +15,7 @@ class Boid {
         sf::Texture& m_texture;
         float m_speed;
         sf::Vector2f m_position;
+        float m_rotation;
         int m_spriteState; // 0 = moving right, 1 = moving down, 2 = moving left, 3 = moving up, 4 = stopped
         bool m_stopped;
 };
