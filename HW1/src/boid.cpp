@@ -43,5 +43,9 @@ void Boid::update(){
 }
 
 void Boid::draw(sf::RenderWindow& window){
-    window.draw(m_sprite);
+    if (!m_stopped){
+        window.draw(m_sprite);
+        std::cout << m_sprite.getPosition().x << " " << m_sprite.getPosition().y << std::endl; // AI generated
+    }
+
 }
