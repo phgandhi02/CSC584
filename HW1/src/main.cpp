@@ -28,6 +28,7 @@ int main()
     boid.update();
     boid.draw(window);
     window.display();
+    std::cout << sprite.getPosition().x << " " << sprite.getPosition().y << std::endl; // AI generated
     
     }
     
