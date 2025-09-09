@@ -7,6 +7,7 @@
 
 int main()
 {
+    float SPRITE_SPEED = 0.5f;
     int last_boid_prev_state;
     int last_boid_curr_state;
     int boid_count = 0;
@@ -15,15 +16,15 @@ int main()
     sf::RenderWindow window(sf::VideoMode(640, 480), "SFML window");
     // Load a texture for the sprite
     sf::Texture texture;
-    if (!texture.loadFromFile("/home/prem/CSC584/HW1/src/boid-sm.png"))
+    if (!texture.loadFromFile("./boid-sm.png"))
         return EXIT_FAILURE;
     sf::Sprite sprite(texture);
     
     std::array<Boid,4> boids = {{
-        Boid(texture, 0.25f, sf::Vector2f(0.f, 0.f)),
-        Boid(texture, 0.25f, sf::Vector2f(0.f, 0.f)),
-        Boid(texture, 0.25f, sf::Vector2f(0.f, 0.f)),
-        Boid(texture, 0.25f, sf::Vector2f(0.f, 0.f))
+        Boid(texture, SPRITE_SPEED, sf::Vector2f(0.f, 0.f)),
+        Boid(texture, SPRITE_SPEED, sf::Vector2f(0.f, 0.f)),
+        Boid(texture, SPRITE_SPEED, sf::Vector2f(0.f, 0.f)),
+        Boid(texture, SPRITE_SPEED, sf::Vector2f(0.f, 0.f))
     }};
     boids[0].start();  
     // boid_count++;
@@ -39,7 +40,7 @@ int main()
         }
 
         window.clear(sf::Color::White);
-        std::cout << last_boid_curr_state << " | " << last_boid_prev_state << std::endl; // AI generated
+        // std::cout << last_boid_curr_state << " | " << last_boid_prev_state << std::endl; // AI generated
         // AI generated
         if (last_boid_curr_state != last_boid_prev_state){
             if (boid_count < 3){

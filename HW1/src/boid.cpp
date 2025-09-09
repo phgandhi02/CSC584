@@ -18,44 +18,44 @@ void Boid::update()
     if (m_spriteState == 0 || m_spriteState == 2)
     {
         speed = m_speed;
-    } else {
+    } else if (m_spriteState == 1 || m_spriteState == 3){
         speed = m_speed*.75f;
     }
 
     switch (m_spriteState)
     {
     case 0:
-        m_sprite.move(sf::Vector2f(m_speed, 0.f));
+        m_sprite.move(sf::Vector2f(m_speed, 0.f)); // moving right
         if (m_sprite.getPosition().x >= 640 and m_sprite.getPosition().y <= 0){
-            m_spriteState = 1; // moving down
+            m_spriteState = 1; 
             m_sprite.setRotation(90.f);
         }
         break;
     case 1:
-        m_sprite.move(sf::Vector2f(0.f, m_speed));
+        m_sprite.move(sf::Vector2f(0.f, m_speed)); // moving down
         if (m_sprite.getPosition().x >= 640 and m_sprite.getPosition().y >= 480){
-            m_spriteState = 2; // moving left
+            m_spriteState = 2; 
             m_sprite.setRotation(180.f);
         }
         break;
     case 2:
-        m_sprite.move(sf::Vector2f(-m_speed, 0.f));
+        m_sprite.move(sf::Vector2f(-m_speed, 0.f)); // moving left
         if (m_sprite.getPosition().x <= 0 and m_sprite.getPosition().y >= 480){
-            m_spriteState = 3; // moving up
+            m_spriteState = 3; 
             m_sprite.setRotation(270.f);
         }
         break;
     case 3:
-        m_sprite.move(sf::Vector2f(0.f, -m_speed));
+        m_sprite.move(sf::Vector2f(0.f, -m_speed)); // moving up
         if (m_sprite.getPosition().x <= 0 and m_sprite.getPosition().y <= 0){
-            m_spriteState = 4; // stopped
+            m_spriteState = 4; 
             m_sprite.setRotation(0.f);
         }
         break;
     case 4:
         if (m_sprite.getPosition().x <= 0 and m_sprite.getPosition().y <= 0){
             m_sprite.setRotation(0.f);
-            m_stopped = true;
+            m_stopped = true; // stopped
         }
         break;
     default:
