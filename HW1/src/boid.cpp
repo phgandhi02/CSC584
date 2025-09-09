@@ -1,7 +1,8 @@
+//  Used Gemini to guide my thinking and understand C++ Syntax.
 #include "boid.hpp"
 
 Boid::Boid(sf::Texture &texture, float speed, sf::Vector2f startPos)
-    : m_texture(texture), m_speed(speed), m_spriteState(0), m_stopped(false)
+    : m_texture(texture), m_speed(speed), m_spriteState(0), m_stopped(false), m_started(false)
 {
     m_sprite.setTexture(m_texture);
     m_sprite.setPosition(m_position);
@@ -10,6 +11,17 @@ Boid::Boid(sf::Texture &texture, float speed, sf::Vector2f startPos)
 
 void Boid::update()
 {
+    float speed;
+    if (!m_started)
+        return;
+
+    if (m_spriteState == 0 || m_spriteState == 2)
+    {
+        speed = m_speed;
+    } else {
+        speed = m_speed*.75f;
+    }
+
     switch (m_spriteState)
     {
     case 0:
@@ -42,7 +54,6 @@ void Boid::update()
         break;
     case 4:
         if (m_sprite.getPosition().x <= 0 and m_sprite.getPosition().y <= 0){
-            m_spriteState = 4; // stopped
             m_sprite.setRotation(0.f);
             m_stopped = true;
         }
@@ -57,6 +68,11 @@ void Boid::draw(sf::RenderWindow &window)
     if (!m_stopped)
     {
         window.draw(m_sprite);
-        std::cout << m_sprite.getPosition().x << " " << m_sprite.getPosition().y << std::endl; // AI generated
     }
+}
+
+
+int Boid::getSpriteState() const
+{
+    return m_spriteState;
 }
