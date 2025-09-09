@@ -27,11 +27,11 @@ int main()
     }};
     boids[0].start();  
     // boid_count++;
-    last_boid_prev_state = boids[boid_count].getSpriteState();
+    last_boid_prev_state = boids[0].getSpriteState();
 
     // Main game loop
     while (window.isOpen()){
-        last_boid_curr_state = boids[boid_count].getSpriteState();
+        last_boid_curr_state = boids[0].getSpriteState();
         sf::Event event;
         while (window.pollEvent(event)){
             if (event.type == sf::Event::Closed)
@@ -39,13 +39,12 @@ int main()
         }
 
         window.clear(sf::Color::White);
-        // std::cout << last_boid_curr_state << " | " << last_boid_prev_state << std::endl; // AI generated
+        std::cout << last_boid_curr_state << " | " << last_boid_prev_state << std::endl; // AI generated
         // AI generated
         if (last_boid_curr_state != last_boid_prev_state){
             if (boid_count < 3){
                 boid_count++;
                 boids[boid_count].start();
-                std::cout << boid_count << " " << boids[boid_count].getPosition().x << " " << boids[boid_count].getPosition().y << std::endl; // AI generated
             }
         }
         // AI generated
