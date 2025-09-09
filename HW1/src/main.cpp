@@ -1,3 +1,4 @@
+//  Used Gemini to guide my thinking and understand C++ Syntax.
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -6,6 +7,10 @@
 
 int main()
 {
+    int last_boid_prev_state;
+    int last_boid_curr_state;
+    int boid_count = 0;
+
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(640, 480), "SFML window");
     // Load a texture for the sprite
@@ -14,21 +19,44 @@ int main()
         return EXIT_FAILURE;
     sf::Sprite sprite(texture);
     
-    Boid boid(texture, 0.5f, sf::Vector2f(0.f, 0.f));
-    
+    std::array<Boid,4> boids = {{
+        Boid(texture, 0.25f, sf::Vector2f(0.f, 0.f)),
+        Boid(texture, 0.25f, sf::Vector2f(0.f, 0.f)),
+        Boid(texture, 0.25f, sf::Vector2f(0.f, 0.f)),
+        Boid(texture, 0.25f, sf::Vector2f(0.f, 0.f))
+    }};
+    boids[0].start();  
+    // boid_count++;
+    last_boid_prev_state = boids[boid_count].getSpriteState();
+
     // Main game loop
     while (window.isOpen()){
+        last_boid_curr_state = boids[boid_count].getSpriteState();
         sf::Event event;
         while (window.pollEvent(event)){
             if (event.type == sf::Event::Closed)
                 window.close();
-    }
+        }
 
-    window.clear(sf::Color::White);
-    boid.update();
-    boid.draw(window);
-    window.display();
-    
+        window.clear(sf::Color::White);
+        // std::cout << last_boid_curr_state << " | " << last_boid_prev_state << std::endl; // AI generated
+        // AI generated
+        if (last_boid_curr_state != last_boid_prev_state){
+            if (boid_count < 3){
+                boid_count++;
+                boids[boid_count].start();
+                std::cout << boid_count << " " << boids[boid_count].getPosition().x << " " << boids[boid_count].getPosition().y << std::endl; // AI generated
+            }
+        }
+        // AI generated
+
+        for (int i = 0; i <= boid_count; i++){
+            boids[i].update();
+            boids[i].draw(window);
+        }
+        window.display();
+
+        last_boid_prev_state = last_boid_curr_state;
     }
     
     return EXIT_SUCCESS; // AI-generated
