@@ -6,7 +6,7 @@ BoidsAlgorithm::BoidsAlgorithm(
     double alignment, 
     double cohesion
 )
-        : m_boids(boids), m_separation(separation), m_alignment(alignment), m_cohesion(cohesion){
+        : m_boids(std::move(boids)), m_separation(separation), m_alignment(alignment), m_cohesion(cohesion){
     
 };
 
