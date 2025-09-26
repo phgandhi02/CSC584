@@ -7,7 +7,7 @@
 
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CMake SFML Project");
+    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CSC584 HW2: Steering Behaviors");
     window.setFramerateLimit(144);
 
     // Construct the boid sprites and pass the boid object as a unique_ptr to the vector to store the collection. 
@@ -27,6 +27,7 @@ int main()
             }
         }
 
+        window.clear(sf::Color::White);
         for (auto& boidPtr: boids){
             // Update the boids states using the existing boids algorithm params.
             boids_algorithm.update();
