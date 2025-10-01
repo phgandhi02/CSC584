@@ -44,7 +44,7 @@ add_executable(runTests tests/test_main.cpp)
 
 
 # Link SteeringLib and gtest_main to the runTests program
-target_link_libraries(runTests PRIVATE SteeringLib gtest_main)
+target_link_libraries(runTests PRIVATE SteeringLib gtest_main SFML::Graphics SFML::Window)
 
 # Automatically find all the tests in your test runner
 gtest_discover_tests(runTests)
