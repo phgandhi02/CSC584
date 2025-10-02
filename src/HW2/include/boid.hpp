@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <optional>
-#include "./utils/breadcrumbs.hpp"
+#include "./utils.hpp"
 
 class Boid {
     public:
