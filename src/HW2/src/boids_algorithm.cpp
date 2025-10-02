@@ -1,4 +1,4 @@
-#include "../../include/algorithms/boids.hpp"
+#include "../include/boids_algorithm.hpp"
 
 BoidsAlgorithm::BoidsAlgorithm(
     std::vector<std::unique_ptr<Boid>>& boids,

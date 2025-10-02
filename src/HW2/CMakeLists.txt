@@ -29,7 +29,7 @@ add_library(SteeringLib ${STEERING_SOURCES})
 target_link_libraries(SteeringLib PRIVATE SFML::Graphics)
 target_link_libraries(SteeringLib PRIVATE SFML::Window)
 
-add_executable(main ./app/main.cpp)
+add_executable(main ./main.cpp)
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
 target_link_libraries(main PRIVATE SteeringLib)
