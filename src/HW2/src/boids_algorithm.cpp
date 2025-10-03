@@ -1,13 +1,8 @@
 #include "../include/boids_algorithm.hpp"
 
-BoidsAlgorithm::BoidsAlgorithm(
-    std::vector<std::unique_ptr<Boid>>& boids,
-    double separation, 
-    double alignment, 
-    double cohesion
-)
-        : m_boids(std::move(boids)), m_separation(separation), m_alignment(alignment), m_cohesion(cohesion){
-    
+BoidsAlgorithm::BoidsAlgorithm(std::vector<Boid> boids,float separation, float alignment, float cohesion)
+    : m_boids(boids), m_separation(separation), m_alignment(alignment), m_cohesion(cohesion){
+        
 };
 
 // Implement update() method

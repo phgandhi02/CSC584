@@ -6,14 +6,13 @@
 
 class BoidsAlgorithm{
     public:
-        BoidsAlgorithm(std::vector<std::unique_ptr<Boid>>& boids,double separation, double alignment, double cohesion);
-        std::vector<std::unique_ptr<Boid>> boids;
+        BoidsAlgorithm(std::vector<Boid> boids,float separation, float alignment, float cohesion);
         void update();
     private:
-        const std::vector<std::unique_ptr<Boid>>& m_boids;
-        const double m_separation;
-        const double m_alignment;
-        const double m_cohesion;
+        const std::vector<Boid> m_boids;
+        const float m_separation;
+        const float m_alignment;
+        const float m_cohesion;
 };
 
 #endif // BOIDS_HPP

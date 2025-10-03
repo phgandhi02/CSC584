@@ -16,13 +16,18 @@
  */
 class Static {
     public:
+    // Constructors and deconstructors
         Static(): m_position(sf::Vector2f(0.0f,0.0f)), m_orientation(sf::Angle(sf::degrees(0.0f))) {};
         Static(sf::Vector2f position,sf::Angle orientation): m_position(position), m_orientation(orientation) {};
         ~Static() = default;
-        sf::Vector2f getPosition() {return m_position; }
-        sf::Angle getOrientation() {return m_orientation; }
-        void setPosition(sf::Vector2f position) {m_position = position; }
-        void setOrientation(sf::Angle orientation) {m_orientation = orientation; }
+    // Getters and Setters for member variables
+        sf::Vector2f getPositionVector() { return m_position; }
+        sf::Angle getOrientationAngle() { return m_orientation; }
+        float getOrientationFloat() { return m_orientation.asRadians(); }
+        void setPositionVector(sf::Vector2f position) { m_position = position; }
+        void setPositionFloat(float x, float y) { m_position = sf::Vector2f(x,y); }
+        void setOrientationAngle(sf::Angle orientation) { m_orientation = orientation; }
+        void setOrientationFloat(float orientation) { m_orientation = sf::radians(orientation); } // Set Orientation in radians
     private:
         sf::Vector2f m_position;
         sf::Angle m_orientation;
@@ -62,10 +67,12 @@ class KinematicSteeringOutput {
         ~KinematicSteeringOutput() = default;
 
         // Getters and Setters
-        sf::Vector2f getVelocity() {return m_velocity; }
-        sf::Angle getRotation() {return m_rotation; }
-        void setVelocity(sf::Vector2f velocity) {m_velocity = velocity; }
-        void setRotation(sf::Angle rotation) {m_rotation = rotation; }
+        sf::Vector2f getVelocity() { return m_velocity; }
+        sf::Angle getRotationAngle() { return m_rotation; }
+        float getRotationFloat() { return m_rotation.asRadians(); }
+        void setVelocity(sf::Vector2f velocity) { m_velocity = velocity; }
+        void setRotation(sf::Angle rotation) { m_rotation = rotation; }
+        void setRotationFloat(float rotation) { m_rotation = sf::radians(rotation); } // Set Orientation in radians
     private:
         sf::Vector2f m_velocity;
         sf::Angle m_rotation; // rotation uses Angle type to make unit conversion easy.
