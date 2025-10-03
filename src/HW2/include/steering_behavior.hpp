@@ -101,13 +101,8 @@ class KinematicMovement {
         behavior across different implementations.
         */
         float getNewOrientation(float orientation, sf::Vector2f velocity, float smoothing);
-        virtual std::unique_ptr<KinematicSteeringOutput> getSteering(Static& character) = 0; // pure virtual function to pass a reference to character for efficiency
-        void setInputHandler(std::optional<InputHandler> inputHandler) {m_inputHandler = inputHandler; } // AI generated
-        bool mousePressed;
-        float mouseX;
-        float mouseY;
+        virtual KinematicSteeringOutput getSteering(Static& character) = 0; // pure virtual function to pass a reference to character for efficiency
     private:
-        std::optional<InputHandler> m_inputHandler;
 };
 
 #endif // STEERING_BEHAVIOR_HPP

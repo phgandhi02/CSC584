@@ -73,7 +73,10 @@
         "set": "cpp",
         "complex": "cpp",
         "typeindex": "cpp",
-        "source_location": "cpp"
+        "source_location": "cpp",
+        "cfenv": "cpp",
+        "shared_mutex": "cpp",
+        "stdfloat": "cpp"
     },
     "C_Cpp.codeAnalysis.clangTidy.enabled": true
 }

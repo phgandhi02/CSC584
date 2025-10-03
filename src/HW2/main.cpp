@@ -8,15 +8,22 @@
 
 int main()
 {
-    srand (static_cast <unsigned> (time(0))); // Seed the random number generator before using random numbers.
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CSC584 HW2: Steering Behaviors"); // create window object to render game.
+    // Seed the random number generator before using random numbers.
+    srand (static_cast <unsigned> (time(0)));
+    
+    // create window object to render game.
+    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CSC584 HW2: Steering Behaviors"); 
     window.setFramerateLimit(144); // set the framerate limit to 144 fps.
 
-    sf::Texture texture; // create a texture object to load the boid image.
+    // create a texture object to load the boid image.
+    sf::Texture texture; 
     if (!texture.loadFromFile("./assets/boid-sm.png")) // make sure the texture loads correctly.
         return EXIT_FAILURE;
     sf::Sprite sprite(texture); // create a sprite object to represent the boid in the window.
 
+    Boid boid(); 
+
+    // Game Loop
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent()) // event polling loop.
