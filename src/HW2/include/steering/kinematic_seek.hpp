@@ -3,7 +3,11 @@
 
 #include "../steering_behavior.hpp"
 
-class KinematicSeek {
+class KinematicSeek: public virtual KinematicMovement {
+    public:
+        KinematicSeek() = default;
+        ~KinematicSeek() = default;
+        KinematicSteeringOutput getSteering(Static& character) override;
 };
 
 #endif // KinematicSeek_HPP

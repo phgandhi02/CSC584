@@ -21,7 +21,10 @@ int main()
         return EXIT_FAILURE;
     sf::Sprite sprite(texture); // create a sprite object to represent the boid in the window.
 
-    Boid boid(); 
+    // auto seek_behavior = KinematicSeek();
+    Boid boid(texture, 250.f, sf::Vector2f());
+    auto align_behavior = std::make_unique<KinematicAlign>();
+    boid.align(std::move(align_behavior));
 
     // Game Loop
     while (window.isOpen())
@@ -33,6 +36,8 @@ int main()
                 window.close();
             }
         }
+
+        boid.update();
 
         window.clear(sf::Color::White); // clear the window with a white background.
         window.display(); // display the new frame.

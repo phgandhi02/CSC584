@@ -6,13 +6,15 @@
 
 class BoidsAlgorithm{
     public:
-        BoidsAlgorithm(std::vector<Boid> boids,float separation, float alignment, float cohesion);
+        // BoidsAlgorithm(std::vector<Boid> &boids,float separation, float alignment, float cohesion);
+        BoidsAlgorithm() = default;
+        ~BoidsAlgorithm() = default;
         void update();
     private:
-        const std::vector<Boid> m_boids;
-        const float m_separation;
-        const float m_alignment;
-        const float m_cohesion;
+        // const std::vector<Boid> m_boids;
+        float m_separation;
+        float m_alignment;
+        float m_cohesion;
 };
 
 #endif // BOIDS_HPP

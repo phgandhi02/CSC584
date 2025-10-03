@@ -5,6 +5,22 @@ KinematicSteeringOutput::KinematicSteeringOutput(sf::Vector2f velocity, sf::Angl
     this->m_velocity = velocity;
     this->m_rotation = rotation;
 };
+
+// KinematicSteeringOutput KinematicSteeringOutput::operator=(KinematicSteeringOutput& other){
+//     this->setRotation(other.getRotationAngle());
+//     this->setVelocity(other.getVelocity());
+// };
+
+bool KinematicSteeringOutput::operator==(KinematicSteeringOutput& other){
+    if (other.getRotationAngle() != this->getRotationAngle()){
+        return false;
+    } else if(other.getVelocity() != this->getVelocity()){
+        return false;
+    } else {
+        return true;
+    }
+};
+
 /*
 Returns the new orientation (rads) based on the current orientation (rads) and velocity.
 */

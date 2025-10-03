@@ -3,7 +3,11 @@
 
 #include "../steering_behavior.hpp"
 
-class KinematicArrive {
+class KinematicArrive: public virtual KinematicMovement {
+    public:
+        KinematicArrive() = default;
+        ~KinematicArrive() = default;
+        KinematicSteeringOutput getSteering(Static& character) override;
 };
 
 #endif // KinematicArrive_HPP
