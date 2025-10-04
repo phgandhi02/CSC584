@@ -18,7 +18,7 @@
 class Boid {
     public:
     // Constructors and destructors
-        Boid(sf::Texture &texture, float speed, sf::Vector2f startPos);
+        Boid(const sf::Texture &texture, float speed, sf::Vector2f startPos);
         ~Boid() = default;
     
     // Basic Obj Functions
@@ -26,6 +26,7 @@ class Boid {
         void draw(sf::RenderWindow& window);
         sf::Vector2f getPosition();
         bool breadcrumbs_on;
+        void setTexture(sf::Texture &texture);
 
     // Steering Function
         KinematicSteeringOutput align(std::unique_ptr<KinematicMovement> align_steering);
@@ -38,7 +39,6 @@ class Boid {
         sf::Sprite m_sprite;
         std::optional<Breadcrumbs> m_breadcrumbs;
         std::optional<InputHandler> m_inputHandler;
-        sf::Texture m_texture;
         float m_speed; 
         Static m_character;
 

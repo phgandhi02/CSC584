@@ -1,7 +1,7 @@
 #include "../include/boid.hpp"
 
-Boid::Boid(sf::Texture& texture, float speed, sf::Vector2f startPos)
-    : m_texture(texture), m_sprite(texture)
+Boid::Boid(const sf::Texture& texture, float speed, sf::Vector2f startPos)
+    : m_sprite(texture)
 {
     m_sprite.setPosition(startPos);
     m_sprite.setRotation(sf::radians(0.0f));
@@ -30,4 +30,8 @@ KinematicSteeringOutput Boid::align(std::unique_ptr<KinematicMovement> align_ste
         "Steering Velocity: " << steeringOutput.getVelocity().x << "," << steeringOutput.getVelocity().y 
         << std::endl;
     return steeringOutput;
+};
+
+void Boid::setTexture(sf::Texture &texture){
+    m_sprite.setTexture(texture);
 }
