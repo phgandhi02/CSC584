@@ -15,34 +15,33 @@
 #include <optional>
 #include <memory>
 
-class Boid {
-    public:
+class Boid
+{
+public:
     // Constructors and destructors
-        Boid(const sf::Texture &texture, float speed, sf::Vector2f startPos);
-        ~Boid() = default;
-    
+    Boid(const sf::Texture &texture, float speed, sf::Vector2f startPos);
+    ~Boid() = default;
+
     // Basic Obj Functions
-        void update();
-        void draw(sf::RenderWindow& window);
-        sf::Vector2f getPosition();
-        bool breadcrumbs_on;
-        void setTexture(sf::Texture &texture);
+    void update(float dt);
+    void draw(sf::RenderWindow &window);
+    sf::Vector2f getPosition();
+    KinematicSteeringOutput getSteering() { return m_steering; }
+    bool breadcrumbs_on;
+    void setTexture(sf::Texture &texture);
 
     // Steering Function
-        KinematicSteeringOutput align(std::unique_ptr<KinematicMovement> align_steering);
-        void arrive(std::unique_ptr<KinematicMovement> arrive_steering);
-        void flee(std::unique_ptr<KinematicMovement> flee_steering);
-        void seek(std::unique_ptr<KinematicMovement> seek_steering);
-        void wander(std::unique_ptr<KinematicMovement> wander_steering);
+    std::unique_ptr<KinematicMovement> m_controller;
 
-    private:
-        sf::Sprite m_sprite;
-        std::optional<Breadcrumbs> m_breadcrumbs;
-        std::optional<InputHandler> m_inputHandler;
-        float m_speed; 
-        Static m_character;
+private:
+    sf::Sprite m_sprite;
+    std::optional<Breadcrumbs> m_breadcrumbs;
+    std::optional<InputHandler> m_inputHandler;
+    float m_speed;
+    Static m_character;
+    KinematicSteeringOutput m_steering;
 
-        Static m_target;
+    Static m_target;
 };
 
 #endif // BOID_HPP
