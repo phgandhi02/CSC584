@@ -21,13 +21,14 @@ public:
     Static() : m_position(sf::Vector2f(0.0f, 0.0f)), m_orientation(sf::Angle(sf::degrees(0.0f))) {};
     Static(sf::Vector2f position, sf::Angle orientation) : m_position(position), m_orientation(orientation) {};
     ~Static() = default;
+    bool null_output = false;
     // Getters and Setters for member variables
-    sf::Vector2f getPositionVector() { return m_position; }
-    sf::Angle getOrientationAngle() { return m_orientation; }
+    sf::Vector2f getPosition() { return m_position; }
+    sf::Angle getOrientation() { return m_orientation; }
     float getOrientationFloat() { return m_orientation.asRadians(); }
-    void setPositionVector(sf::Vector2f position) { m_position = position; }
+    void setPosition(sf::Vector2f position) { m_position = position; }
     void setPositionFloat(float x, float y) { m_position = sf::Vector2f(x, y); }
-    void setOrientationAngle(sf::Angle orientation) { m_orientation = orientation; }
+    void setOrientation(sf::Angle orientation) { m_orientation = orientation; }
     // Set Orientation in radians
     void setOrientationFloat(float orientation) { m_orientation = sf::radians(orientation); }
 
@@ -53,7 +54,7 @@ public:
      *
      * Initializes velocity to (0, 0) and rotation to zero angle.
      */
-    KinematicSteeringOutput() : m_velocity(sf::Vector2f(0.0f, 0.0f)), m_rotation(sf::Angle()) {};
+    KinematicSteeringOutput() : null_output(false), m_velocity(sf::Vector2f(0.0f, 0.0f)), m_rotation(sf::Angle()) {};
 
     /**
      * @brief Parameterized constructor.
@@ -72,10 +73,11 @@ public:
 
     // KinematicSteeringOutput& operator= (const KinematicSteeringOutput& other);
     bool operator==(KinematicSteeringOutput &other);
+    bool null_output = false;
 
     // Getters and Setters
     sf::Vector2f getVelocity() { return m_velocity; }
-    sf::Angle getRotationAngle() { return m_rotation; }
+    sf::Angle getRotation() { return m_rotation; }
     float getRotationFloat() { return m_rotation.asRadians(); }
     void setVelocity(sf::Vector2f velocity) { m_velocity = velocity; }
     void setRotation(sf::Angle rotation) { m_rotation = rotation; }
@@ -115,7 +117,9 @@ public:
     below is either `= 0;` or it has an implementation in the source file for this header file.
     */
     virtual KinematicSteeringOutput getSteering(Static &character) = 0; // pure virtual function to pass a reference to character for efficiency
-private:
+    sf::Vector2f getTargetPos() { return sf::Vector2f(targetX, targetY); }
+    float targetX;
+    float targetY;
 };
 
 #endif // STEERING_BEHAVIOR_HPP

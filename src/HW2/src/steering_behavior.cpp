@@ -12,7 +12,7 @@ KinematicSteeringOutput::KinematicSteeringOutput(sf::Vector2f velocity, sf::Angl
 // };
 
 bool KinematicSteeringOutput::operator==(KinematicSteeringOutput& other){
-    if (other.getRotationAngle() != this->getRotationAngle()){
+    if (other.getRotation() != this->getRotation()){
         return false;
     } else if(other.getVelocity() != this->getVelocity()){
         return false;
