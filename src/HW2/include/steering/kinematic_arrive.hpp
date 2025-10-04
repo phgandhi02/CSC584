@@ -12,8 +12,8 @@ class KinematicArrive: public virtual KinematicMovement {
         float timeToTarget;
     private:
         float m_maxSpeed = 250.0f;
-        float m_smoothing = 0.0f;
-        float m_stopRadius;
+        float m_smoothing = 1.0f; // const between 0-1
+        float m_stopRadius = .01f;
 };
 
 #endif // KinematicArrive_HPP
