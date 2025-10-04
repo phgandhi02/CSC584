@@ -21,6 +21,8 @@ public:
     Static(sf::Vector2f position, sf::Angle orientation) : m_position(position), m_orientation(orientation) {};
     ~Static() = default;
     bool null_output = false;
+    bool operator==(Static &other);
+
     // Getters and Setters for member variables
     sf::Vector2f getPosition() { return m_position; }
     sf::Angle getOrientation() { return m_orientation; }
