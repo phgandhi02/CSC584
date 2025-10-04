@@ -1,4 +1,11 @@
 #include "../include/steering_behavior.hpp"
+const float PI_F = 3.14159265358979f;
+
+bool Static::operator==(Static& other){
+    bool orientation_matched_true = this->getOrientation() == other.getOrientation();
+    bool position_matched_true = this->getPosition() == other.getPosition();
+    return (orientation_matched_true && position_matched_true)? true: false;
+}
 
 KinematicSteeringOutput::KinematicSteeringOutput(sf::Vector2f velocity, sf::Angle rotation)
 {
@@ -21,10 +28,9 @@ Returns the new orientation (rads) based on the current orientation (rads) and v
 */
 float KinematicMovement::getNewOrientation(float orientation, sf::Vector2f velocity, float smoothing)
 {
-    const float PI_F = 3.14159265358979f;
     if (velocity.length() >= .001f){
         float target = std::atan2(-velocity.y, velocity.x);
-        if (.0f < smoothing)
+        if (smoothing > 0.0f)
         {
             float delta = (target - orientation);
 
