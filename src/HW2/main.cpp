@@ -23,8 +23,8 @@ int main()
 
     // auto seek_behavior = KinematicSeek();
     Boid boid(texture, 250.f, sf::Vector2f());
-    auto align_behavior = std::make_unique<KinematicAlign>();
-    boid.m_controller = std::move(align_behavior);
+    auto seek_behavior = std::make_unique<KinematicSeek>();
+    boid.m_controller = std::move(seek_behavior);
 
     // Game Loop
     while (window.isOpen())
@@ -38,6 +38,7 @@ int main()
         }
 
         boid.update(0.01f);
+        boid.draw(window);
 
         window.clear(sf::Color::White); // clear the window with a white background.
         window.display(); // display the new frame.
