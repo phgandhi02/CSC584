@@ -42,6 +42,36 @@ protected:
                   << character.getPosition().y << " | Orientation: "
                   << character.getOrientationFloat() << std::endl;
     }
+    void Expect_EQ_Static(Static test_character){
+        EXPECT_EQ_Position(test_character);
+        EXPECT_EQ_Orientation(test_character);
+    }
+    void EXPECT_EQ_SteeringOutput(KinematicSteeringOutput testSteering){
+        EXPECT_EQ_Velocity(testSteering);
+        EXPECT_EQ_Rotation(testSteering);
+    }
+    void EXPECT_EQ_Position(Static test_character){
+        PrintCharacterPhysVars();
+        auto position = boid.getCharacter().getPosition();
+        EXPECT_FLOAT_EQ(position.x,test_character.getPosition().x);
+        EXPECT_FLOAT_EQ(position.y,test_character.getPosition().y);
+    }
+    void EXPECT_EQ_Orientation(Static test_character){
+        PrintCharacterPhysVars();
+        auto orientation = boid.getCharacter().getOrientationFloat();
+        EXPECT_FLOAT_EQ(orientation,test_character.getOrientationFloat());
+    }
+    void EXPECT_EQ_Velocity(KinematicSteeringOutput testSteering){
+        PrintKinematicSteeringOutput();
+        auto velocity = boid.getSteering().getVelocity();
+        EXPECT_FLOAT_EQ(velocity.x,testSteering.getVelocity().x);
+        EXPECT_FLOAT_EQ(velocity.y,testSteering.getVelocity().y);
+    }
+    void EXPECT_EQ_Rotation(KinematicSteeringOutput testSteering){
+        PrintKinematicSteeringOutput();
+        auto rotation = boid.getSteering().getRotationFloat();
+        EXPECT_FLOAT_EQ(rotation,testSteering.getRotationFloat());
+    }
 
 private:
     static sf::Texture createTexture()
@@ -77,23 +107,70 @@ TEST_F(BoidTest, InitializeAlign)
     EXPECT_TRUE(test);
 }
 
-TEST_F(BoidTest, InitializeArrive)
+
+TEST_F(BoidTest, BasicArriveTopRight)
 {
+    // Arrange
     auto arrive_behavior = std::make_unique<KinematicArrive>();
+    auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(100.f, 100.f), sf::degrees(0));
+    auto test_character = Static(sf::Vector2f(100,100),sf::radians(-0.785398));
+    // Act
     arrive_behavior->timeToTarget = 1.0f;
     arrive_behavior->target = Static(sf::Vector2f(100.0f, 100.0f), sf::degrees(0.0f));
     boid.m_controller = std::move(arrive_behavior);
     boid.update(1.f);
-    KinematicSteeringOutput steeringOutput = boid.getSteering();
-    auto character = boid.getCharacter();
-
-    auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(100.f, 100.f), sf::degrees(0));
-    auto test_character = Static(sf::Vector2f(100,100),sf::radians(-0.785398));
-    bool test = (steeringOutput == defaultSteeringOutput 
-        && test_character.getPosition() == character.getPosition());
-    
-    PrintKinematicSteeringOutput();
-    PrintCharacterPhysVars();
-    EXPECT_TRUE(test);
-    EXPECT_FLOAT_EQ(test_character.getOrientationFloat(), character.getOrientationFloat());
+    // Assert
+    Expect_EQ_Static(test_character);
+    EXPECT_EQ_SteeringOutput(defaultSteeringOutput);
 }
+
+TEST_F(BoidTest, BasicArriveTopLeft)
+{
+    // Arrange
+    auto arrive_behavior = std::make_unique<KinematicArrive>();
+    auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(100.f, -100.f), sf::degrees(0));
+    auto test_character = Static(sf::Vector2f(100,-100),sf::radians(0.78539819f));
+    // Act
+    arrive_behavior->timeToTarget = 1.0f;
+    arrive_behavior->target = Static(sf::Vector2f(100.0f, -100.0f), sf::degrees(0.0f));
+    boid.m_controller = std::move(arrive_behavior);
+    boid.update(1.f);
+    // Assert
+    Expect_EQ_Static(test_character);
+    EXPECT_EQ_SteeringOutput(defaultSteeringOutput);
+}
+
+TEST_F(BoidTest, BasicArriveBottomLeft)
+{
+    auto arrive_behavior = std::make_unique<KinematicArrive>();
+    arrive_behavior->timeToTarget = 1.0f;
+    arrive_behavior->target = Static(sf::Vector2f(-100.0f, -100.0f), sf::degrees(0.0f));
+    boid.m_controller = std::move(arrive_behavior);
+    boid.update(1.0f);
+
+    auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(-100.f, -100.f), sf::degrees(0));
+    auto test_character = Static(sf::Vector2f(-100,-100),sf::radians(2.35619f));
+
+    Expect_EQ_Static(test_character);
+    EXPECT_EQ_SteeringOutput(defaultSteeringOutput);
+}
+
+// TEST_F(BoidTest, BasicAlign)
+// {
+//     auto align_behavior = std::make_unique<KinematicAlign>();
+//     align_behavior->target = Static(sf::Vector2f(100.0f, 100.0f), sf::degrees(45.0f));
+//     boid.m_controller = std::move(align_behavior);
+//     boid.update(1.f);
+//     KinematicSteeringOutput steeringOutput = boid.getSteering();
+//     auto character = boid.getCharacter();
+
+//     auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(100.f, 100.f), sf::degrees(0));
+//     auto test_character = Static(sf::Vector2f(100,100),sf::radians(-0.785398));
+//     bool test = (steeringOutput == defaultSteeringOutput 
+//         && test_character.getPosition() == character.getPosition());
+    
+//     PrintKinematicSteeringOutput();
+//     PrintCharacterPhysVars();
+//     EXPECT_TRUE(test);
+//     EXPECT_FLOAT_EQ(test_character.getOrientationFloat(), character.getOrientationFloat());
+// }
