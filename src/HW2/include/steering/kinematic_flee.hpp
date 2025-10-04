@@ -8,6 +8,9 @@ class KinematicFlee: public virtual KinematicMovement {
         KinematicFlee() = default;
         ~KinematicFlee() = default;
         KinematicSteeringOutput getSteering(Static& character) override;
+    private:
+        float m_maxSpeed = 250.0f;
+        float m_smoothing = 0.01f;
 };
 
 #endif // KinematicFlee_HPP
