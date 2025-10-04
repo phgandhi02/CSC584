@@ -25,7 +25,7 @@ public:
     // Basic Obj Functions
     void update(float dt);
     void draw(sf::RenderWindow &window);
-    sf::Vector2f getPosition();
+    Static getCharacter() { return m_character; }
     KinematicSteeringOutput getSteering() { return m_steering; }
     bool breadcrumbs_on;
     void setTexture(sf::Texture &texture);
@@ -42,6 +42,8 @@ private:
     KinematicSteeringOutput m_steering;
 
     Static m_target;
+
+    bool unittesting = true;
 };
 
 #endif // BOID_HPP

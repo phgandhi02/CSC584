@@ -6,7 +6,7 @@ Boid::Boid(sf::Texture& texture, float speed, sf::Vector2f startPos)
 {
     m_sprite.setTexture(m_texture);
     m_sprite.setPosition(m_position);
-    m_sprite.setRotation(0.f);
+    m_sprite.setRotation(0.0f);
 }
 
 void Boid::update()
