@@ -12,7 +12,7 @@ int main()
     srand (static_cast <unsigned> (time(0)));
     
     // create window object to render game.
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CSC584 HW2: Steering Behaviors"); 
+    auto window = sf::RenderWindow(sf::VideoMode({800u, 600u}), "CSC584 HW2: Steering Behaviors"); 
     window.setFramerateLimit(144); // set the framerate limit to 144 fps.
 
     // create a texture object to load the boid image.
@@ -24,7 +24,7 @@ int main()
     // auto seek_behavior = KinematicSeek();
     Boid boid(texture, 250.f, sf::Vector2f());
     auto align_behavior = std::make_unique<KinematicAlign>();
-    boid.align(std::move(align_behavior));
+    boid.m_controller = std::move(align_behavior);
 
     // Game Loop
     while (window.isOpen())
@@ -37,7 +37,7 @@ int main()
             }
         }
 
-        boid.update();
+        boid.update(0.01f);
 
         window.clear(sf::Color::White); // clear the window with a white background.
         window.display(); // display the new frame.
