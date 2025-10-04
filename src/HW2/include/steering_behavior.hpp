@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <optional>
 #include <cmath>
-#include "./utils.hpp"
 
 /**
  * @class Static
@@ -35,6 +34,7 @@ public:
 private:
     sf::Vector2f m_position;
     sf::Angle m_orientation;
+    
 };
 
 /**
@@ -104,22 +104,9 @@ public:
     virtual ~KinematicMovement() = default; // Good practice to have a virtual destructor - AI Generated
 
     // Getters and Setters
-    // getSteering will return either a unique ptr to a KinematicSteeringOutput or a nullptr
-    /*
-    Pure abstract functions must be declared with 0 in order to create a strong contract for derived classes.
-    The strong contract forces all derived classes to implement the pure virtual function, ensuring consistent
-    behavior across different implementations.
-    */
     float getNewOrientation(float orientation, sf::Vector2f velocity, float smoothing);
-    /*
-    I have to make sure that this is a pure virtual function or the linker will try to 
-    find the implementation. This means that I need to make sure the virtual member function 
-    below is either `= 0;` or it has an implementation in the source file for this header file.
-    */
     virtual KinematicSteeringOutput getSteering(Static &character) = 0; // pure virtual function to pass a reference to character for efficiency
-    sf::Vector2f getTargetPos() { return sf::Vector2f(targetX, targetY); }
-    float targetX;
-    float targetY;
+    Static target;
 };
 
 #endif // STEERING_BEHAVIOR_HPP

@@ -1,12 +1,8 @@
 #include "../../include/steering/kinematic_align.hpp"
 
-void KinematicAlign::updateTarget(const Static target){
-    m_target = target;
-}
-
 KinematicSteeringOutput KinematicAlign::getSteering(Static& character){
     // checking m_target to make sure the
-  if (m_target.null_output == true)
+  if (target.null_output == true)
   {
     auto result = KinematicSteeringOutput();
     result.null_output = true;
@@ -14,9 +10,8 @@ KinematicSteeringOutput KinematicAlign::getSteering(Static& character){
   }
   else
   {
-    updateTarget(m_target);
     KinematicSteeringOutput result = KinematicSteeringOutput();
-    sf::Angle direction = m_target.getOrientation() - character.getOrientation();
+    sf::Angle direction = target.getOrientation() - character.getOrientation();
 
     direction = direction.wrapSigned();
     m_rotationSize = sf::radians(std::abs(direction.asRadians()));

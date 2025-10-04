@@ -22,13 +22,19 @@ TEST(BoidTesting, InitializeBoid)
 class BoidTest : public testing::Test
 {
 protected:
-    BoidTest() : texture(createTexture()), boid(texture, 250.0f, sf::Vector2f(100.f, 200.f))
-    {
-    };
+    BoidTest() : texture(createTexture()), boid(texture, 250.0f, sf::Vector2f(0.0f, 0.0f)) {
+                 };
 
     KinematicSteeringOutput steeringOutput;
     const sf::Texture texture;
     Boid boid;
+    void PrintKinematicSteeringOutput()
+    {
+        KinematicSteeringOutput kinematicSteeringOutput = boid.getSteering();
+        std::cout << "Velocity: " << kinematicSteeringOutput.getVelocity().x
+                  << kinematicSteeringOutput.getVelocity().y << "Rotation: "
+                  << kinematicSteeringOutput.getRotationFloat() << std::endl;
+    }
 
 private:
     static sf::Texture createTexture()
@@ -66,13 +72,16 @@ TEST_F(BoidTest, InitializeAlign)
 
 TEST_F(BoidTest, InitializeArrive)
 {
-    auto align_behavior = std::make_unique<KinematicAlign>();
-    boid.m_controller = std::move(align_behavior);
+    auto arrive_behavior = std::make_unique<KinematicArrive>();
+    arrive_behavior->timeToTarget = 10.0f;
+    arrive_behavior->target = Static(sf::Vector2f(100.0f, 100.0f), sf::degrees(0.0f));
+    boid.m_controller = std::move(arrive_behavior);
     boid.update(0.01f);
     KinematicSteeringOutput steeringOutput = boid.getSteering();
-    auto defaultSteeringOutput = KinematicSteeringOutput();
-    bool test = (steeringOutput == defaultSteeringOutput);
 
+    auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(10.f, 10.f), sf::degrees(0));
+    bool test = (steeringOutput == defaultSteeringOutput);
+    
+    PrintKinematicSteeringOutput();
     EXPECT_TRUE(test);
 }
-

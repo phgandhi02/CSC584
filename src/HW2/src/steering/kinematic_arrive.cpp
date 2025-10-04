@@ -2,13 +2,13 @@
 
 void KinematicArrive::updateTarget(Static targetPos)
 {
-    m_target = targetPos;
+    target = targetPos;
 };
 
 KinematicSteeringOutput KinematicArrive::getSteering(Static &character)
 {
-    // checking m_target to make sure the
-    if (m_target.null_output == true)
+    // checking target to make sure the
+    if (target.null_output == true)
     {
         auto result = KinematicSteeringOutput();
         result.null_output = true;
@@ -16,10 +16,10 @@ KinematicSteeringOutput KinematicArrive::getSteering(Static &character)
     }
     else
     {
-        updateTarget(m_target);
+        updateTarget(target);
         KinematicSteeringOutput result = KinematicSteeringOutput();
 
-        result.setVelocity(m_target.getPosition() - character.getPosition());
+        result.setVelocity(target.getPosition() - character.getPosition());
 
         // Check if we are there, if so, return no steering
         if (result.getVelocity().length() < m_stopRadius)
@@ -31,7 +31,7 @@ KinematicSteeringOutput KinematicArrive::getSteering(Static &character)
         float targetSpeed = 0.0f;
 
         // We need to move to our target, we'd like to get there in in timeToTarget seconds
-        result.setVelocity(result.getVelocity() / m_timeToTarget);
+        result.setVelocity(result.getVelocity() / timeToTarget);
 
         // Check if the velocity is too fast, if so clip speed
         if (result.getVelocity().length() > m_maxSpeed)

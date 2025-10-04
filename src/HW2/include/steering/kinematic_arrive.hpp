@@ -9,11 +9,10 @@ class KinematicArrive: public virtual KinematicMovement {
         ~KinematicArrive() = default;
         void updateTarget(Static targetPos);
         KinematicSteeringOutput getSteering(Static& character) override;
+        float timeToTarget;
     private:
-        Static m_target;
         float m_maxSpeed = 250.0f;
         float m_smoothing = 0.0f;
-        float m_timeToTarget;
         float m_stopRadius;
 };
 

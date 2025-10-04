@@ -10,7 +10,6 @@ class KinematicAlign: public virtual KinematicMovement {
         KinematicSteeringOutput getSteering(Static& character) override;
         void updateTarget(const Static targetPos);
     private:
-        Static m_target;
         float m_smoothing = 0.0f;
         sf::Angle m_maxAngularAcceleration = sf::degrees(30.0f); // Maximum angular acceleration
         sf::Angle m_maxRotation = sf::degrees(20.0f); // Maximum rotation speed
