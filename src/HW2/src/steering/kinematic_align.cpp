@@ -10,7 +10,7 @@ KinematicSteeringOutput KinematicAlign::getSteering(Static &character)
     return result;
   }
   auto direction = target.getPosition() - character.getPosition();
-  character.setOrientationFloat(getNewOrientation(character.getOrientationFloat(), direction, m_smoothing));
+  character.setOrientationFloat(getNewOrientation(character.getOrientationFloat(), direction, smoothing));
   // Linear velocity is zero
 
   auto result = KinematicSteeringOutput();

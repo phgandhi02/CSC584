@@ -19,7 +19,7 @@ KinematicSteeringOutput KinematicWander::getSteering(Static& character){
     KinematicSteeringOutput result = KinematicSteeringOutput();
     
     // Get velocity from the vector form of the orientation
-    auto newVelocity = sf::Vector2f(cos(character.getOrientation().asRadians()) * m_maxSpeed, -1.0f * sin(character.getOrientation().asRadians()) * m_maxSpeed);
+    auto newVelocity = sf::Vector2f(cos(character.getOrientation().asRadians()) * maxSpeed, -1.0f * sin(character.getOrientation().asRadians()) * maxSpeed);
     result.setVelocity(newVelocity); // set velocity in the direction of the character's orientation
 
     // Change our orientation randomly

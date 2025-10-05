@@ -109,6 +109,8 @@ public:
     float getNewOrientation(float orientation, sf::Vector2f velocity, float smoothing);
     virtual KinematicSteeringOutput getSteering(Static &character) = 0; // pure virtual function to pass a reference to character for efficiency
     Static target;
+    float smoothing = 0.1f; // const between 0-1 to tune how snappy orientation change is.
+    float maxSpeed = 100.0f;
 };
 
 #endif // STEERING_BEHAVIOR_HPP

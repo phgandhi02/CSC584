@@ -24,16 +24,16 @@ KinematicSteeringOutput KinematicArrive::getSteering(Static &character)
         }
 
         // We need to move to our target, we'd like to get there in in timeToTarget seconds
-        result.setVelocity(result.getVelocity() / timeToTarget);
+        result.setVelocity(result.getVelocity() / m_timeToTarget);
 
         // Check if the velocity is too fast, if so clip speed
-        if (result.getVelocity().length() > m_maxSpeed)
+        if (result.getVelocity().length() > maxSpeed)
         {
-            result.setVelocity(result.getVelocity().normalized() * m_maxSpeed);
+            result.setVelocity(result.getVelocity().normalized() * maxSpeed);
         }
 
         // Face in the direction we want to move
-        sf::Angle newOrientation = sf::radians(getNewOrientation(character.getOrientation().asRadians(), result.getVelocity(), m_smoothing));
+        sf::Angle newOrientation = sf::radians(getNewOrientation(character.getOrientation().asRadians(), result.getVelocity(), smoothing));
         character.setOrientation(newOrientation);
 
         // No angular acceleration

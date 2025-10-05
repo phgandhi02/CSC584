@@ -9,8 +9,7 @@ class KinematicSeek: public virtual KinematicMovement {
         ~KinematicSeek() = default;
         KinematicSteeringOutput getSteering(Static& character) override;
     private:
-        float m_maxSpeed = 250.0f;
-        float m_smoothing = 0.0f;
+
 };
 
 #endif // KinematicSeek_HPP

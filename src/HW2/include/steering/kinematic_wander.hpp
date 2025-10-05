@@ -10,12 +10,11 @@ class KinematicWander: public virtual KinematicMovement {
         float sampleDifference();
         KinematicSteeringOutput getSteering(Static& character) override;
     private:
-        float m_rotation;
-        int m_framesSinceSample;
+        float m_rotation = 0.0f;
+        int m_framesSinceSample = 0;
 
-        int m_samplingInterval;
-        float m_maxRotation;
-        float m_maxSpeed;
+        int m_samplingInterval = 4;
+        float m_maxRotation = 3.14159265358979323846f;
 };
 
 #endif // KinematicWander_HPP

@@ -14,16 +14,16 @@ KinematicSteeringOutput KinematicFlee::getSteering(Static &character)
         sf::Vector2f vectorDistance = character.getPosition() - target.getPosition();
         if (vectorDistance == sf::Vector2f())
         {
-            vectorDistance = sf::Vector2f(m_maxSpeed, 0.0f);
+            vectorDistance = sf::Vector2f(maxSpeed, 0.0f);
             // vectorDistance = sf::Vector2f(m_maxSpeed*sqrt(2.0f),m_maxSpeed*sqrt(2.0f));
         }
         result.setVelocity(vectorDistance);
         if (result.getVelocity().length() != 0.0f)
         {
-            result.setVelocity(result.getVelocity().normalized() * m_maxSpeed);
+            result.setVelocity(result.getVelocity().normalized() * maxSpeed);
         }
 
-        sf::Angle newOrientation = sf::radians(getNewOrientation(character.getOrientation().asRadians(), result.getVelocity(), m_smoothing));
+        sf::Angle newOrientation = sf::radians(getNewOrientation(character.getOrientation().asRadians(), result.getVelocity(), smoothing));
         character.setOrientation(newOrientation);
 
         return result;

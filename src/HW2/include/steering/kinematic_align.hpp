@@ -10,7 +10,6 @@ class KinematicAlign: public virtual KinematicMovement {
         KinematicSteeringOutput getSteering(Static& character) override;
         void updateTarget(const Static targetPos);
     private:
-        float m_smoothing = 1.0f; // const between 0-1
 };
 
 #endif // KinematicAlign_HPP
