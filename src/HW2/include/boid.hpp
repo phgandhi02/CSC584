@@ -19,7 +19,7 @@ class Boid
 {
 public:
     // Constructors and destructors
-    Boid(const sf::Texture &texture, float speed, sf::Vector2f startPos);
+    Boid(const sf::Texture &texture, Static startPos, sf::RenderWindow& window);
     ~Boid() = default;
 
     // Basic Obj Functions
@@ -29,21 +29,23 @@ public:
     KinematicSteeringOutput getSteering() { return m_steering; }
     bool breadcrumbs_on;
     void setTexture(sf::Texture &texture);
+    
 
     // Steering Function
+    float speed = 100.0f;
+    float smoothing = 0.2f;
     std::unique_ptr<KinematicMovement> m_controller;
 
 private:
     sf::Sprite m_sprite;
-    std::optional<Breadcrumbs> m_breadcrumbs;
-    std::optional<InputHandler> m_inputHandler;
-    float m_speed;
+    Breadcrumbs m_breadcrumbs;
+    InputHandler m_inputHandler;
     Static m_character;
     KinematicSteeringOutput m_steering;
 
     Static m_target;
 
-    bool unittesting = true;
+    bool unittesting = false;
 };
 
 #endif // BOID_HPP
