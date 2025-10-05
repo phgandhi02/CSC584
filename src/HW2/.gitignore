@@ -4,3 +4,4 @@ out
 .cache
 .idea
 .vs
+cmake-build/
