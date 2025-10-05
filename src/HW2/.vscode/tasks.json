@@ -19,6 +19,25 @@
                 "reveal": "always",
                 "panel": "shared"
             }
+        },
+        {
+            "label": "Run Main",
+            "type": "shell",
+            "command": "./build/bin/main",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
         }
     ]
 }
