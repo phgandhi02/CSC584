@@ -40,23 +40,34 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::I))
             {
                 boid.speed *= 1.01f;
-            } 
-            
+                std::cout << "New Speed: " << boid.speed << " | Reset to default with \"K\" key" << std::endl;
+            }
+
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::M))
             {
                 boid.speed *= 0.99f;
+                std::cout << "New Speed: " << boid.speed << " | Reset to default with \"K\" key" << std::endl;
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::O))
             {
                 boid.smoothing *= 1.01f;
-            } 
-            
+                std::cout << "New Smoothing: " << boid.smoothing << " | Reset to default with \"K\" key" << std::endl;
+            }
+
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::U))
             {
                 boid.smoothing *= 0.99f;
+                std::cout << "New Smoothing: " << boid.smoothing << " | Reset to default with \"K\" key" << std::endl;
             }
 
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::K))
+            {
+                boid.speed = 100.f;
+                boid.smoothing = 0.2f;
+                std::cout << "Speed set to default: " << boid.speed << std::endl;
+                std::cout << "Smoothing set to default: " << boid.smoothing << std::endl;
+            }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Q))
             {
