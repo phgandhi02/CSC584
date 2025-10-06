@@ -44,6 +44,8 @@ private:
     KinematicSteeringOutput m_steering;
 
     Static m_target;
+    unsigned int m_windowSizeX;
+    unsigned int m_windowSizeY;
 
     bool unittesting = false;
 };

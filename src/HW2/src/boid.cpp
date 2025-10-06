@@ -72,7 +72,9 @@ void Boid::setTexture(sf::Texture &texture)
 void Boid::draw(sf::RenderWindow &window)
 {
     window.draw(m_sprite);
-    
+    m_windowSizeX = window.getSize().x;
+    m_windowSizeY = window.getSize().y;
+
     for (Breadcrumb crumb : m_breadcrumbs.m_breadcrumbs){
         window.draw(crumb.image);
     }
