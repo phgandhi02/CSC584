@@ -6,6 +6,10 @@ Pure abstract functions must be declared with 0 in order to create a strong cont
 
 I have to make sure that this is a pure virtual function or the linker will try to find the implementation. This means that I need to make sure the virtual member function below is either `= 0;` or it has an implementation in the source file for this header file.
 
+Const non-static member variables are more trouble than they are worth.
+
+Useful site for testing performance of algorithms: <https://quick-bench.com/>
+
 ## Pointers
 
 Every object that is passed as a pointer is always assumed to be owned by the caller, which means the lifetime is handled by the caller. The caller is responsible for managing the memory of this object pointer and destructing it once the once is over. [ref](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#i11-never-transfer-ownership-by-a-raw-pointer-t-or-reference-t)
