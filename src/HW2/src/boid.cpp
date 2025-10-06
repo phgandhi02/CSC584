@@ -46,14 +46,16 @@ void Boid::update(float dt)
         m_character.setOrientation(m_character.getOrientation() + m_steering.getRotation() * dt);
 
         // Wrap orientation between [-pi, pi)
-        if (sf::radians(PI_F) <= m_character.getOrientation())
-            m_character.setOrientation(m_character.getOrientation() - sf::radians(2 * PI_F));
-        else if (sf::radians(-PI_F) > m_character.getOrientation())
-            m_character.setOrientation(m_character.getOrientation() + sf::radians(2 * PI_F));
+        if (m_character.getOrientation() > sf::radians(PI_F)) // char.orient > PI
+            m_character.setOrientation(m_character.getOrientation() - sf::radians(2 * PI_F)); // char.orient -= 2*PI
+        else if (m_character.getOrientation() < sf::radians(-PI_F)) // char.orient < -PI
+            m_character.setOrientation(m_character.getOrientation() + sf::radians(2 * PI_F)); // char.orient += 2*PI
 
+        // std::cout << "sprite.orient = " << m_character.getOrientationFloat() << std::endl;
+        
         // Update the sprite position and rotation
         m_sprite.setPosition(m_character.getPosition());
-        m_sprite.setRotation(m_character.getOrientation() + sf::degrees(90.0f)); // AI-gen: Adjust for sprite facing up
+        m_sprite.setRotation(m_character.getOrientation()); // AI-gen: Adjust for sprite facing up
     } else {
         // std::cout << "No Steering behavior" << std::endl;
     }

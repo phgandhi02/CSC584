@@ -29,7 +29,7 @@ Returns the new orientation (rads) based on the current orientation (rads) and v
 float KinematicMovement::getNewOrientation(float orientation, sf::Vector2f velocity, float smoothing)
 {
     if (velocity.length() >= .001f){
-        float target = std::atan2(-velocity.y, velocity.x);
+        float target = std::atan2(velocity.y, velocity.x);
         if (smoothing > 0.0f)
         {
             float delta = (target - orientation);
