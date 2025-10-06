@@ -55,7 +55,7 @@ void Boid::update(float dt)
         
         // Update the sprite position and rotation
         m_sprite.setPosition(m_character.getPosition());
-        m_sprite.setRotation(m_character.getOrientation() + sf::degrees(90.0f)); // AI-gen: Adjust for sprite facing up
+        m_sprite.setRotation(m_character.getOrientation()); // AI-gen: Adjust for sprite facing up
     } else {
         // std::cout << "No Steering behavior" << std::endl;
     }

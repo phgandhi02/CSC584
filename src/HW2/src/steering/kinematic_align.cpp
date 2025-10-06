@@ -13,7 +13,7 @@ KinematicSteeringOutput KinematicAlign::getSteering(Static &character)
   auto direction = target.getPosition() - character.getPosition();
   character.setOrientationFloat(getNewOrientation(character.getOrientationFloat(), direction, smoothing));
 
-  std::cout << "Align: chararcter.orient = " << character.getOrientationFloat() << std::endl;
+  // std::cout << "Align: chararcter.orient = " << character.getOrientationFloat() << std::endl;
   // Linear velocity is zero
 
   auto result = KinematicSteeringOutput();
