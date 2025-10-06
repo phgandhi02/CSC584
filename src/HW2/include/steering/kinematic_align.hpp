@@ -8,7 +8,6 @@ class KinematicAlign: public virtual KinematicMovement {
         KinematicAlign() = default;
         ~KinematicAlign() = default;
         KinematicSteeringOutput getSteering(Static& character) override;
-        void updateTarget(const Static targetPos);
     private:
 };
 

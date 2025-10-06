@@ -5,11 +5,7 @@
 
 #include "./utils.hpp"
 #include "./steering_behavior.hpp"
-#include "./steering/kinematic_align.hpp"
-#include "./steering/kinematic_arrive.hpp"
-#include "./steering/kinematic_flee.hpp"
-#include "./steering/kinematic_seek.hpp"
-#include "./steering/kinematic_wander.hpp"
+
 
 #include <iostream>
 #include <optional>

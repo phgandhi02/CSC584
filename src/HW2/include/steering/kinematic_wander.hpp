@@ -11,7 +11,7 @@ class KinematicWander: public virtual KinematicMovement {
         ~KinematicWander() = default;
         float sampleDifference();
         KinematicSteeringOutput getSteering(Static& character) override;
-        float wanderRotation = 0.1f;
+        float wanderRotation = 0.0f;
         int samplingInterval = 4;
     private:
         int m_framesSinceSample = 0;

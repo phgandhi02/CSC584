@@ -1,4 +1,5 @@
 #include "../include/boid.hpp"
+#include "../include/steering/kinematic_flee.hpp"
 #include <iostream>
 
 const float PI_F = 3.14159265358979f;
