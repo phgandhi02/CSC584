@@ -4,12 +4,11 @@
 const float PI_F = 3.14159265358979f;
 
 Boid::Boid(const sf::Texture &texture, Static startPos, sf::RenderWindow& window)
-    : m_sprite(texture), m_inputHandler(window)
+    : m_sprite(texture), m_inputHandler(window), m_breadcrumbs(startPos, 100)
 {
     m_sprite.setPosition(startPos.getPosition());
     m_sprite.setRotation(startPos.getOrientation());
     breadcrumbs_on = true;
-    m_breadcrumbs = Breadcrumbs();
     m_character = startPos;
     float m_rotation;
 };
@@ -59,6 +58,9 @@ void Boid::update(float dt)
     } else {
         // std::cout << "No Steering behavior" << std::endl;
     }
+    if (breadcrumbs_on){
+        m_breadcrumbs.update(m_character);
+    }
 };
 
 // Helper function to set the Boid texture
@@ -70,4 +72,8 @@ void Boid::setTexture(sf::Texture &texture)
 void Boid::draw(sf::RenderWindow &window)
 {
     window.draw(m_sprite);
+    
+    for (Breadcrumb crumb : m_breadcrumbs.m_breadcrumbs){
+        window.draw(crumb.image);
+    }
 }

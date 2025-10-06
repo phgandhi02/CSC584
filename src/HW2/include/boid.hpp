@@ -27,7 +27,7 @@ public:
     void draw(sf::RenderWindow &window);
     Static getCharacter() { return m_character; }
     KinematicSteeringOutput getSteering() { return m_steering; }
-    bool breadcrumbs_on;
+    bool breadcrumbs_on = true;
     void setTexture(sf::Texture &texture);
     
 
