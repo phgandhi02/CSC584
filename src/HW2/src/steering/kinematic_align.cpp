@@ -17,6 +17,6 @@ KinematicSteeringOutput KinematicAlign::getSteering(Static &character)
   // Linear velocity is zero
 
   auto result = KinematicSteeringOutput();
-  result.null_output = true;
+  result.null_output = false;
   return result;
 };
