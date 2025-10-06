@@ -39,18 +39,20 @@ Static InputHandler::update()
 /* ------------------------------- Breadcrumb ------------------------------- */
 Breadcrumb::Breadcrumb(Static pos)
 {
-    breadcrumb = pos;
     image = sf::CircleShape(10.0f);
+    image.setPosition(pos.getPosition());
+    image.setRotation(pos.getOrientation());
     image.setOutlineThickness(1);
     image.setOutlineColor(sf::Color(250, 150, 100));
 };
 
-Breadcrumb::Breadcrumb(Static pos, sf::Color color)
+Breadcrumb::Breadcrumb(Static pos, float radius, float outlineThickness, sf::Color color)
 {
-    breadcrumb = pos;
-    image = sf::CircleShape(10.0f);
-    image.setOutlineThickness(1);
-    image.setOutlineColor(sf::Color(250, 150, 100));
+    image = sf::CircleShape(radius);
+    image.setPosition(pos.getPosition());
+    image.setRotation(pos.getOrientation());
+    image.setOutlineThickness(outlineThickness);
+    image.setOutlineColor(color);
 };
 
 Breadcrumbs::Breadcrumbs(Static character, float delay)
@@ -66,7 +68,7 @@ Breadcrumbs::Breadcrumbs(Static character, float delay)
         sf::Color::Yellow};
     m_currentColor = 0;
 
-    auto initBreadcrumb = Breadcrumb(character, m_colors[m_currentColor]);
+    auto initBreadcrumb = Breadcrumb(character, m_radius, m_outlineThickness, m_colors[m_currentColor]);
     m_breadcrumbs = {initBreadcrumb};
 
     m_numFramesSinceBreadcrumb += 1;
@@ -74,21 +76,27 @@ Breadcrumbs::Breadcrumbs(Static character, float delay)
 
 void Breadcrumbs::update(Static character)
 {
-    if (m_colors.size() == (m_currentColor - 1))
+    (m_colors.size() == (m_currentColor - 1))? m_currentColor = 0 : m_currentColor += 1; 
+    // if (m_colors.size() == (m_currentColor - 1))
+    // {
+    //     m_currentColor = 0;
+    // }
+    // else
+    // {
+    //     m_currentColor += 1;
+    // }
+    if (m_numFramesSinceBreadcrumb >= delay && !m_breadcrumbs.empty())
     {
-        m_currentColor = 0;
-    }
-    else
-    {
-        m_currentColor += 1;
-    }
-    if (m_numFramesSinceBreadcrumb >= 500 && !m_breadcrumbs.empty())
-    {
-        m_numFramesSinceBreadcrumb = 0;
-        m_breadcrumbs.erase(m_breadcrumbs.begin());
-        auto breadcrumb = Breadcrumb(character,m_colors[m_currentColor]);
+        auto breadcrumb = Breadcrumb(character, m_radius, m_outlineThickness, m_colors[m_currentColor]);
         m_breadcrumbs.push_back(breadcrumb);
-        m_numFramesSinceBreadcrumb += 1;
+        m_numFramesSinceBreadcrumb = 0;
     }
+
+    if (m_numFramesSinceDecay >= decay && !m_breadcrumbs.empty()){
+        m_breadcrumbs.erase(m_breadcrumbs.begin());
+        m_numFramesSinceDecay = 0;
+    }
+
     m_numFramesSinceBreadcrumb += 1;
+    m_numFramesSinceDecay += 1;
 }

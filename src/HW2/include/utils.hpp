@@ -26,9 +26,8 @@ class Breadcrumb
 {
 public:
     Breadcrumb(Static pos);
-    Breadcrumb(Static pos, sf::Color color);
+    Breadcrumb(Static pos, float radius, float outlineThickness, sf::Color color);
     ~Breadcrumb() = default;
-    Static breadcrumb;
     sf::CircleShape image;
 };
 
@@ -38,14 +37,18 @@ public:
     Breadcrumbs(Static character, float delay);
     ~Breadcrumbs() = default;
     // number of frames between each breadcrumb
-    int delay = 500;
+    int delay = 50;
+    int decay = 200;
     void update(Static character);
+    std::vector<Breadcrumb> m_breadcrumbs;
 
 private:
     int m_numFramesSinceBreadcrumb;
-    std::vector<Breadcrumb> m_breadcrumbs;
+    int m_numFramesSinceDecay;
     std::vector<sf::Color> m_colors; 
     int m_currentColor;
+    float m_radius = 2.0f;
+    float m_outlineThickness = 2.0f;
 };
 
 #endif // UTILS_HPP
