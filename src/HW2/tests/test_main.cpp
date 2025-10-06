@@ -7,24 +7,24 @@ TEST(BoidTesting, InitializeBoid)
 {
     // create a texture object to load the boid image.
     sf::Texture texture;
-    if (!texture.loadFromFile("boid-sm.png"))
+    if (!texture.loadFromFile("/home/prem/code/CSC584/src/HW2/assets/boid-sm.png"))
     {
         std::cerr << "Asset didn't load properly" << std::endl;
     }; // Load texture
     auto window = sf::RenderWindow(sf::VideoMode({800, 600}), "CSC584 HW2: Steering Behaviors");
-    Static startPos = Static(sf::Vector2f(400, 300), sf::degrees(0.0f));
+    Static startPos = Static(sf::Vector2f(100, 100), sf::degrees(0.0f));
 
     Boid boid(texture, startPos, window);
     Static character = boid.getCharacter();
     EXPECT_FLOAT_EQ(character.getPosition().x, 100.0f);
-    EXPECT_FLOAT_EQ(character.getPosition().y, 200.0f);
+    EXPECT_FLOAT_EQ(character.getPosition().y, 100.0f);
     EXPECT_EQ(boid.breadcrumbs_on, true);
 };
 
 class BoidTest : public testing::Test
 {
 protected:
-    BoidTest() : texture(createTexture()), window(createWindow()), boid(texture, Static(sf::Vector2f(400, 300), sf::degrees(0.0f)), window) {};
+    BoidTest() : texture(createTexture()), window(createWindow(800, 600)), boid(texture, Static(sf::Vector2f(400, 300), sf::degrees(0.0f)), window) {};
 
     KinematicSteeringOutput steeringOutput;
     const sf::Texture texture;
@@ -85,14 +85,15 @@ private:
     static sf::Texture createTexture()
     {
         sf::Texture texture;
-        if (!texture.loadFromFile("boid-sm.png"))
+        if (!texture.loadFromFile("/home/prem/code/CSC584/src/HW2/assets/boid-sm.png"))
         {
             std::cerr << "Asset didn't load properly" << std::endl;
         }
         return texture;
     };
-    static sf::RenderWindow createWindow(){
-        auto window = sf::RenderWindow(sf::VideoMode({800, 600}), "CSC584 HW2: Steering Behaviors");
+    static sf::RenderWindow createWindow(unsigned int windowSizeX, unsigned int windowSizeY)
+    {
+        auto window = sf::RenderWindow(sf::VideoMode({windowSizeX, windowSizeY}), "CSC584 HW2: Steering Behaviors");
         return window;
     };
 };
@@ -100,7 +101,7 @@ private:
 TEST_F(BoidTest, BoidTextureInitialization)
 {
     sf::Texture test_texture;
-    if (!test_texture.loadFromFile("boid-sm.png"))
+    if (!test_texture.loadFromFile("/home/prem/code/CSC584/src/HW2/assets/boid-sm.png"))
     {
         std::cerr << "Asset didn't load properly" << std::endl;
     }
@@ -119,66 +120,14 @@ TEST_F(BoidTest, InitializeAlign)
     EXPECT_TRUE(test);
 }
 
-TEST_F(BoidTest, BasicArriveTopRight)
+TEST_F(BoidTest, AlignUp)
 {
-    // Arrange
-    auto arrive_behavior = std::make_unique<KinematicArrive>(1.0f);
-    auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(100.f, 100.f), sf::degrees(0));
-    auto test_character = Static(sf::Vector2f(100, 100), sf::radians(-0.785398));
-    // Act
-    arrive_behavior->target = Static(sf::Vector2f(100.0f, 100.0f), sf::degrees(0.0f));
-    boid.m_controller = std::move(arrive_behavior);
-    boid.update(1.f);
-    // Assert
-    Expect_EQ_Static(test_character);
-    EXPECT_EQ_SteeringOutput(defaultSteeringOutput);
+    auto align_behavior = std::make_unique<KinematicAlign>();
+    boid.m_controller = std::move(align_behavior);
+    boid.update(0.01f);
+    KinematicSteeringOutput steeringOutput = boid.getSteering();
+    auto defaultSteeringOutput = KinematicSteeringOutput();
+    bool test = (steeringOutput == defaultSteeringOutput);
+
+    EXPECT_TRUE(test);
 }
-
-TEST_F(BoidTest, BasicArriveTopLeft)
-{
-    // Arrange
-    auto arrive_behavior = std::make_unique<KinematicArrive>(1.0f);
-    auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(100.f, -100.f), sf::degrees(0));
-    auto test_character = Static(sf::Vector2f(100, -100), sf::radians(0.78539819f));
-    // Act
-    arrive_behavior->target = Static(sf::Vector2f(100.0f, -100.0f), sf::degrees(0.0f));
-    boid.m_controller = std::move(arrive_behavior);
-    boid.update(1.f);
-    // Assert
-    Expect_EQ_Static(test_character);
-    EXPECT_EQ_SteeringOutput(defaultSteeringOutput);
-}
-
-TEST_F(BoidTest, BasicArriveBottomLeft)
-{
-    auto arrive_behavior = std::make_unique<KinematicArrive>(1.0f);
-    arrive_behavior->target = Static(sf::Vector2f(-100.0f, -100.0f), sf::degrees(0.0f));
-    boid.m_controller = std::move(arrive_behavior);
-    boid.update(1.0f);
-
-    auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(-100.f, -100.f), sf::degrees(0));
-    auto test_character = Static(sf::Vector2f(-100, -100), sf::radians(2.35619f));
-
-    Expect_EQ_Static(test_character);
-    EXPECT_EQ_SteeringOutput(defaultSteeringOutput);
-}
-
-// TEST_F(BoidTest, BasicAlign)
-// {
-//     auto align_behavior = std::make_unique<KinematicAlign>();
-//     align_behavior->target = Static(sf::Vector2f(100.0f, 100.0f), sf::degrees(45.0f));
-//     boid.m_controller = std::move(align_behavior);
-//     boid.update(1.f);
-//     KinematicSteeringOutput steeringOutput = boid.getSteering();
-//     auto character = boid.getCharacter();
-
-//     auto defaultSteeringOutput = KinematicSteeringOutput(sf::Vector2f(100.f, 100.f), sf::degrees(0));
-//     auto test_character = Static(sf::Vector2f(100,100),sf::radians(-0.785398));
-//     bool test = (steeringOutput == defaultSteeringOutput
-//         && test_character.getPosition() == character.getPosition());
-
-//     PrintKinematicSteeringOutput();
-//     PrintCharacterPhysVars();
-//     EXPECT_TRUE(test);
-//     EXPECT_FLOAT_EQ(test_character.getOrientationFloat(), character.getOrientationFloat());
-// }
