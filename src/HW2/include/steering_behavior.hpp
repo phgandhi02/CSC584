@@ -2,8 +2,10 @@
 #define STEERING_BEHAVIOR_HPP
 
 #include <SFML/Graphics.hpp>
+
 #include <optional>
 #include <cmath>
+#include <iostream>
 
 /**
  * @class Static
@@ -17,7 +19,7 @@ class Static
 {
 public:
     // Constructors and deconstructors
-    Static() : m_position(sf::Vector2f(0.0f, 0.0f)), m_orientation(sf::Angle(sf::degrees(0.0f))) {};
+    Static() : m_position(sf::Vector2f(0.0f, 0.0f)), m_orientation(sf::Angle(sf::radians(0.0f))) {};
     Static(sf::Vector2f position, sf::Angle orientation) : m_position(position), m_orientation(orientation) {};
     ~Static() = default;
     bool null_output = false;
@@ -26,6 +28,7 @@ public:
     // Getters and Setters for member variables
     sf::Vector2f getPosition() { return m_position; }
     sf::Angle getOrientation() { return m_orientation; }
+    // get character orientation in radians
     float getOrientationFloat() { return m_orientation.asRadians(); }
     void setPosition(sf::Vector2f position) { m_position = position; }
     void setPositionFloat(float x, float y) { m_position = sf::Vector2f(x, y); }
@@ -83,7 +86,8 @@ public:
     float getRotationFloat() { return m_rotation.asRadians(); }
     void setVelocity(sf::Vector2f velocity) { m_velocity = velocity; }
     void setRotation(sf::Angle rotation) { m_rotation = rotation; }
-    void setRotationFloat(float rotation) { m_rotation = sf::radians(rotation); } // Set Orientation in radians
+    // Set Orientation in degrees
+    void setRotationFloat(float rotation) { m_rotation = sf::radians(rotation); } 
 private:
     sf::Vector2f m_velocity;
     sf::Angle m_rotation; // rotation uses Angle type to make unit conversion easy.
