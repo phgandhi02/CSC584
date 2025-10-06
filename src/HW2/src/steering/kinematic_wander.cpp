@@ -10,20 +10,31 @@ float KinematicWander::sampleDifference()
     return randomValue;
 };
 
-KinematicSteeringOutput KinematicWander::getSteering(Static& character){
-   if (0 == m_framesSinceSample){
-        m_rotation = sampleDifference() * m_maxRotation;
+KinematicSteeringOutput KinematicWander::getSteering(Static &character)
+{
+    auto orientation = character.getOrientation();
+
+    if (0 == m_framesSinceSample)
+    {
+        wanderRotation = sampleDifference() * m_maxRotation;
     }
-    m_framesSinceSample = (m_framesSinceSample + 1) % m_samplingInterval;
+    m_framesSinceSample = (m_framesSinceSample + 1) % samplingInterval;
 
     KinematicSteeringOutput result = KinematicSteeringOutput();
-    
+
     // Get velocity from the vector form of the orientation
-    auto newVelocity = sf::Vector2f(cos(character.getOrientation().asRadians()) * maxSpeed, -1.0f * sin(character.getOrientation().asRadians()) * maxSpeed);
+    auto newVelocity = sf::Vector2f();
+    newVelocity.x = cos(orientation.asRadians()) * maxSpeed;
+    newVelocity.y = sin(orientation.asRadians()) * maxSpeed;
+
+    // std::cout << newVelocity.x << " | " << newVelocity.y << std::endl;
+
     result.setVelocity(newVelocity); // set velocity in the direction of the character's orientation
 
     // Change our orientation randomly
-    result.setRotation(sf::radians(m_rotation));
-    
+    result.setRotation(sf::radians(wanderRotation));
+
+    // character.setOrientationFloat(getNewOrientation(orientation.asRadians(), newVelocity, smoothing));
+
     return result;
 };

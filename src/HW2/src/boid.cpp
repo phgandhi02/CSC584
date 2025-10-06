@@ -72,7 +72,7 @@ void Boid::update(float dt)
             m_character.setOrientation(boid_orient + sf::radians(2 * PI_F)); // char.orient += 2*PI
 
         // std::cout << "sprite.orient = " << m_character.getOrientationFloat() << std::endl;
-        std::cout << boid_pos.x << " | " << boid_pos.y << std::endl;
+        // std::cout << boid_pos.x << " | " << boid_pos.y << std::endl;
         
         // Update the sprite position and rotation
         m_sprite.setPosition(boid_pos);
