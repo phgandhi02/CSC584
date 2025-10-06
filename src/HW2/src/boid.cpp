@@ -4,12 +4,11 @@
 const float PI_F = 3.14159265358979f;
 
 Boid::Boid(const sf::Texture &texture, Static startPos, sf::RenderWindow& window)
-    : m_sprite(texture), m_inputHandler(window)
+    : m_sprite(texture), m_inputHandler(window), m_breadcrumbs(startPos, 500)
 {
     m_sprite.setPosition(startPos.getPosition());
     m_sprite.setRotation(startPos.getOrientation());
     breadcrumbs_on = true;
-    m_breadcrumbs = Breadcrumbs();
     m_character = startPos;
     float m_rotation;
 };
