@@ -14,7 +14,8 @@ KinematicSteeringOutput KinematicFlee::getSteering(Static &character)
         sf::Vector2f vectorDistance = character.getPosition() - target.getPosition();
         if (vectorDistance == sf::Vector2f())
         {
-            vectorDistance = sf::Vector2f(maxSpeed, 0.0f);
+            
+            vectorDistance = sf::Vector2f(maxSpeed, target.getOrientation());
             // vectorDistance = sf::Vector2f(m_maxSpeed*sqrt(2.0f),m_maxSpeed*sqrt(2.0f));
         }
         result.setVelocity(vectorDistance);
