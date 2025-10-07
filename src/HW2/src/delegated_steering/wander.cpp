@@ -20,17 +20,15 @@ KinematicSteeringOutput Wander::checkCollision(Static &predictedCharacter, Stati
     const bool up_collision = 0 > predictedCharacter.getPosition().y;
     const bool down_collision = predictedCharacter.getPosition().y > m_windowSizeY;
 
-    float minWindowSize = (float) std::min(m_windowSizeX,m_windowSizeY);
+    float minWindowSize = (float)std::min(m_windowSizeX, m_windowSizeY);
     auto newTarget = sf::Vector2f(m_windowSizeX / 2.0f, m_windowSizeY / 2.0f) + minWindowSize * sf::Vector2f(sampleDifference(), sampleDifference());
+
     if ((left_collision | right_collision | up_collision | down_collision))
     {
         auto align_behavior = KinematicAlign();
         align_behavior.smoothing = 0.0f;
 
         align_behavior.target = Static(newTarget, character.getOrientation());
-        
-        std::cout << "Char.pos: " << character.getPosition().x << " | " << character.getPosition().y << " | " << character.getOrientation().asDegrees() << std::endl;
-        std::cout << "Target.pos: " << align_behavior.target.getPosition().x << " | " << align_behavior.target.getPosition().y << " | " << align_behavior.target.getOrientation().asDegrees() << std::endl;
         align_behavior.getSteering(character);
 
         auto seek_behavior = KinematicSeek();
