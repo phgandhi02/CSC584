@@ -5,7 +5,7 @@
 const float PI_F = 3.14159265358979f;
 
 Boid::Boid(const sf::Texture &texture, Static startPos, sf::RenderWindow& window)
-    : m_sprite(texture), m_inputHandler(window), m_breadcrumbs(startPos, 100)
+    : m_sprite(texture), m_inputHandler(window), breadcrumbs(startPos, 100)
 {
     m_sprite.setPosition(startPos.getPosition());
     m_sprite.setRotation(startPos.getOrientation());
@@ -18,7 +18,7 @@ Boid::Boid(const sf::Texture &texture, Static startPos, sf::RenderWindow& window
 void Boid::update(float dt)
 {
     // Check if boid has a valid steering behavior attached.
-    if (m_controller == nullptr)
+    if (controller == nullptr)
     {
         std::cout << "no steering behavior" << std::endl;
         return; // if it doesn't have a valid steering behavior then return and don't update m_character.
@@ -29,14 +29,14 @@ void Boid::update(float dt)
         // Assign target from mouse click using input handler object.
         auto target = m_inputHandler.update(); // update will return a Static object with null_output false;
         // set the target for the controller equal to the target from the input handler (ie. mouse)
-        m_controller->target = target;
+        controller->target = target;
     }
 
-    m_controller->smoothing = smoothing;
-    m_controller->maxSpeed = speed;
+    controller->smoothing = smoothing;
+    controller->maxSpeed = speed;
 
     // Get the steering behavior to return how the boid should move based on the target.
-    m_steering = m_controller->getSteering(m_character);
+    m_steering = controller->getSteering(m_character);
 
     // Check if the steering output is valid.
     if (m_steering.null_output == false)
@@ -82,7 +82,7 @@ void Boid::update(float dt)
         // std::cout << "No Steering behavior" << std::endl;
     }
     if (breadcrumbs_on){
-        m_breadcrumbs.update(m_character);
+        breadcrumbs.update(m_character);
     }
 };
 
@@ -100,7 +100,7 @@ void Boid::draw(sf::RenderWindow &window)
 
     // std::cout << m_windowSizeX << " | " << m_windowSizeY << std::endl;
 
-    for (Breadcrumb crumb : m_breadcrumbs.m_breadcrumbs){
+    for (Breadcrumb crumb : breadcrumbs.m_breadcrumbs){
         window.draw(crumb.image);
     }
 }

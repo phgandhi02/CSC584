@@ -31,19 +31,19 @@ public:
     // Steering Function
     float speed = 100.0f;
     float smoothing = 0.2f;
-    std::unique_ptr<KinematicMovement> m_controller;
+    std::unique_ptr<KinematicMovement> controller;
     bool mouseInputOff = true;
+    Breadcrumbs breadcrumbs;
 
 private:
     sf::Sprite m_sprite;
-    Breadcrumbs m_breadcrumbs;
     InputHandler m_inputHandler;
     Static m_character;
     KinematicSteeringOutput m_steering;
 
     Static m_target;
-    unsigned int m_windowSizeX;
-    unsigned int m_windowSizeY;
+    unsigned int m_windowSizeX = 800;
+    unsigned int m_windowSizeY = 600;
 };
 
 #endif // BOID_HPP

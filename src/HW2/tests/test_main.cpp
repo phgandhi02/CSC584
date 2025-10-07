@@ -111,7 +111,7 @@ TEST_F(BoidTest, BoidTextureInitialization)
 TEST_F(BoidTest, InitializeAlign)
 {
     auto align_behavior = std::make_unique<KinematicAlign>();
-    boid.m_controller = std::move(align_behavior);
+    boid.controller = std::move(align_behavior);
     boid.update(0.01f);
     KinematicSteeringOutput steeringOutput = boid.getSteering();
     auto defaultSteeringOutput = KinematicSteeringOutput();
@@ -123,7 +123,7 @@ TEST_F(BoidTest, InitializeAlign)
 TEST_F(BoidTest, AlignUp)
 {
     auto align_behavior = std::make_unique<KinematicAlign>();
-    boid.m_controller = std::move(align_behavior);
+    boid.controller = std::move(align_behavior);
     boid.update(0.01f);
     KinematicSteeringOutput steeringOutput = boid.getSteering();
     auto defaultSteeringOutput = KinematicSteeringOutput();

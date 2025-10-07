@@ -25,7 +25,7 @@ int main()
     srand(static_cast<unsigned>(time(0)));
     bool boidsColonyOn = true;
     // create window object to render game.
-    auto window = sf::RenderWindow(sf::VideoMode({800, 600}), "CSC584 HW2: Steering Behaviors");
+    auto window = sf::RenderWindow(sf::VideoMode({800u, 600u}), "CSC584 HW2: Steering Behaviors");
     window.setFramerateLimit(144); // set the framerate limit to 144 fps.
 
     // create a texture object to load the boid image.
@@ -38,9 +38,9 @@ int main()
     Boid boid(texture, startPos, window);
     boid.mouseInputOff = false;
     auto seek_behavior = std::make_unique<KinematicSeek>();
-    boid.m_controller = std::move(seek_behavior);
+    boid.controller = std::move(seek_behavior);
 
-    auto boidsColony = BoidsColony(texture, window, 1.0f, 0.0f, 0.0f, 100);
+    auto boidsColony = BoidsColony(texture, window, 10.0f, 0.4f, 0.1f, 50);
 
     // Game Loop
     while (window.isOpen())
@@ -100,31 +100,31 @@ int main()
 
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Q))
                 {
-                    boid.m_controller = std::move(std::make_unique<KinematicAlign>());
+                    boid.controller = std::move(std::make_unique<KinematicAlign>());
                 }
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
                 {
-                    boid.m_controller = std::move(std::make_unique<KinematicArrive>(5.0f));
+                    boid.controller = std::move(std::make_unique<KinematicArrive>(5.0f));
                 }
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::E))
                 {
-                    boid.m_controller = std::move(std::make_unique<KinematicFlee>());
+                    boid.controller = std::move(std::make_unique<KinematicFlee>());
                 }
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::R))
                 {
-                    boid.m_controller = std::move(std::make_unique<KinematicSeek>());
+                    boid.controller = std::move(std::make_unique<KinematicSeek>());
                 }
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::T))
                 {
-                    boid.m_controller = std::move(std::make_unique<KinematicWander>());
+                    boid.controller = std::move(std::make_unique<KinematicWander>());
                 }
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
                 {
-                    boid.m_controller = std::move(std::make_unique<KinematicFace>());
+                    boid.controller = std::move(std::make_unique<KinematicFace>());
                 }
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
                 {
-                    boid.m_controller = std::move(std::make_unique<Wander>(window.getSize().x, window.getSize().y));
+                    boid.controller = std::move(std::make_unique<Wander>(window.getSize().x, window.getSize().y));
                 }
             }
         }
