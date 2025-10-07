@@ -24,7 +24,7 @@ void Boid::update(float dt)
         return; // if it doesn't have a valid steering behavior then return and don't update m_character.
     }
 
-    if (!unittesting)
+    if (!mouseInputOff)
     {
         // Assign target from mouse click using input handler object.
         auto target = m_inputHandler.update(); // update will return a Static object with null_output false;

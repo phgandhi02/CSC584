@@ -32,6 +32,7 @@ public:
     float speed = 100.0f;
     float smoothing = 0.2f;
     std::unique_ptr<KinematicMovement> m_controller;
+    bool mouseInputOff = true;
 
 private:
     sf::Sprite m_sprite;
@@ -43,8 +44,6 @@ private:
     Static m_target;
     unsigned int m_windowSizeX;
     unsigned int m_windowSizeY;
-
-    bool unittesting = true;
 };
 
 #endif // BOID_HPP

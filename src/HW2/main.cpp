@@ -36,7 +36,7 @@ int main()
     Static startPos = Static(sf::Vector2f(400, 300), sf::degrees(0.0f));
 
     Boid boid(texture, startPos, window);
-    boid.unittesting = false;
+    boid.mouseInputOff = false;
     auto seek_behavior = std::make_unique<KinematicSeek>();
     boid.m_controller = std::move(seek_behavior);
 
@@ -59,7 +59,7 @@ int main()
                 {
                     boidsColonyOn = !boidsColonyOn;
                     boidsColonyOn ? std::cout << "Boids Colony Toggled On" << std::endl : std::cout << "Boids Colony Toggled Off" << std::endl;
-                    boidsColonyOn ? boid.unittesting = true : boid.unittesting = false;
+                    boidsColonyOn ? boid.mouseInputOff = true : boid.mouseInputOff = false;
                 }
             }
 
