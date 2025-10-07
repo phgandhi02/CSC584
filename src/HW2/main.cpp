@@ -109,7 +109,7 @@ int main()
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
             {
-                boid.m_controller = std::move(std::make_unique<Wander>());
+                boid.m_controller = std::move(std::make_unique<Wander>(window.getSize().x,window.getSize().y));
             }
         }
 
