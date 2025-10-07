@@ -17,6 +17,7 @@ public:
     // Constructors and destructors
     Boid(const sf::Texture &texture, Static startPos, sf::RenderWindow& window);
     ~Boid() = default;
+    Boid(Boid&& other) = default; // move constructor
 
     // Basic Obj Functions
     void update(float dt);
@@ -43,7 +44,7 @@ private:
     unsigned int m_windowSizeX;
     unsigned int m_windowSizeY;
 
-    bool unittesting = false;
+    bool unittesting = true;
 };
 
 #endif // BOID_HPP

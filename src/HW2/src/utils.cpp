@@ -77,14 +77,7 @@ Breadcrumbs::Breadcrumbs(Static character, float delay)
 void Breadcrumbs::update(Static character)
 {
     (m_colors.size() == (m_currentColor - 1))? m_currentColor = 0 : m_currentColor += 1; 
-    // if (m_colors.size() == (m_currentColor - 1))
-    // {
-    //     m_currentColor = 0;
-    // }
-    // else
-    // {
-    //     m_currentColor += 1;
-    // }
+
     if (m_numFramesSinceBreadcrumb >= delay && !m_breadcrumbs.empty())
     {
         auto breadcrumb = Breadcrumb(character, m_radius, m_outlineThickness, m_colors[m_currentColor]);

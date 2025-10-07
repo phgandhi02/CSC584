@@ -3,7 +3,7 @@
 
 // Boid libs
 #include "./include/boid.hpp"
-#include "./include/boids_algorithm.hpp"
+#include "./include/boids_colony.hpp"
 
 // Steering behavior libs
 #include "./include/steering/kinematic_align.hpp"

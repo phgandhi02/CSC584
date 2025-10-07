@@ -20,6 +20,7 @@ KinematicSteeringOutput Wander::checkCollision(Static &predictedCharacter, Stati
     const bool up_collision = 0 > predictedCharacter.getPosition().y;
     const bool down_collision = predictedCharacter.getPosition().y > m_windowSizeY;
 
+    // used Gemini to get inspired to use center of window as newTarget
     float minWindowSize = (float)std::min(m_windowSizeX, m_windowSizeY);
     auto newTarget = sf::Vector2f(m_windowSizeX / 2.0f, m_windowSizeY / 2.0f) + minWindowSize * sf::Vector2f(sampleDifference(), sampleDifference());
 
