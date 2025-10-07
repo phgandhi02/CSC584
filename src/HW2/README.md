@@ -19,6 +19,16 @@
 
 1. Run the executable at `./build/bin/main`.
 
+---
+
+If the cmake doesn't work then try using the Makefile generated for the standard testing environment:
+
+```bash
+   make clean
+   make
+   make run
+   ```
+
 ## Interactive Controls (table generated using ChatGPT)
 
 - Set targets for boids by clicking the mouse.  
