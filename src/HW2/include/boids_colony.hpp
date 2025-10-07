@@ -20,10 +20,10 @@ class BoidsColony{
         void update();
         void draw(sf::RenderWindow &window);
         std::vector<Boid> boids;
-        float separation;
-        float alignment;
-        float cohesion;
-        float neighborRadiusThreshold;
+        float separation = 1.0f/3.0f;
+        float alignment = 1.0f/3.0f;
+        float cohesion = 1.0f/3.0f;
+        float neighborRadiusThreshold = 10.0f;
 };
 
 #endif // BOIDS_HPP

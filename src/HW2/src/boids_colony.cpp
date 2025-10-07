@@ -9,26 +9,25 @@ float sampleDifference(float leftBound, float rightBound)
 {
     static std::default_random_engine rand_gen;
     std::uniform_real_distribution<> dis(leftBound, rightBound);
-    float randomValue = dis(rand_gen) - dis(rand_gen);
+    float randomValue = dis(rand_gen);
     return randomValue;
 };
 
 BoidsColony::BoidsColony(const sf::Texture &texture, sf::RenderWindow &window,
                          float separation, float alignment, float cohesion, int boidCount)
+                         : separation(separation), alignment(alignment), cohesion(cohesion)
 {
-
-    separation = separation;
-    alignment = alignment;
-    cohesion = cohesion;
     for (int i = 0; i < boidCount; i++)
     {
         auto windowSizeX = (float)window.getSize().x;
         auto windowSizeY = (float)window.getSize().y;
+
         auto startPos = sf::Vector2f(sampleDifference(0, windowSizeX), sampleDifference(0, windowSizeY));
         auto startOrient = sf::degrees(sampleDifference(0, 360));
+
         Static startChar = Static(startPos, startOrient);
-        boids.emplace_back(Boid(texture, startChar, window));
-        std::cout << startPos.x << " | " << startPos.y << std::endl;
+        boids.emplace_back(texture, startChar, window);
+        // std::cout << startPos.x << " | " << startPos.y << std::endl;
     }
 };
 
