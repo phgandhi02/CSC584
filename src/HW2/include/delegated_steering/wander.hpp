@@ -13,17 +13,18 @@ class Wander: public KinematicFace {
         KinematicSteeringOutput checkCollision(Static& predictedCharacter,Static& character, sf::Vector2f velocity);
         float sampleDifference();
         // The forward offset of the wander circle.
-        float wanderOffset = 1.0f;
+        float wanderOffset = 0.5f;
         // The radius of the wander circle.
-        float wanderRadius = 1.0f;
+        float wanderRadius = 0.5f;
 
         // The maximum rate at which the wander orientation can change.
-        float wanderRate = 1.0f;
+        float wanderRate = 0.6f;
 
-        float maxPrediction = 0.5f;
+        float maxPrediction = 0.1f;
 
-        float avoidDistance = 1.0f;
+        float avoidDistance = 0.05f;
     private:
+        bool m_restartWander = false;
         // The current orientation of the wander target.
         float m_wanderOrientation = 0.0f;
 

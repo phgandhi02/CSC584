@@ -1,5 +1,6 @@
 #include "../../include/delegated_steering/wander.hpp"
 #include "../../include/steering/kinematic_seek.hpp"
+#include "../../include/steering/kinematic_align.hpp"
 
 #include <iostream>
 #include <random>
@@ -12,45 +13,32 @@ float Wander::sampleDifference()
     return randomValue;
 };
 
-KinematicSteeringOutput Wander::checkCollision(Static &predictedCharacter, Static& character, sf::Vector2f velocity){
+KinematicSteeringOutput Wander::checkCollision(Static &predictedCharacter, Static &character, sf::Vector2f velocity)
+{
     const bool left_collision = 0 > predictedCharacter.getPosition().x;
     const bool right_collision = predictedCharacter.getPosition().x > m_windowSizeX;
     const bool up_collision = 0 > predictedCharacter.getPosition().y;
     const bool down_collision = predictedCharacter.getPosition().y > m_windowSizeY;
 
-    // auto boid_pos = character.getPosition();
-
+    float minWindowSize = (float) std::min(m_windowSizeX,m_windowSizeY);
+    auto newTarget = sf::Vector2f(m_windowSizeX / 2.0f, m_windowSizeY / 2.0f) + minWindowSize * sf::Vector2f(sampleDifference(), sampleDifference());
     if ((left_collision | right_collision | up_collision | down_collision))
     {
+        auto align_behavior = KinematicAlign();
+        align_behavior.smoothing = 0.0f;
+
+        align_behavior.target = Static(newTarget, character.getOrientation());
+        
+        std::cout << "Char.pos: " << character.getPosition().x << " | " << character.getPosition().y << " | " << character.getOrientation().asDegrees() << std::endl;
+        std::cout << "Target.pos: " << align_behavior.target.getPosition().x << " | " << align_behavior.target.getPosition().y << " | " << align_behavior.target.getOrientation().asDegrees() << std::endl;
+        align_behavior.getSteering(character);
+
         auto seek_behavior = KinematicSeek();
-        // seek_behavior.target = Static(newTarget, character.getOrientation());
-        if (left_collision)
-        {
-            // auto offset = sf::Vector2f(wanderOffset,0.0f);
-            auto offset = sf::Vector2f(m_windowSizeX,character.getPosition().y);  
-            seek_behavior.target = Static(offset, sf::degrees(0.0f));
-        }
-        else if (right_collision)
-        {
-            // auto offset = sf::Vector2f(-wanderOffset,0.0f); 
-            auto offset = sf::Vector2f(0.0f,character.getPosition().y); 
-            seek_behavior.target = Static(offset, sf::degrees(180.0f));
-        }
-        else if (up_collision)
-        {
-            // auto offset = sf::Vector2f(0.0f,wanderOffset); 
-            auto offset = sf::Vector2f(character.getPosition().x,m_windowSizeY); 
-            seek_behavior.target = Static(offset, sf::degrees(90.0f));
-        }
-        else if (down_collision)
-        {
-           auto offset = sf::Vector2f(0.0f,character.getPosition().y); 
-            seek_behavior.target = Static(offset, character.getOrientation());
-        }
-        std::cout << "Char.pos: " << character.getPosition().x  << " | " << character.getPosition().y << std::endl;
-        std::cout << "Target.pos: " << seek_behavior.target.getPosition().x  << " | " << seek_behavior.target.getPosition().y << std::endl; 
-        return seek_behavior.getSteering(predictedCharacter);
-    } else {
+        seek_behavior.target = Static(newTarget, character.getOrientation());
+        return seek_behavior.getSteering(character);
+    }
+    else
+    {
         auto steering = KinematicSteeringOutput();
         steering.null_output = true;
         return steering;
@@ -83,19 +71,25 @@ KinematicSteeringOutput Wander::getSteering(Static &character)
     auto speed = velocity.length();
 
     float prediction;
-    if (speed <= (distance / maxPrediction)){ // check if speed gives us a reasonable prediction time
+    if (speed <= (distance / maxPrediction))
+    { // check if speed gives us a reasonable prediction time
         prediction = maxPrediction;
-    } else { // calculate the prediction time
+    }
+    else
+    { // calculate the prediction time
         prediction = distance / speed;
     }
 
-    auto predictedPosition = character.getPosition() + velocity*prediction;
-    auto predictedCharacter = Static(predictedPosition,character.getOrientation());
+    auto predictedPosition = character.getPosition() + velocity * prediction;
+    auto predictedCharacter = Static(predictedPosition, character.getOrientation());
     auto collisionSteering = checkCollision(predictedCharacter, character, velocity);
 
-    if (collisionSteering.null_output == true){
+    if (collisionSteering.null_output == true)
+    {
         return faceSteeringOutput;
-    } else {
+    }
+    else
+    {
         return collisionSteering;
     }
 };
