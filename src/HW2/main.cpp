@@ -1,7 +1,21 @@
+// SFML libs
 #include <SFML/Graphics.hpp>
+
+// Boid libs
 #include "./include/boid.hpp"
 #include "./include/boids_algorithm.hpp"
 
+// Steering behavior libs
+#include "./include/steering/kinematic_align.hpp"
+#include "./include/steering/kinematic_arrive.hpp"
+#include "./include/steering/kinematic_flee.hpp"
+#include "./include/steering/kinematic_seek.hpp"
+#include "./include/steering/kinematic_wander.hpp"
+#include "./include/delegated_steering/kinematic_face.hpp"
+#include "./include/delegated_steering/wander.hpp"
+
+
+// STL
 #include <memory>
 #include <iostream>
 #include <random>
@@ -88,6 +102,14 @@ int main()
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::T))
             {
                 boid.m_controller = std::move(std::make_unique<KinematicWander>());
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
+            {
+                boid.m_controller = std::move(std::make_unique<KinematicFace>());
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
+            {
+                boid.m_controller = std::move(std::make_unique<Wander>(window.getSize().x,window.getSize().y));
             }
         }
 

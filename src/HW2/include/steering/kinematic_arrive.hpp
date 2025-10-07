@@ -7,7 +7,6 @@ class KinematicArrive: public virtual KinematicMovement {
     public:
         KinematicArrive(float timeToTarget): m_timeToTarget(timeToTarget) {};
         ~KinematicArrive() = default;
-        void updateTarget(Static targetPos);
         KinematicSteeringOutput getSteering(Static& character) override;
     private:
         float m_timeToTarget;
