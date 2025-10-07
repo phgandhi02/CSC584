@@ -38,7 +38,7 @@ public:
     ~Breadcrumbs() = default;
     // number of frames between each breadcrumb
     int delay = 50;
-    int decay = 200;
+    int decay = 100;
     void update(Static character);
     std::vector<Breadcrumb> m_breadcrumbs;
 

@@ -7,6 +7,7 @@
 
 float Wander::sampleDifference()
 {
+    srand(static_cast<unsigned>(time(0)));
     static std::default_random_engine rand_gen;
     std::uniform_real_distribution<> dis(0.0f, 1.0f);
     float randomValue = dis(rand_gen) - dis(rand_gen);
