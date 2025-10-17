@@ -10,7 +10,7 @@ class KinematicArrive: public virtual KinematicMovement {
         KinematicSteeringOutput getSteering(Static& character) override;
     private:
         float m_timeToTarget;
-        float m_stopRadius = .01f;
+        float m_stopRadius = 1.0f;
 };
 
 #endif // KinematicArrive_HPP
