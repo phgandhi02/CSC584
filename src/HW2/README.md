@@ -17,6 +17,8 @@
    cmake --build build
    ```
 
+or run the `./compile_and_test.sh` script from the project root directory.
+
 1. Run the executable at `./build/bin/main`.
 
 ---

@@ -40,7 +40,7 @@ int main()
     auto seek_behavior = std::make_unique<KinematicSeek>();
     boid.controller = std::move(seek_behavior);
 
-    auto boidsColony = BoidsColony(texture, window, 10.0f, 0.4f, 0.1f, 50);
+    auto boidsColony = BoidsColony(texture, window, 10.0f, 0.4f, 0.1f, 200);
 
     // Game Loop
     while (window.isOpen())
