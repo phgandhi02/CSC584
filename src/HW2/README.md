@@ -1,108 +1,56 @@
 # CSC584 HW2 README
 
-## TODO
+## Features (partly generated using ChatGPT)
 
-1. update how to use with new instructions for how to install on TA's dev environment.
-   - Use the [SFML documentation](https://www.sfml-dev.org/tutorials/3.0/getting-started/cmake/) to update instructions.
-2. update README with [how to use CMAKE Tools on Linux with VS Code](https://code.visualstudio.com/docs/cpp/cmake-linux)
+- Boids Colony Simulation: Watch a colony of boids flock together with adjustable weights for separation, cohesion, and alignment.
+- Wander Behavior: When no neighbors are nearby, boids will wander around the screen randomly.
+- Individual Steering Mode: Toggle the colony off to control a single boid and test various classic steering behaviors.
 
-This project uses the following template: [cmake-sfml-project](https://github.com/SFML/cmake-sfml-project#)
+## Build the project
 
-Features of the template:
-
-- Basic CMake script to build your project and link SFML on any operating system
-- Basic [GitHub Actions](https://github.com/features/actions) script for all major platforms
-
-## How to Use
-
-1. Install [Git](https://git-scm.com/downloads) and [CMake](https://cmake.org/download/). Use your system's package manager if available.
-2. Follow [GitHub's instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for how to use their project template feature to create your own project. If you don't want to use GitHub, see the section below.
-3. Clone your new GitHub repo and open the repo in your text editor of choice.
-4. Open [CMakeLists.txt](CMakeLists.txt). Rename the project and the target name of the executable to whatever name you want. Make sure to change all occurrences.
-5. If you want to add or remove any .cpp files, change the source files listed in the `add_executable` call in CMakeLists.txt to match the source files your project requires. If you plan on keeping the default main.cpp file then no changes are required.
-6. If your code uses the Audio or Network modules then add `SFML::Audio` or `SFML::Network` to the `target_link_libraries` call alongside the existing `SFML::Graphics` library that is being linked.
-7. If you use Linux, install SFML's dependencies using your system package manager. On Ubuntu and other Debian-based distributions you can use the following commands:
-
-   ```bash
-   sudo apt update
-   sudo apt install \
-       libxrandr-dev \
-       libxcursor-dev \
-       libxi-dev \
-       libudev-dev \
-       libfreetype-dev \
-       libflac-dev \
-       libvorbis-dev \
-       libgl1-mesa-dev \
-       libegl1-mesa-dev \
-       libfreetype-dev
-   ```
-
-8. Configure and build your project. Most popular IDEs support CMake projects with very little effort on your part.
-
-   - [VS Code](https://code.visualstudio.com) via the [CMake extension](https://code.visualstudio.com/docs/cpp/cmake-linux)
-   - [Visual Studio](https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=msvc-170)
-   - [CLion](https://www.jetbrains.com/clion/features/cmake-support.html)
-   - [Qt Creator](https://doc.qt.io/qtcreator/creator-project-cmake.html)
-
+1. Configure and build the project.
    Using CMake from the command line is straightforward as well.
-   Be sure to run these commands in the root directory of the project you just created.
+   Run these commands in the HW2 folder of the project.
 
    ```bash
-   cmake -B build
+   cmake -S . -B build
    cmake --build build
    ```
 
-9. Enjoy!
+or run the `./compile_and_test.sh` script from the project root directory.
 
-## Upgrading SFML
+1. Run the executable at `./build/bin/main`.
 
-SFML is found via CMake's [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) module.
-FetchContent automatically downloads SFML from GitHub and builds it alongside your own code.
-Beyond the convenience of not having to install SFML yourself, this ensures ABI compatibility and simplifies things like specifying static versus shared libraries.
+---
 
-Modifying what version of SFML you want is as easy as changing the `GIT_TAG` argument.
-Currently it uses SFML 3 via the `3.0.0` tag.
+If the cmake doesn't work then try using the Makefile generated for the standard testing environment:
 
-## But I want to
+```bash
+   make clean
+   make
+   make run
+   ```
 
-Modify CMake options by adding them as configuration parameters (with a `-D` flag) or by modifying the contents of CMakeCache.txt and rebuilding.
+## Interactive Controls (table generated using ChatGPT)
 
-### Not use GitHub
+- Set targets for boids by clicking the mouse.  
+- Dynamically adjust the boid's speed and rotation smoothing.  
+- Switch between different steering algorithms in real time.  
 
-You can use this project without a GitHub account by [downloading the contents](https://github.com/SFML/cmake-sfml-project/archive/refs/heads/master.zip) of the repository as a ZIP archive and unpacking it locally.
-This approach also avoids using Git entirely if you would prefer to not do that.
+|  Key  | Action                                                   |
+| :---: | :------------------------------------------------------- |
+| **B** | Toggle between **Boids Colony** and **Single Boid** mode |
 
-### Change Compilers
-
-See the variety of [`CMAKE_<LANG>_COMPILER`](https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER.html) options.
-In particular you'll want to modify `CMAKE_CXX_COMPILER` to point to the C++ compiler you wish to use.
-
-### Change Compiler Optimizations
-
-CMake abstracts away specific optimizer flags through the [`CMAKE_BUILD_TYPE`](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html) option.
-By default this project recommends `Release` builds which enable optimizations.
-Other build types include `Debug` builds which enable debug symbols but disable optimizations.
-If you're using a multi-configuration generator (as is often the case on Windows), you can modify the [`CMAKE_CONFIGURATION_TYPES`](https://cmake.org/cmake/help/latest/variable/CMAKE_CONFIGURATION_TYPES.html#variable:CMAKE_CONFIGURATION_TYPES) option.
-
-### Change Generators
-
-While CMake will attempt to pick a suitable default generator, some systems offer a number of generators to choose from.
-Ubuntu, for example, offers Makefiles and Ninja as two potential options.
-For a list of generators, click the reference: [cmake generators link](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html).
-To modify the generator you're using you must reconfigure your project providing a `-G` flag with a value corresponding to the generator you want.
-You can't simply modify an entry in the CMakeCache.txt file unlike the above options.
-Then you may rebuild your project with this new generator.
-
-## More Reading
-
-Here are some useful resources if you want to learn more about CMake:
-
-- [Official CMake Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/)
-- [How to Use CMake Without the Agonizing Pain - Part 1](https://alexreinking.com/blog/how-to-use-cmake-without-the-agonizing-pain-part-1.html)
-- [How to Use CMake Without the Agonizing Pain - Part 2](https://alexreinking.com/blog/how-to-use-cmake-without-the-agonizing-pain-part-2.html)
-- [Better CMake YouTube series by Jefferon Amstutz](https://www.youtube.com/playlist?list=PL8i3OhJb4FNV10aIZ8oF0AA46HgA2ed8g)
-
-## License
-
-The source code is dual licensed under Public Domain and MIT -- choose whichever you prefer.
+| Key / Mouse     | Action                                       |
+| :-------------- | :------------------------------------------- |
+| **Mouse Click** | Set target for the current steering behavior |
+| **I / M**       | Increase / Decrease the boid’s speed         |
+| **O / U**       | Increase / Decrease rotation smoothing       |
+| **K**           | Reset speed and smoothing to default         |
+| **Q**           | Set steering to **Align**                    |
+| **W**           | Set steering to **Arrive**                   |
+| **E**           | Set steering to **Flee**                     |
+| **R**           | Set steering to **Seek**                     |
+| **T**           | Set steering to **Kinematic Wander**         |
+| **F**           | Set steering to **Face**                     |
+| **S**           | Set steering to **Delegated Wander**         |
