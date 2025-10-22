@@ -30,7 +30,7 @@ int main()
 
     // create a texture object to load the boid image.
     sf::Texture texture;
-    if (!texture.loadFromFile("assets/boid-sm.png")) // make sure the texture loads correctly.
+    if (!texture.loadFromFile("./assets/boid-sm.png")) // make sure the texture loads correctly.
         return EXIT_FAILURE;
     // sf::Sprite sprite(texture); // create a sprite object to represent the boid in the window.
     Static startPos = Static(sf::Vector2f(400, 300), sf::degrees(0.0f));
