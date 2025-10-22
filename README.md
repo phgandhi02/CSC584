@@ -2,6 +2,7 @@
 
 This directory contains the code for Homework 2 of CSC584.
 Use the command below to see the TODOs in the commit messages:
+
 ```bash
 git log -1 --pretty=%B | grep "TODO:" >> TODO.txt
 ```
