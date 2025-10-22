@@ -7,17 +7,20 @@
 #include <tuple>
 #include <vector>
 
+using AdjacentNode = std::pair<int, double>;        // type alias for nodes adjacent to the fromNode. type-id is std::pair<int, double>
+using AdjacentNodeList = std::vector<AdjacentNode>; // type alias for list of nodes adjacent to the fromNode. type-id is std::pair<int, double>
+
 class Graph
 {
 public:
     Graph() = default;
     ~Graph() = default;
-    std::vector<std::pair<int, double>> getNodes(int fromNode);
-    void addNodes(int newNode, std::vector<std::pair<int, double>> nodeConnections);
+    AdjacentNodeList getNodes(int fromNode);
+    void addNodes(int newNode, AdjacentNodeList nodeConnections);
     void addEdge(int fromNode, int newNode, double cost);
 
 private:
-    std::unordered_map<int, std::vector<std::pair<int, double>>> nodes;
+    std::unordered_map<int, AdjacentNodeList> nodes;
 };
 
 #endif // GRAPH_HPP
