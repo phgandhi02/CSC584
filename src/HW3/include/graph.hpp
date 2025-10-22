@@ -3,32 +3,21 @@
 
 #include <string>
 #include <memory>
+#include <unordered_map>
+#include <tuple>
 #include <vector>
 
-template <typename T>
-class Node
-{
-public:
-    Node() = default;
-    std::vector<char[]> edges;
-};
-
-template <typename T>
-class Connection
-{
-public:
-    Node<std::string> fromNode;
-    Node<std::string> toNode;
-    float getConst();
-};
-
-template <typename T>
 class Graph
 {
 public:
-    std::vector<Connection<std::string>> getConnections(Node<std::string> fromNode);
-};
+    Graph() = default;
+    ~Graph() = default;
+    std::vector<std::pair<int, double>> getNodes(int fromNode);
+    void addNodes(int newNode, std::vector<std::pair<int, double>> nodeConnections);
+    void addEdge(int fromNode, int newNode, double cost);
 
-std::vector<Connection<std::string>> pathfindDijkstra();
+private:
+    std::unordered_map<int, std::vector<std::pair<int, double>>> nodes;
+};
 
 #endif // GRAPH_HPP
