@@ -2,13 +2,7 @@
 #define GRAPH_HPP
 
 #include <string>
-#include <memory>
-#include <unordered_map>
-#include <tuple>
 #include <vector>
-
-using AdjacentNode = std::pair<int, double>;        // type alias for nodes adjacent to the fromNode. type-id is std::pair<int, double>
-using AdjacentNodeList = std::vector<AdjacentNode>; // type alias for list of nodes adjacent to the fromNode. type-id is std::pair<int, double>
 
 class Connection
 {
@@ -22,20 +16,26 @@ public:
     float getToNode() { return toNode; }
 };
 
+class NodeRecord
+{
+public:
+    NodeRecord() = default;
+    ~NodeRecord() = default;
+    int node;
+    Connection connection;
+    float costSoFar;
+};
+
 class Graph
 {
 public:
     Graph() = default;
     ~Graph() = default;
 
-    AdjacentNodeList getNodes(int fromNode);
-    AdjacentNode getSmallestNode(int fromNode);
+    std::vector<Connection> getNodes(NodeRecord node);
 
-    void addNodes(int newNode, AdjacentNodeList nodeConnections);
-    void addEdge(int fromNode, int newNode, double cost);
-
-private:
-    std::unordered_map<int, AdjacentNodeList> nodes;
+    void addNodes(int newNode);
+    void addEdge(Connection connection);
 };
 
 #endif // GRAPH_HPP
