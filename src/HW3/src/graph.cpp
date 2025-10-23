@@ -1,8 +1,20 @@
 #include "../include/graph.hpp"
 
+#include <algorithm>
+
 std::vector<std::pair<int, double>> Graph::getNodes(int fromNode)
 {
     return nodes[fromNode];
+}
+
+AdjacentNode Graph::getSmallestNode(int fromNode)
+{
+    AdjacentNodeList adjacentNodes = getNodes(fromNode);
+
+    // Code from https://stackoverflow.com/questions/53619536/how-to-find-the-minimum-element-in-vector-of-pairs-in-c
+    AdjacentNode result = *std::min_element(begin(adjacentNodes), end(adjacentNodes), [](auto lhs, auto rhs)
+                                            { return std::get<1>(lhs) < std::get<1>(rhs); });
+    return result;
 }
 
 void Graph::addEdge(int fromNode, int toNode, double cost)
