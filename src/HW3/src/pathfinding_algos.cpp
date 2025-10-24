@@ -2,9 +2,7 @@
 
 std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, int end)
 {
-    NodeRecord startRecord;
-    startRecord.node = start;
-    startRecord.connection = Connection();
+    NodeRecord startRecord(start);
     startRecord.costSoFar = 0.0f;
 
     PathfindingList openList;
@@ -24,7 +22,7 @@ std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, i
             break;
         }
 
-        auto connections = graph.getNodes(current);
+        auto connections = graph.getNodes(current.node);
 
         // Loop through each connection in turn
         for (auto &connection : connections)
@@ -47,8 +45,7 @@ std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, i
             }
             else
             {
-                auto endNodeRecord = NodeRecord();
-                endNodeRecord.node = endNode;
+                auto endNodeRecord = NodeRecord(endNode);
                 endNodeRecord.costSoFar = endNodeCost;
                 endNodeRecord.connection = connection;
 
