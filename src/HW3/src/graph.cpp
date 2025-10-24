@@ -5,7 +5,7 @@ std::vector<Connection> Graph::getNodes(int node)
     std::vector<Connection> connectedNodes = {};
     for (auto &connection : graph)
     {
-        if (connection.fromNode == node && connection.toNode == -1)
+        if (connection.getFromNode() == node && connection.isConnected())
         {
             connectedNodes.push_back(connection);
         }
@@ -15,12 +15,12 @@ std::vector<Connection> Graph::getNodes(int node)
 
 void Graph::addNode(int node)
 {
-    auto newNode = Connection(node);
-    newNode.cost = 0.0f;
+    auto newConnection = Connection(node);
 
-    graph.push_back(newNode);
+    graph.push_back(newConnection);
 }
 
 void Graph::addEdge(Connection connection)
 {
+    graph.push_back(connection);
 }

@@ -4,20 +4,31 @@
 #include <string>
 #include <vector>
 
+/*
+Basic edge that contains a fromNode, toNode, and cost/edge weight. Contains helper functions for getting
+*/
 class Connection
 {
 public:
-    Connection(int fromNode) : fromNode(fromNode) {};
+    // Create a Connection/Node Edge that has the same fromNode and toNode with a cost of 0.
+    Connection(int fromNode) : fromNode(fromNode), toNode(fromNode) {};
+    // Create a Connection/Node Edge.
     Connection(int fromNode, int toNode, float cost) : fromNode(fromNode), toNode(toNode), cost(cost) {};
     ~Connection() = default;
-
-    int fromNode = -1;
-    int toNode = -1;
-    float cost = 0.0;
 
     float getCost() { return cost; }
     float getFromNode() { return fromNode; }
     float getToNode() { return toNode; }
+    // check if node is connected to another different node.
+    bool isConnected() { return (fromNode != toNode) ? true : false; }
+
+    void setCost(float cost) { cost = cost; }
+    void setToNode(int toNode) { toNode = toNode; }
+
+private:
+    int fromNode;
+    int toNode;
+    float cost = 0.0;
 };
 
 class NodeRecord
