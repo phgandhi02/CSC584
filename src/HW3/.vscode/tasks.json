@@ -10,7 +10,7 @@
             },
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             },
             "problemMatcher": [
                 "$gcc"
@@ -38,6 +38,28 @@
                 "reveal": "always",
                 "panel": "shared"
             }
+        },
+        {
+            "label": "Build My Project",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}/app/graph_analysis.cpp",
+                "${workspaceFolder}/src/graph.cpp",
+                "${workspaceFolder}/src/pathfinding_algos.cpp",
+                "${workspaceFolder}/src/heuristic.cpp",
+                "-o",
+                "${workspaceFolder}/build/bin/graph_analysis"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
     ]
 }

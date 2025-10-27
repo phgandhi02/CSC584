@@ -8,8 +8,15 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/main",
-            "args": [],
+            "program": "${workspaceFolder}/build/bin/graph_analysis",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}/app/graph_analysis.cpp",
+                "${workspaceFolder}/src/*.cpp", // <-- Adjust this path as needed
+                "-o",
+                "${workspaceFolder}/build/bin/graph_analysis" // Use workspaceFolder variable
+            ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
@@ -28,6 +35,5 @@
                 }
             ]
         }
-
     ]
 }
