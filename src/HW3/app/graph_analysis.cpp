@@ -2,6 +2,7 @@
 
 int main()
 {
+    std::cout << "Graph Analysis Running!" << std::endl;
     // Graph graph = Graph();
     // graph.addEdge(Connection(1, 2, 1.3f));
     // graph.addEdge(Connection(1, 3, 1.6f));

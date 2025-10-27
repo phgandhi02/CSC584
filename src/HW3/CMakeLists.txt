@@ -44,11 +44,11 @@ target_link_libraries(graph_analysis PRIVATE PathfindingLib)
 target_include_directories(PathfindingLib PUBLIC include)
 
 # --- Create The Test Executable ---
-add_executable(test_graphs tests/test_graphs.cpp)
+add_executable(test_graph tests/test_graph.cpp)
 
 
 # Link PathfindingLib and gtest_main to the runTests program
-target_link_libraries(test_graphs PRIVATE PathfindingLib gtest_main)
+target_link_libraries(test_graph PRIVATE PathfindingLib gtest_main)
 
 # Automatically find all the tests in your test runner
-gtest_discover_tests(test_graphs)
+gtest_discover_tests(test_graph)
