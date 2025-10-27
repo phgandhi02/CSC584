@@ -29,10 +29,14 @@ add_library(PathfindingLib ${PATHFINDING})
 # target_link_libraries(PathfindingLib PRIVATE SFML::Graphics)
 
 add_executable(sfml_demo ./app/sfml_demo.cpp)
-target_compile_features(sfml_demo PRIVATE cxx_std_17)
+target_compile_features(sfml_demo PRIVATE cxx_std_11)
 target_link_libraries(sfml_demo PRIVATE SFML::Graphics)
 target_link_libraries(sfml_demo PRIVATE SFML::Window)
 target_link_libraries(sfml_demo PRIVATE PathfindingLib)
+
+add_executable(graph_analysis ./app/graph_analysis.cpp)
+target_compile_features(graph_analysis PRIVATE cxx_std_11)
+target_link_libraries(graph_analysis PRIVATE PathfindingLib)
 
 
 
@@ -40,11 +44,11 @@ target_link_libraries(sfml_demo PRIVATE PathfindingLib)
 target_include_directories(PathfindingLib PUBLIC include)
 
 # --- Create The Test Executable ---
-# add_executable(test_graphs tests/test_graph.cpp)
+add_executable(test_graphs tests/test_graphs.cpp)
 
 
 # Link PathfindingLib and gtest_main to the runTests program
-# target_link_libraries(test_graphs PRIVATE PathfindingLib gtest_main SFML::Graphics SFML::Window)
+target_link_libraries(test_graphs PRIVATE PathfindingLib gtest_main)
 
 # Automatically find all the tests in your test runner
-# gtest_discover_tests(test_graphs)
+gtest_discover_tests(test_graphs)
