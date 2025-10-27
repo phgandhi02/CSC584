@@ -25,9 +25,9 @@ std::vector<Connection> Graph::getNodes(int node)
     return connectedNodes;
 };
 
-void Graph::addNode(int fromNode, int toNode, float cost)
+void Graph::addNode(int newNode)
 {
-    auto newConnection = Connection(fromNode, toNode, cost);
+    auto newConnection = Connection(newNode);
 
     graph.push_back(newConnection);
 };

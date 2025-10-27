@@ -21,6 +21,12 @@ public:
     {
         return (fromNode == rhs.fromNode && toNode == rhs.toNode && cost == rhs.cost);
     }
+    std::ostream &write(std::ostream &os) const
+    {
+        // write stuff to stream
+        os << "fromNode: " << fromNode << " | " << "toNode: " << toNode << " | " << "Cost: " << cost << std::endl;
+        return os;
+    }
 
     const float getCost() { return cost; }
     const float getFromNode() { return fromNode; }
@@ -37,19 +43,30 @@ private:
     float cost = 0.0;
 };
 
+std::ostream &operator<<(std::ostream &os, Connection const &m);
+
 class NodeRecord
 {
 public:
     NodeRecord(int node) : node(node), connection(node) {};
+    NodeRecord(int fromNode, int toNode, float cost) : node(fromNode), connection(fromNode, toNode, cost) {};
     bool operator==(const NodeRecord rhs) const
     {
         return (node == rhs.node && connection == rhs.connection && costSoFar == rhs.costSoFar);
+    }
+    std::ostream &write(std::ostream &os) const
+    {
+        // write stuff to stream
+        os << "Node: " << node << " | " << "Connection: <" << connection << "> " << "costSoFar: " << costSoFar << std::endl;
+        return os;
     }
 
     int node = -1;
     Connection connection;
     float costSoFar = 0.0f;
 };
+
+std::ostream &operator<<(std::ostream &os, NodeRecord const &m);
 
 class Graph
 {
