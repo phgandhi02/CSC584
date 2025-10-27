@@ -1,5 +1,56 @@
 #include "../include/pathfinding_algos.hpp"
 
+void PathfindingList::add(NodeRecord nodeRecord)
+{
+    nodeRecords.push_back(nodeRecord);
+};
+
+void PathfindingList::subtract(NodeRecord nodeRecord)
+{
+    std::remove(nodeRecords.begin(), nodeRecords.end(), nodeRecord);
+    nodeRecords.pop_back();
+}
+
+NodeRecord PathfindingList::find(int node)
+{
+    for (auto &record : nodeRecords)
+    {
+        if (record.node == node)
+        {
+            return record;
+        }
+    }
+    return NodeRecord(-1);
+}
+
+bool PathfindingList::contains(int node)
+{
+    for (auto &record : nodeRecords)
+    {
+        if (record.node == node)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+NodeRecord PathfindingList::smallestElement()
+{
+    auto lowestCostSoFar = nodeRecords[0].costSoFar;
+    auto smallestRecord = nodeRecords[0];
+
+    for (auto &record : nodeRecords)
+    {
+        if (record.costSoFar <= lowestCostSoFar)
+        {
+            lowestCostSoFar = record.costSoFar;
+            smallestRecord = record;
+        }
+    }
+    return smallestRecord;
+}
+
 std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, int end)
 {
     NodeRecord startRecord(start);

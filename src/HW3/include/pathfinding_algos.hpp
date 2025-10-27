@@ -22,6 +22,7 @@ private:
 
 class Pathfinding
 {
+public:
     Pathfinding() = default;
     ~Pathfinding() = default;
     std::vector<Connection> DijkstraAlgorithm(Graph graph, int start, int end);
