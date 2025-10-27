@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 /*
 Basic edge that contains a fromNode, toNode, and cost/edge weight. Contains helper functions for getting
@@ -21,20 +22,11 @@ public:
         return (fromNode == rhs.fromNode && toNode == rhs.toNode && cost == rhs.cost);
     }
 
-    // std::ostream &operator<<(std::ostream &os, const Connection &rhs)
-    // {
-
-    //     return os;
-    // }
-
-    float getCost()
-    {
-        return cost;
-    }
-    float getFromNode() { return fromNode; }
-    float getToNode() { return toNode; }
+    const float getCost() { return cost; }
+    const float getFromNode() { return fromNode; }
+    const float getToNode() { return toNode; }
     // check if node is connected to another different node.
-    bool isConnected() { return (fromNode != toNode) ? true : false; }
+    const bool isConnected() { return (fromNode != toNode) ? true : false; }
 
     void setCost(float cost) { cost = cost; }
     void setToNode(int toNode) { toNode = toNode; }

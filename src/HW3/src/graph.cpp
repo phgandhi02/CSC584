@@ -1,5 +1,11 @@
 #include "../include/graph.hpp"
 
+std::ostream &operator<<(std::ostream &os, Connection &connection)
+{
+    os << "FromNode: " << connection.getFromNode() << " | " << "ToNode: " << connection.getToNode() << " | " << "Cost: " << connection.getCost() << std::endl;
+    return os;
+}
+
 std::vector<Connection> Graph::getNodes(int node)
 {
     std::vector<Connection> connectedNodes = {};
