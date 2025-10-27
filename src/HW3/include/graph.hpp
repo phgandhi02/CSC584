@@ -16,7 +16,21 @@ public:
     Connection(int fromNode, int toNode, float cost) : fromNode(fromNode), toNode(toNode), cost(cost) {};
     ~Connection() = default;
 
-    float getCost() { return cost; }
+    bool operator==(const Connection &rhs) const
+    {
+        return (fromNode == rhs.fromNode && toNode == rhs.toNode && cost == rhs.cost);
+    }
+
+    // std::ostream &operator<<(std::ostream &os, const Connection &rhs)
+    // {
+
+    //     return os;
+    // }
+
+    float getCost()
+    {
+        return cost;
+    }
     float getFromNode() { return fromNode; }
     float getToNode() { return toNode; }
     // check if node is connected to another different node.
@@ -35,6 +49,11 @@ class NodeRecord
 {
 public:
     NodeRecord(int node) : node(node), connection(node) {};
+    bool operator==(const NodeRecord rhs) const
+    {
+        return (node == rhs.node && connection == rhs.connection && costSoFar == rhs.costSoFar);
+    }
+
     int node = -1;
     Connection connection;
     float costSoFar = 0.0f;
@@ -55,4 +74,4 @@ private:
     std::vector<Connection> graph;
 };
 
-#endif // GRAPH_HPP
+#endif
