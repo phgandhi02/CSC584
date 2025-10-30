@@ -16,8 +16,8 @@ public:
         {
             // write stuff to stream
             os << "Record: " << record << std::endl;
-            return os;
         }
+        return os;
     }
     NodeRecord smallestElement();
     bool contains(int node);
