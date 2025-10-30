@@ -83,4 +83,9 @@ private:
     std::vector<Connection> graph;
 };
 
+// Function to generate random graph
+std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices);
+// Function to generate random graph
+std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices, bool printGraph);
+
 #endif
