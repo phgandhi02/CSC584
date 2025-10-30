@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <iostream>
 
+template <class NodeRecordType>
 class PathfindingList
 {
 public:
@@ -19,19 +20,22 @@ public:
         }
         return os;
     }
-    NodeRecord smallestElement();
+    NodeRecord smallestElement(NodeRecord &smallestRecord);
+    AStarNodeRecord smallestElement(AStarNodeRecord &smallestRecord);
     bool contains(int node);
-    NodeRecord find(int node);
-    void add(NodeRecord newRecord);
-    void subtract(NodeRecord newRecord);
+    NodeRecordType find(int node);
+    void add(NodeRecordType newRecord);
+    void subtract(NodeRecordType newRecord);
     int size() { return nodeRecords.size(); }
-    std::vector<NodeRecord> nodeRecords;
+    std::vector<NodeRecordType> nodeRecords;
 
 private:
 };
 
-std::ostream &operator<<(std::ostream &os, PathfindingList const &m);
+template <typename NodeRecordType>
+std::ostream &operator<<(std::ostream &os, PathfindingList<NodeRecordType> const &m);
 
+// template <class NodeRecordType>
 class Pathfinding
 {
 public:

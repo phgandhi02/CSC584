@@ -66,6 +66,18 @@ public:
     float costSoFar = 0.0f;
 };
 
+class AStarNodeRecord : public NodeRecord
+{
+public:
+    AStarNodeRecord(int node) : NodeRecord(node) {};
+    AStarNodeRecord(int fromNode, int toNode, float cost) : NodeRecord(fromNode, toNode, cost) {};
+    bool operator==(const AStarNodeRecord rhs) const
+    {
+        return (node == rhs.node && connection == rhs.connection && costSoFar == rhs.costSoFar && estimatedTotalCost == rhs.estimatedTotalCost);
+    }
+    float estimatedTotalCost = 0.0f;
+};
+
 std::ostream &operator<<(std::ostream &os, NodeRecord const &m);
 
 class Graph
