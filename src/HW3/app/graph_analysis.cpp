@@ -3,15 +3,19 @@
 
 int main()
 {
-    std::cout << "Graph Analysis Running!" << std::endl;
+    std::cout << "Program Running!" << std::endl;
     Graph graph = Graph();
-    graph.addEdge(Connection(1, 2, 1.3f));
-    graph.addEdge(Connection(1, 3, 1.6f));
-    graph.addEdge(Connection(1, 4, 3.3f));
-    graph.addEdge(Connection(2, 5, 1.5f));
-    graph.addEdge(Connection(2, 6, 1.9f));
-    graph.addEdge(Connection(3, 4, 1.3f));
-    graph.addEdge(Connection(6, 7, 1.4f));
+    auto numVertices = 30000;        // 7 + rand() % 6;
+    auto numEdges = numVertices * 3; // rand() % ((numVertices * (numVertices - 1)) / 2);
+    std::cout << "Generating a graph!" << std::endl;
+    auto edges = GenRandomGraphs(numEdges, numVertices, false);
+
+    for (Connection &edge : edges)
+    {
+        graph.addEdge(edge);
+    }
+
+    std::cout << "Graph Analysis Running!" << std::endl;
     auto pathfinding = Pathfinding();
     auto path = pathfinding.DijkstraAlgorithm(graph, 1, 7);
     for (auto &connection : path)
