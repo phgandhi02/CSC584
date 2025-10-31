@@ -31,19 +31,55 @@ protected:
         graph_.addEdge(Connection(2, 6, 1.9f));
         graph_.addEdge(Connection(3, 4, 1.3f));
         graph_.addEdge(Connection(6, 7, 1.4f));
-        pathfinding_.DijkstraAlgorithm(graph_, 1, 7);
+        path_ = pathfinding_.DijkstraAlgorithm(graph_, 1, 7);
     }
     Graph graph_;
     Pathfinding pathfinding_;
+    std::vector<Connection> path_;
+};
+
+class AStarAlgorithmTest : public testing::Test
+{
+protected:
+    AStarAlgorithmTest()
+    {
+        graph_.addEdge(Connection(1, 2, 1.3f));
+        graph_.addEdge(Connection(1, 3, 1.6f));
+        graph_.addEdge(Connection(1, 4, 3.3f));
+        graph_.addEdge(Connection(2, 5, 1.5f));
+        graph_.addEdge(Connection(2, 6, 1.9f));
+        graph_.addEdge(Connection(3, 4, 1.3f));
+        graph_.addEdge(Connection(6, 7, 1.4f));
+        path_ = pathfinding_.Astar(graph_, 1, 7, manhattanHeuristic_);
+    }
+    ManhattanHeuristic manhattanHeuristic_;
+    Graph graph_;
+    Pathfinding pathfinding_;
+    std::vector<Connection> path_;
 };
 
 TEST_F(DijkstraAlgorithmTest, AddEdgeWorks)
 {
     const auto nodesAdjacentToNode1 = graph_.getNodes(1);
-    const std::vector<Connection> expectedPath = {Connection(1, 2, 1.3),
-                                                  Connection(1, 6, 1.9),
-                                                  Connection(6, 7, 1.4)};
+    const std::vector<Connection> expectedPath = {
+        Connection(1, 1, 0),
+        Connection(1, 2, 1.3),
+        Connection(1, 3, 1.6),
+        Connection(1, 4, 3.3),
+    };
 
-    bool graphsMatch = (nodesAdjacentToNode1 == expectedPath);
-    EXPECT_TRUE(graphsMatch);
+    // bool graphsMatch = (nodesAdjacentToNode1 == expectedPath);
+    EXPECT_EQ(nodesAdjacentToNode1, expectedPath);
+}
+
+TEST_F(DijkstraAlgorithmTest, DijkstraProducesCorrectPath)
+{
+    // const auto nodesAdjacentToNode1 = graph_.getNodes(1);
+    const std::vector<Connection> expectedPath = {
+        Connection(1, 2, 1.3f),
+        Connection(2, 6, 1.9f),
+        Connection(6, 7, 1.4f)};
+
+    // bool graphsMatch = (nodesAdjacentToNode1 == expectedPath);
+    EXPECT_EQ(path_, expectedPath);
 }

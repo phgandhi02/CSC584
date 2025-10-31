@@ -7,7 +7,7 @@ int main()
 {
     std::cout << "Program Running!" << std::endl;
     Graph graph = Graph();
-    auto numVertices = 30000;        // 7 + rand() % 6;
+    auto numVertices = 3000;         // 7 + rand() % 6;
     auto numEdges = numVertices * 3; // rand() % ((numVertices * (numVertices - 1)) / 2);
     std::cout << "Generating a graph!" << std::endl;
     auto edges = GenRandomGraphs(numEdges, numVertices, false);
