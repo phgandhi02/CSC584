@@ -28,11 +28,11 @@ public:
         return os;
     }
 
-    const float getCost() { return cost; }
-    const float getFromNode() { return fromNode; }
-    const float getToNode() { return toNode; }
+    float getCost() { return cost; }
+    float getFromNode() { return fromNode; }
+    float getToNode() { return toNode; }
     // check if node is connected to another different node.
-    const bool isConnected() { return (fromNode != toNode) ? true : false; }
+    bool isConnected() { return (fromNode != toNode) ? true : false; }
 
     void setCost(float cost) { cost = cost; }
     void setToNode(int toNode) { toNode = toNode; }

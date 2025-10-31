@@ -21,30 +21,14 @@
             }
         },
         {
-            "label": "Run Main",
-            "type": "shell",
-            "command": "./build/bin/main",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": {
-                "kind": "none",
-                "isDefault": true
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            }
-        },
-        {
-            "label": "Build My Project",
+            "label": "Build Graph Analysis (gdb)",
             "type": "shell",
             "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
+                "-Wall",
+                "-Wextra",
+                "-Wpedantic",
                 "-g",
                 "${workspaceFolder}/app/graph_analysis.cpp",
                 "${workspaceFolder}/src/graph.cpp",
@@ -52,6 +36,36 @@
                 "${workspaceFolder}/src/heuristic.cpp",
                 "-o",
                 "${workspaceFolder}/build/bin/graph_analysis"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Build SFML Demo (gdb)",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-Wall",
+                "-Wextra",
+                "-Wpedantic",
+                "-I/usr/local/include",
+                "-L/usr/local/lib",
+                "-lsfml-graphics",
+                "-lsfml-window",
+                "-lsfml-system",
+                "-g",
+                "${workspaceFolder}/app/sfml_demo.cpp",
+                "${workspaceFolder}/src/graph.cpp",
+                "${workspaceFolder}/src/pathfinding_algos.cpp",
+                "${workspaceFolder}/src/heuristic.cpp",
+                "-o",
+                "${workspaceFolder}/build/bin/sfml_demo"
             ],
             "group": {
                 "kind": "build",
