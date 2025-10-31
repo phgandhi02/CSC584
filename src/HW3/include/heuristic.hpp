@@ -7,8 +7,9 @@ class Heuristic
 {
 public:
     Heuristic() = default;
-    virtual float estimate(int fromNode);
-    virtual float estimate(int fromNode, int goalNode);
+    ~Heuristic() = default;
+    virtual float estimate(int fromNode) = 0;
+    virtual float estimate(int fromNode, int goalNode) = 0;
     int goalNode;
 };
 

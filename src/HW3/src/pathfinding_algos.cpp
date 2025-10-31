@@ -75,14 +75,14 @@ template <typename NodeRecordType>
 AStarNodeRecord PathfindingList<NodeRecordType>::smallestElement(AStarNodeRecord &smallestRecord)
 {
     // std::cout << "Looking for smallest node: " << std::endl;
-    auto lowestCostSoFar = nodeRecords[0].costSoFar;
+    auto lowestEstimatedTotalCostSoFar = nodeRecords[0].estimatedTotalCost;
     // auto smallestRecord = nodeRecords[0];
 
     for (auto &record : nodeRecords)
     {
-        if (record.costSoFar <= lowestCostSoFar)
+        if (record.estimatedTotalCost <= lowestEstimatedTotalCostSoFar)
         {
-            lowestCostSoFar = record.costSoFar;
+            lowestEstimatedTotalCostSoFar = record.estimatedTotalCost;
             smallestRecord = record;
         }
     }
@@ -98,7 +98,6 @@ std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, i
 
     PathfindingList<NodeRecord> openList;
     PathfindingList<NodeRecord> closedList;
-    int endNode;
 
     openList.add(startRecord);
     auto current = startRecord;
@@ -157,7 +156,7 @@ std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, i
                 endNodeRecord.connection = connection; // update with connection from the fromNode to the toNode.
 
                 // add it to the openList
-                if (~openList.contains(endNode))
+                if (!openList.contains(endNode))
                 {
                     openList.add(endNodeRecord);
                 }
@@ -193,16 +192,17 @@ std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, i
 };
 
 // template <typename NodeRecordType>
-std::vector<Connection> Pathfinding::Astar(Graph graph, int start, int end, Heuristic heuristic)
+std::vector<Connection> Pathfinding::Astar(Graph graph, int start, int end, Heuristic &heuristic)
 {
 
     // Step 0
     AStarNodeRecord startRecord(start, start, 0.0f);
     startRecord.costSoFar = 0.0f;
+    heuristic.goalNode = end;
+    startRecord.estimatedTotalCost = heuristic.estimate(start);
 
     PathfindingList<AStarNodeRecord> openList;
     PathfindingList<AStarNodeRecord> closedList;
-    int endNode;
 
     openList.add(startRecord);
     auto current = startRecord;
@@ -230,18 +230,34 @@ std::vector<Connection> Pathfinding::Astar(Graph graph, int start, int end, Heur
             // ToNode of the current connection
             int endNode = connection.getToNode();
             float endNodeCost = current.costSoFar + connection.getCost();
+            AStarNodeRecord endNodeRecord = AStarNodeRecord(endNode);
+            float endNodeHeuristic = 0.0f;
 
             // Skip if the node is on the closed list.
             // This means that we have explored all the nodes connected to this node.
             if (closedList.contains(endNode))
             {
-                continue;
+                // find the record in the closed list corresponding to the endNode
+                endNodeRecord = closedList.find(endNode);
+
+                if (endNodeRecord.costSoFar <= endNodeCost)
+                    continue;
+                else
+                {
+                    // otherwise remove endNodeRecord from closed list
+                    closedList.subtract(endNodeRecord);
+                    // use the node's old cost values to calculate its heuristic without calling the possibly expensive heuristic function.
+                    endNodeHeuristic = endNodeRecord.estimatedTotalCost - endNodeRecord.costSoFar;
+
+                    // maybe delete
+                    endNodeRecord.estimatedTotalCost = endNodeCost + endNodeHeuristic;
+                }
             }
             // check if the node is on the openlist.
             // if it is on the open list then we want to see if this is a worse route.
             else
             {
-                AStarNodeRecord endNodeRecord = AStarNodeRecord(endNode);
+                // AStarNodeRecord endNodeRecord = AStarNodeRecord(endNode);
                 if (openList.contains(endNode))
                 {
                     // check if the toNode of the current connection is in the openlist.
@@ -250,18 +266,27 @@ std::vector<Connection> Pathfinding::Astar(Graph graph, int start, int end, Heur
                     {
                         continue;
                     }
+                    else
+                    {
+                        // otherwise remove endNodeRecord from closed list
+                        closedList.subtract(endNodeRecord);
+                        // use the node's old cost values to calculate its heuristic without calling the possibly expensive heuristic function.
+                        endNodeHeuristic = endNodeRecord.estimatedTotalCost - endNodeRecord.costSoFar;
+                    }
                 }
                 else
                 {
                     // Unvisited node so we need to make a new record
                     endNodeRecord = AStarNodeRecord(endNode, connection.getToNode(), connection.getCost());
+                    endNodeRecord.estimatedTotalCost = heuristic.estimate(endNode);
                 }
 
                 endNodeRecord.costSoFar = endNodeCost; // update costSoFar with connection cost
                 endNodeRecord.connection = connection; // update with connection from the fromNode to the toNode.
+                endNodeRecord.estimatedTotalCost = endNodeCost + endNodeHeuristic;
 
                 // add it to the openList
-                if (~openList.contains(endNode))
+                if (!openList.contains(endNode))
                 {
                     openList.add(endNodeRecord);
                 }

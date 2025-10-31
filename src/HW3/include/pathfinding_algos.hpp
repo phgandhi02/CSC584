@@ -42,7 +42,7 @@ public:
     Pathfinding() = default;
     ~Pathfinding() = default;
     std::vector<Connection> DijkstraAlgorithm(Graph graph, int start, int end);
-    std::vector<Connection> Astar(Graph graph, int start, int end, Heuristic heuristic);
+    std::vector<Connection> Astar(Graph graph, int start, int end, Heuristic &heuristic);
 };
 
 #endif
