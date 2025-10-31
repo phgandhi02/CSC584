@@ -39,14 +39,14 @@
             "name": "SFML Demo (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/graph_analysis",
+            "program": "${workspaceFolder}/build/bin/sfml_demo",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}/app/graph_analysis.cpp",
+                "${workspaceFolder}/app/sfml_demo.cpp",
                 "${workspaceFolder}/src/*.cpp", // <-- Adjust this path as needed
                 "-o",
-                "${workspaceFolder}/build/bin/graph_analysis" // Use workspaceFolder variable
+                "${workspaceFolder}/build/bin/sfml_demo" // Use workspaceFolder variable
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
