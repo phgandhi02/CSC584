@@ -26,7 +26,8 @@ file(GLOB_RECURSE PATHFINDING "src/*.cpp")
 
 # --- Create the PathfindingLib Library ---
 add_library(PathfindingLib ${PATHFINDING})
-# target_link_libraries(PathfindingLib PRIVATE SFML::Graphics)
+target_link_libraries(PathfindingLib PRIVATE SFML::Graphics)
+target_link_libraries(PathfindingLib PRIVATE SFML::Window)
 
 add_executable(sfml_demo ./app/sfml_demo.cpp)
 target_compile_features(sfml_demo PRIVATE cxx_std_11)
