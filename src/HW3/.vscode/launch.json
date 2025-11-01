@@ -40,16 +40,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/bin/sfml_demo",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${workspaceFolder}/app/sfml_demo.cpp",
-                "${workspaceFolder}/src/*.cpp", // <-- Adjust this path as needed
-                "-o",
-                "${workspaceFolder}/build/bin/sfml_demo" // Use workspaceFolder variable
-            ],
+            "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -62,9 +55,10 @@
                 {
                     "description": "Set Disassembly Flavor to Intel",
                     "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
+                    "ignoreFailures": false
                 }
-            ]
+            ],
+            "preLaunchTask": "Build SFML Demo (gdb)" // Make sure this matches your build task label
         }
     ]
 }

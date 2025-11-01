@@ -51,20 +51,29 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
+                // Warning Flags
                 "-Wall",
                 "-Wextra",
                 "-Wpedantic",
+                // Compile with debug info
                 "-g",
+                // Source Files
                 "${workspaceFolder}/app/sfml_demo.cpp",
-                "${workspaceFolder}/src/graph.cpp",
-                "${workspaceFolder}/src/pathfinding_algos.cpp",
-                "${workspaceFolder}/src/heuristic.cpp",
+                "${workspaceFolder}/src/*.cpp", // include all graph and pathfinding src files
+                "${workspaceFolder}/src/movement/*.cpp", // include all mvmt base class src files
+                "${workspaceFolder}/src/movement/delegated_steering/*.cpp", // include all delegated steering src files
+                "${workspaceFolder}/src/movement/steering/*.cpp", // include all steering src files
+                // Include Path for SFML
                 "-I${workspaceFolder}/SFML/SFML-3.0.2/include",
+                // Library Path for SFML
                 "-L${workspaceFolder}/SFML/SFML-3.0.2/lib",
+                // Linker Flags for SFML
+                "-Wl,-rpath,'${workspaceFolder}/SFML/SFML-3.0.2/lib'",
+                "-lsfml-system",
                 "-lsfml-graphics",
                 "-lsfml-window",
                 "-lsfml-audio",
-                "-lsfml-system",
+                // Output
                 "-o",
                 "${workspaceFolder}/build/bin/sfml_demo"
             ],
