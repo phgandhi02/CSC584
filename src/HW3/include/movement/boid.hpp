@@ -1,8 +1,6 @@
 #ifndef BOID_HPP
 #define BOID_HPP
 
-#include <SFML/Graphics.hpp>
-
 #include "./utils.hpp"
 #include "./steering_behavior.hpp"
 // Steering behavior libs
@@ -13,6 +11,8 @@
 #include "./steering/kinematic_wander.hpp"
 #include "./delegated_steering/kinematic_face.hpp"
 #include "./delegated_steering/wander.hpp"
+
+#include <SFML/Graphics.hpp>
 
 #include <iostream>
 #include <optional>
