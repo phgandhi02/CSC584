@@ -33,7 +33,7 @@ BoidsColony::BoidsColony(const sf::Texture &texture, sf::RenderWindow &window,
         Static startChar = Static(startPos, startOrient);
         boids.emplace_back(texture, startChar, window);
         boids[i].speed = 200;
-        boids[i].breadcrumbs.delay = 100;
+        boids[i].breadcrumbs.m_delay = 100;
         boids[i].breadcrumbs.decay = 150;
         // std::cout << startPos.x << " | " << startPos.y << std::endl;
     }

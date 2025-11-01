@@ -58,6 +58,7 @@ Breadcrumb::Breadcrumb(Static pos, float radius, float outlineThickness, sf::Col
 Breadcrumbs::Breadcrumbs(Static character, float delay)
 {
     m_numFramesSinceBreadcrumb = 0;
+    m_delay = delay;
     m_colors = {
         sf::Color::Black,
         sf::Color::Blue,
@@ -78,7 +79,7 @@ void Breadcrumbs::update(Static character)
 {
     (m_colors.size() == (m_currentColor - 1)) ? m_currentColor = 0 : m_currentColor += 1;
 
-    if (m_numFramesSinceBreadcrumb >= delay && !m_breadcrumbs.empty())
+    if (m_numFramesSinceBreadcrumb >= m_delay && !m_breadcrumbs.empty())
     {
         auto breadcrumb = Breadcrumb(character, m_radius, m_outlineThickness, m_colors[m_currentColor]);
         m_breadcrumbs.push_back(breadcrumb);

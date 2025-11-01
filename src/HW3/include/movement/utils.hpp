@@ -37,7 +37,7 @@ public:
     Breadcrumbs(Static character, float delay);
     ~Breadcrumbs() = default;
     // number of frames between each breadcrumb
-    int delay = 50;
+    int m_delay = 50;
     int decay = 200;
     void update(Static character);
     std::vector<Breadcrumb> m_breadcrumbs;
@@ -45,7 +45,7 @@ public:
 private:
     int m_numFramesSinceBreadcrumb;
     int m_numFramesSinceDecay;
-    std::vector<sf::Color> m_colors; 
+    std::vector<sf::Color> m_colors;
     int m_currentColor;
     float m_radius = 2.0f;
     float m_outlineThickness = 2.0f;
