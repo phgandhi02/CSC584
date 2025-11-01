@@ -58,7 +58,7 @@
                     "ignoreFailures": false
                 }
             ],
-            "preLaunchTask": "Build SFML Demo (gdb)" // Make sure this matches your build task label
+            // "preLaunchTask": "Build SFML Demo (gdb)" // Make sure this matches your build task label
         }
     ]
 }
