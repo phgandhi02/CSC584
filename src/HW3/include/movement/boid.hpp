@@ -5,6 +5,14 @@
 
 #include "./utils.hpp"
 #include "./steering_behavior.hpp"
+// Steering behavior libs
+#include "./steering/kinematic_align.hpp"
+#include "./steering/kinematic_arrive.hpp"
+#include "./steering/kinematic_flee.hpp"
+#include "./steering/kinematic_seek.hpp"
+#include "./steering/kinematic_wander.hpp"
+#include "./delegated_steering/kinematic_face.hpp"
+#include "./delegated_steering/wander.hpp"
 
 #include <iostream>
 #include <optional>

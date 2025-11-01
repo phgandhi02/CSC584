@@ -3,16 +3,6 @@
 
 // Boid libs
 #include "../include/movement/boid.hpp"
-#include "../include/movement/boids_colony.hpp"
-
-// Steering behavior libs
-#include "../include/movement/steering/kinematic_align.hpp"
-#include "../include/movement/steering/kinematic_arrive.hpp"
-#include "../include/movement/steering/kinematic_flee.hpp"
-#include "../include/movement/steering/kinematic_seek.hpp"
-#include "../include/movement/steering/kinematic_wander.hpp"
-#include "../include/movement/delegated_steering/kinematic_face.hpp"
-#include "../include/movement/delegated_steering/wander.hpp"
 
 // SFML libs
 #include <SFML/Graphics.hpp>
