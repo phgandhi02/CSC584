@@ -30,7 +30,7 @@ public:
     float speed = 100.0f;
     float smoothing = 0.2f;
     std::unique_ptr<KinematicMovement> controller;
-    bool mouseInputOff = true;
+    bool mouseInputOff = false;
     Breadcrumbs breadcrumbs;
 
 private:
