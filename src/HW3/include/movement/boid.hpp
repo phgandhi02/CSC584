@@ -33,6 +33,7 @@ public:
     KinematicSteeringOutput getSteering() { return m_steering; }
     bool breadcrumbs_on = true;
     void setTexture(sf::Texture &texture);
+    void setTarget(Static target) { m_target = target; };
 
     // Steering Function
     float speed = 100.0f;
