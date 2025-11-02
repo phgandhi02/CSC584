@@ -11,7 +11,7 @@ std::vector<Connection> Graph::getNodes(int node)
     std::vector<Connection> connectedNodes = {Connection(node, node, 0.0f)};
     for (auto &connection : graph)
     {
-        if (connection.getFromNode() == node && connection.isConnected())
+        if (connection.getFromNode() == node && connection.isConnectedToDifferentNode())
         {
             connectedNodes.push_back(connection);
         }
@@ -68,7 +68,7 @@ std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices)
         // direction.
 
         // Check if the edge has the same fromNode and toNode. If so, skip and replace the node in next loop.
-        if (edges[i].isConnected() == false)
+        if (edges[i].isConnectedToDifferentNode() == false)
         {
             // std::cout << "Node not connected" << edges[i].isConnected() << std::endl;
             edges.pop_back();
