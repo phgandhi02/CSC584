@@ -1,5 +1,5 @@
 {
-    "search.useIgnoreFiles": false,
+    "search.useIgnoreFiles": true,
     "files.associations": {
         "array": "cpp",
         "atomic": "cpp",
@@ -97,5 +97,7 @@
     "C_Cpp.default.intelliSenseMode": "",
     "C_Cpp.inlayHints.autoDeclarationTypes.enabled": false,
     "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": false,
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "search.useGlobalIgnoreFiles": false,
+    "explorer.excludeGitIgnore": true
 }
