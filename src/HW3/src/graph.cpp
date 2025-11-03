@@ -11,7 +11,7 @@ std::vector<Connection> Graph::getNodes(int node)
     std::vector<Connection> connectedNodes = {Connection(node, node, 0.0f)};
     for (auto &connection : graph)
     {
-        if (connection.getFromNode() == node && connection.isConnected())
+        if (connection.getFromNode() == node && connection.isConnectedToDifferentNode())
         {
             connectedNodes.push_back(connection);
         }
@@ -68,7 +68,7 @@ std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices)
         // direction.
 
         // Check if the edge has the same fromNode and toNode. If so, skip and replace the node in next loop.
-        if (edges[i].isConnected() == false)
+        if (edges[i].isConnectedToDifferentNode() == false)
         {
             // std::cout << "Node not connected" << edges[i].isConnected() << std::endl;
             edges.pop_back();
@@ -127,5 +127,93 @@ std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices, bool prin
             std::cout << " }" << std::endl;
         }
     }
+    return edges;
+}
+
+// // Function to generate random graph
+// std::vector<Connection> GenGridGraph(int numRows, int numCols)
+// {
+//     std::vector<std::vector<int>> matrix(numRows, std::vector<int>(numCols));
+//     // TODO: handle path to the outer rim of the map.
+//     // // cut the outer rows and columns of the map.
+//     // numRows = numRows - 2;
+//     // numCols = numCols - 2;
+//     int totalNodes = numRows * numCols;
+//     // int totalNumEdges = 9 * numRows * numCols;
+//     int totalNumEdges = 9 * (numRows - 2) * (numCols - 2) + 2 * numRows * 6 + 2 * numCols * 6 + 16;
+//     std::vector<Connection> edges;
+
+//     // float cost;
+//     srand(time(0));
+
+//     // Print the attributes of graph
+//     std::cout << "Grid graph generation: " << std::endl;
+//     std::cout << "The graph has " << totalNodes << " Nodes" << std::endl;
+//     std::cout << "and has " << totalNumEdges << " edges." << std::endl;
+
+//     int arr_index = 0;
+//     for (int i = 0; i <= numRows; i++)
+//     {
+//         for (int j = 0; j <= numCols; j++)
+//         {
+//             arr_index = i * numRows + j;
+//             if ((arr_index % numRows) == 0 || (arr_index % numRows) == numCols || arr_index <= numCols || arr_index >= numRows * numRows)
+//             {
+//                 continue;
+//             }
+//             else
+//             {
+//                 edges.emplace_back(Connection(arr_index, arr_index + 1, 1.0f));             // right
+//                 edges.emplace_back(Connection(arr_index, arr_index + numCols, 1.0f));       // down
+//                 edges.emplace_back(Connection(arr_index, arr_index - numCols, 1.0f));       // up
+//                 edges.emplace_back(Connection(arr_index, arr_index - 1, 1.0f));             // left
+//                 edges.emplace_back(Connection(arr_index, arr_index - numCols - 1, 1.414f)); // top left
+//                 edges.emplace_back(Connection(arr_index, arr_index - numCols + 1, 1.414f)); // top right
+//                 edges.emplace_back(Connection(arr_index, arr_index + numCols + 1, 1.414f)); // bottom right
+//                 edges.emplace_back(Connection(arr_index, arr_index + numCols - 1, 1.414f)); // bottom left
+//             }
+//         }
+//     }
+
+//     return edges;
+// }
+
+std::vector<Connection> GenGridGraph(int numRows, int numCols)
+{
+    // numRows = numRows - 2;
+    // numCols = numCols - 2;
+    std::vector<Connection> edges;
+    int totalNodes = numRows * numCols;
+    srand(time(0));
+
+    std::cout << "Grid graph generation: " << std::endl;
+    std::cout << "The graph has " << totalNodes << " Nodes" << std::endl;
+
+    for (int i = 0; i < numRows; i++) // Loop from 0 to numRows-1
+    {
+        for (int j = 0; j < numCols; j++) // Loop from 0 to numCols-1
+        {
+            int fromNode = i * numCols + j; // Correct index calculation
+
+            // 8 directions (row, col offsets)
+            int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+            int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+            float costs[] = {1.414f, 1.0f, 1.414f, 1.0f, 1.0f, 1.414f, 1.0f, 1.414f};
+
+            for (int k = 0; k < 8; k++)
+            {
+                int ni = i + dr[k]; // Neighbor's row
+                int nj = j + dc[k]; // Neighbor's col
+
+                // Check if neighbor is *inside* the grid
+                if (ni >= 0 && ni < numRows && nj >= 0 && nj < numCols)
+                {
+                    int toNode = ni * numCols + nj;
+                    edges.emplace_back(Connection(fromNode, toNode, costs[k]));
+                }
+            }
+        }
+    }
+    std::cout << "and has " << edges.size() << " edges." << std::endl;
     return edges;
 }

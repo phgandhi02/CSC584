@@ -1,10 +1,18 @@
 #ifndef BOID_HPP
 #define BOID_HPP
 
-#include <SFML/Graphics.hpp>
-
 #include "./utils.hpp"
 #include "./steering_behavior.hpp"
+// Steering behavior libs
+#include "./steering/kinematic_align.hpp"
+#include "./steering/kinematic_arrive.hpp"
+#include "./steering/kinematic_flee.hpp"
+#include "./steering/kinematic_seek.hpp"
+#include "./steering/kinematic_wander.hpp"
+#include "./delegated_steering/kinematic_face.hpp"
+#include "./delegated_steering/wander.hpp"
+
+#include <SFML/Graphics.hpp>
 
 #include <iostream>
 #include <optional>
@@ -25,12 +33,13 @@ public:
     KinematicSteeringOutput getSteering() { return m_steering; }
     bool breadcrumbs_on = true;
     void setTexture(sf::Texture &texture);
+    void setTarget(Static target) { m_target = target; };
 
     // Steering Function
     float speed = 100.0f;
     float smoothing = 0.2f;
     std::unique_ptr<KinematicMovement> controller;
-    bool mouseInputOff = true;
+    bool mouseInputOff = false;
     Breadcrumbs breadcrumbs;
 
 private:

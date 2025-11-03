@@ -12,35 +12,35 @@ class Connection
 {
 public:
     // Create a Connection/Node Edge that has the same fromNode and toNode with a cost of 0.
-    Connection(int fromNode) : fromNode(fromNode), toNode(fromNode) {};
+    Connection(int fromNode) : m_fromNode(fromNode), m_toNode(fromNode), m_cost(0.0f) {};
     // Create a Connection/Node Edge.
-    Connection(int fromNode, int toNode, float cost) : fromNode(fromNode), toNode(toNode), cost(cost) {};
+    Connection(int fromNode, int toNode, float cost) : m_fromNode(fromNode), m_toNode(toNode), m_cost(cost) {};
     ~Connection() = default;
 
     bool operator==(const Connection &rhs) const
     {
-        return (fromNode == rhs.fromNode && toNode == rhs.toNode && cost == rhs.cost);
+        return (m_fromNode == rhs.m_fromNode && m_toNode == rhs.m_toNode && m_cost == rhs.m_cost);
     }
     std::ostream &write(std::ostream &os) const
     {
         // write stuff to stream
-        os << "fromNode: " << fromNode << " | " << "toNode: " << toNode << " | " << "Cost: " << cost << std::endl;
+        os << "fromNode: " << m_fromNode << " | " << "toNode: " << m_toNode << " | " << "Cost: " << m_cost << std::endl;
         return os;
     }
 
-    float getCost() { return cost; }
-    float getFromNode() { return fromNode; }
-    float getToNode() { return toNode; }
-    // check if node is connected to another different node.
-    bool isConnected() { return (fromNode != toNode) ? true : false; }
+    int getCost() { return this->m_cost; }
+    int getFromNode() { return this->m_fromNode; }
+    int getToNode() { return this->m_toNode; }
+    // check if fromNode is connected to different toNode.
+    bool isConnectedToDifferentNode() { return (m_fromNode != m_toNode) ? true : false; }
 
-    void setCost(float cost) { cost = cost; }
-    void setToNode(int toNode) { toNode = toNode; }
+    void setCost(float cost) { this->m_cost = cost; }
+    void setToNode(int toNode) { this->m_toNode = toNode; }
 
 private:
-    int fromNode;
-    int toNode;
-    float cost = 0.0;
+    unsigned int m_fromNode;
+    unsigned int m_toNode;
+    float m_cost = 0.0;
 };
 
 std::ostream &operator<<(std::ostream &os, Connection const &m);
@@ -48,7 +48,7 @@ std::ostream &operator<<(std::ostream &os, Connection const &m);
 class NodeRecord
 {
 public:
-    NodeRecord(int node) : node(node), connection(node) {};
+    NodeRecord(int node) : node(node), connection(Connection(node)) {};
     NodeRecord(int fromNode, int toNode, float cost) : node(fromNode), connection(fromNode, toNode, cost) {};
     bool operator==(const NodeRecord rhs) const
     {
@@ -94,6 +94,9 @@ public:
 private:
     std::vector<Connection> graph;
 };
+
+// Function to generate random graph
+std::vector<Connection> GenGridGraph(int numRows, int numCols);
 
 // Function to generate random graph
 std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices);
