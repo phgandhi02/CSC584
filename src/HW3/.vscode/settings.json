@@ -97,5 +97,15 @@
     "C_Cpp.default.intelliSenseMode": "",
     "C_Cpp.inlayHints.autoDeclarationTypes.enabled": false,
     "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": false,
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "search.useGlobalIgnoreFiles": false,
+    "explorer.excludeGitIgnore": true,
+    "C_Cpp.codeAnalysis.exclude": {
+        "/home/prem/code/CSC584/src/HW3/build/**": true,
+        "/home/prem/code/CSC584/src/HW3/SFML/**": true
+    },
+    "files.exclude": {
+        "**/build": true,
+        "**/SFML": true
+    }
 }

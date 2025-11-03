@@ -77,7 +77,7 @@ Breadcrumbs::Breadcrumbs(Static character, float delay)
 
 void Breadcrumbs::update(Static character)
 {
-    (m_colors.size() == (m_currentColor - 1)) ? m_currentColor = 0 : m_currentColor += 1;
+    ((int)m_colors.size() == (m_currentColor - 1)) ? m_currentColor = 0 : m_currentColor += 1;
 
     if (m_numFramesSinceBreadcrumb >= m_delay && !m_breadcrumbs.empty())
     {
