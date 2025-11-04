@@ -111,20 +111,11 @@ void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::Rende
     }
 };
 
-unsigned int calculateNodeIndex(sf::Vector2f position)
-{
-    return (static_cast<unsigned int>(position.y) / CELL_SIZE) * MAP_WIDTH + static_cast<unsigned int>(position.x) / CELL_SIZE;
-}
-
-sf::Vector2f calculatePositionfromNode(unsigned int node)
-{
-    return sf::Vector2f(static_cast<float>(node % CELL_SIZE) * CELL_SIZE, static_cast<float>(node / CELL_SIZE) * CELL_SIZE);
-}
 std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
 {
     std::array<std::string, MAP_HEIGHT> map_sketch = {
-        "  ####################################  ",
-        "          #        ##        #          ",
+        "######################################  ",
+        "##        #        ##        #          ",
         "                  ###### ### # ### ###  ",
         "                   ##                   ",
         "   ## # ##### # ## ## ## # ##### # ##   ",
@@ -186,7 +177,7 @@ int main()
         return EXIT_FAILURE;
 
     // Convention for position: origin at the top-left corner. x axis points towards right on screen. y-axis points down on screen.
-    Static startPos = Static(sf::Vector2f(2 * CELL_SIZE, 1 * CELL_SIZE), sf::degrees(0.0f));
+    Static startPos = Static(sf::Vector2f(2 * CELL_SIZE + CELL_SIZE / 2, 1 * CELL_SIZE + CELL_SIZE / 2), sf::degrees(0.0f));
 
     Boid boid(texture, startPos, window);
     boid.speed = 50.0f;
@@ -212,12 +203,15 @@ int main()
     std::vector<Connection> path;
     // stores the node value for start, current, mouse input, and the next target.
     unsigned int startNode, currentNode, mouseNode, targetNode, goalNode;
+    goalNode = 1055;        // known empty cell
     sf::Vector2f targetPos; // stores the position of the next target
     sf::Vector2f goalPos;   // stores the position of the goal
+    Static target;
     auto boid_position = boid.getPosition();
 
     /* -------------------- Input Target Position from Mouse -------------------- */
     auto inputHandler = InputHandler(window); // create input handler object
+    Static noTarget = Static();
     Static mouse;
 
     /* -------------------------------------------------------------------------- */
@@ -241,21 +235,31 @@ int main()
 
         draw_map(map, window); // draw map
 
+        if (!mouse.operator==(noTarget))
+        {
+            boid_position = boid.getPosition();
+            path = std::vector<Connection>{};
+            goalPos = mouse.getPosition();
+            goalNode = calculateNodeIndex(goalPos);
+        }
+
         if (path.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
         {
-            /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
-            boid_position = boid.getPosition();
-            startNode = calculateNodeIndex(boid_position);
-            currentNode = startNode;
-            goalNode = 1501;
-            goalPos = calculatePositionfromNode(goalNode);
-            path = pathfinding.DijkstraAlgorithm(graph, startNode, goalNode);
-            /* ------------------- Set the first waypoint for the boid ------------------ */
-            targetNode = path.back().getToNode();
-            sf::Vector2f targetPos = calculatePositionfromNode(targetNode);
-            Static target = Static(targetPos, sf::degrees(0.0f));
-            boid.setTarget(target);
-            path.pop_back();
+            if (currentNode != goalNode)
+            {
+                /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
+                boid_position = boid.getPosition();
+                startNode = calculateNodeIndex(boid_position);
+                currentNode = startNode;
+                goalPos = calculatePositionfromNode(goalNode);
+                path = pathfinding.DijkstraAlgorithm(graph, startNode, goalNode);
+                /* ------------------- Set the first waypoint for the boid ------------------ */
+                targetNode = path.back().getToNode();
+                targetPos = calculatePositionfromNode(targetNode);
+                target = Static(targetPos, sf::degrees(0.0f));
+                boid.setTarget(target);
+                path.pop_back();
+            }
         }
         else // continue following existing path
         {
@@ -265,18 +269,18 @@ int main()
 
             if (currentNode == targetNode) // once boid reaches targetNode then set it to the next node
             {
-                int targetNode = path.back().getToNode();
-                sf::Vector2f nextTargetPosition = calculatePositionfromNode(targetNode);
-                Static nextTarget = Static(nextTargetPosition, sf::degrees(0.0f));
-                boid.setTarget(nextTarget);
+                targetNode = path.back().getToNode();
+                targetPos = calculatePositionfromNode(targetNode);
+                target = Static(targetPos, sf::degrees(0.0f));
+                boid.setTarget(target);
                 path.pop_back();
             }
         }
         std::cout << std::endl;
         std::cout << "Boid: " << boid_position.x << " | " << boid_position.y << " | " << currentNode << std::endl;
-        std::cout << "Mouse: " << mouse.getPosition().x << " | " << mouse.getPosition().y << " | " << mouseNode << std::endl;
+        // std::cout << "Mouse: " << mouse.getPosition().x << " | " << mouse.getPosition().y << " | " << mouseNode << std::endl;
         std::cout << "Target: " << targetPos.x << " | " << targetPos.y << " | " << targetNode << std::endl;
-        std::cout << "Goal: " << goalPos.x << " | " << goalPos.y << " | " << goalNode << std::endl;
+        // std::cout << "Goal: " << goalPos.x << " | " << goalPos.y << " | " << goalNode << std::endl;
 
         // update the boid position.
         boid.update(0.01f);

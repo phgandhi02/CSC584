@@ -2,6 +2,8 @@
 #define GRAPH_HPP
 #include "global.hpp"
 
+#include <SFML/Graphics.hpp>
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -107,5 +109,9 @@ std::vector<Connection> GenGridGraph(int numRows, int numCols);
 std::vector<Connection> GenMapGraph(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map);
 
 std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> convert_sketch_to_map(std::array<std::string, MAP_HEIGHT> map_sketch);
+
+unsigned int calculateNodeIndex(sf::Vector2f position);
+
+sf::Vector2f calculatePositionfromNode(unsigned int node);
 
 #endif
