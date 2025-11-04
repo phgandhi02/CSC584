@@ -84,6 +84,10 @@ void boid_movement(Boid &boid, sf::Window &window)
     }
 }
 
+void generate_scene(sf::RenderWindow &window)
+{
+}
+
 int main()
 {
     /* ------------------------------- Setup Boid ------------------------------- */
@@ -92,9 +96,9 @@ int main()
     // Seed the random number generator before using random numbers.
     srand(static_cast<unsigned>(time(0)));
     // create window object to render game.
-    auto window = sf::RenderWindow(sf::VideoMode({400u, 400u}), "CSC584 HW2: Steering Behaviors");
-    window.setFramerateLimit(144); // set the framerate limit to 144 fps.
-
+    auto window = sf::RenderWindow(sf::VideoMode({800u, 600u}), "CSC584 HW2: Steering Behaviors");
+    // set the framerate limit to 144 fps.
+    window.setFramerateLimit(144);
     // create a texture object to load the boid image.
     sf::Texture texture;
     if (!texture.loadFromFile("/home/prem/code/CSC584/src/HW3/assets/boid-sm.png")) // make sure the texture loads correctly.
@@ -169,9 +173,13 @@ int main()
 
             boid_movement(boid, window);
         }
+        // update the boid position.
         boid.update(0.01f);
         boid.draw(window);
 
-        window.display(); // display the new frame.
+        generate_scene(window);
+
+        // display the new frame.
+        window.display();
     }
 }

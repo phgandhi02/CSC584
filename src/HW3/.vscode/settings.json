@@ -99,5 +99,13 @@
     "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": false,
     "editor.wordWrap": "on",
     "search.useGlobalIgnoreFiles": false,
-    "explorer.excludeGitIgnore": true
+    "explorer.excludeGitIgnore": true,
+    "C_Cpp.codeAnalysis.exclude": {
+        "/home/prem/code/CSC584/src/HW3/build/**": true,
+        "/home/prem/code/CSC584/src/HW3/SFML/**": true
+    },
+    "files.exclude": {
+        "**/build": true,
+        "**/SFML": true
+    }
 }

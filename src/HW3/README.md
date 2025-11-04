@@ -23,9 +23,9 @@ or run the `./compile_and_test.sh` script from the project root directory.
 If the cmake doesn't work then try using the Makefile generated for the standard testing environment:
 
 ```bash
-   make clean
-   make
-   make run
-   ```
+make clean
+make
+make run
+```
 
 ## Interactive Controls 
