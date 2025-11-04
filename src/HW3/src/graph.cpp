@@ -1,4 +1,5 @@
 #include "../include/graph.hpp"
+#include <bits/stdc++.h>
 
 std::ostream &operator<<(std::ostream &os, Connection const &m)
 {
@@ -30,8 +31,6 @@ void Graph::addEdge(Connection connection)
 {
     graph.push_back(connection);
 };
-
-#include <bits/stdc++.h>
 
 /*
 src: https://www.geeksforgeeks.org/dsa/how-to-create-a-random-graph-in-c/
@@ -129,54 +128,6 @@ std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices, bool prin
     }
     return edges;
 }
-
-// // Function to generate random graph
-// std::vector<Connection> GenGridGraph(int numRows, int numCols)
-// {
-//     std::vector<std::vector<int>> matrix(numRows, std::vector<int>(numCols));
-//     // TODO: handle path to the outer rim of the map.
-//     // // cut the outer rows and columns of the map.
-//     // numRows = numRows - 2;
-//     // numCols = numCols - 2;
-//     int totalNodes = numRows * numCols;
-//     // int totalNumEdges = 9 * numRows * numCols;
-//     int totalNumEdges = 9 * (numRows - 2) * (numCols - 2) + 2 * numRows * 6 + 2 * numCols * 6 + 16;
-//     std::vector<Connection> edges;
-
-//     // float cost;
-//     srand(time(0));
-
-//     // Print the attributes of graph
-//     std::cout << "Grid graph generation: " << std::endl;
-//     std::cout << "The graph has " << totalNodes << " Nodes" << std::endl;
-//     std::cout << "and has " << totalNumEdges << " edges." << std::endl;
-
-//     int arr_index = 0;
-//     for (int i = 0; i <= numRows; i++)
-//     {
-//         for (int j = 0; j <= numCols; j++)
-//         {
-//             arr_index = i * numRows + j;
-//             if ((arr_index % numRows) == 0 || (arr_index % numRows) == numCols || arr_index <= numCols || arr_index >= numRows * numRows)
-//             {
-//                 continue;
-//             }
-//             else
-//             {
-//                 edges.emplace_back(Connection(arr_index, arr_index + 1, 1.0f));             // right
-//                 edges.emplace_back(Connection(arr_index, arr_index + numCols, 1.0f));       // down
-//                 edges.emplace_back(Connection(arr_index, arr_index - numCols, 1.0f));       // up
-//                 edges.emplace_back(Connection(arr_index, arr_index - 1, 1.0f));             // left
-//                 edges.emplace_back(Connection(arr_index, arr_index - numCols - 1, 1.414f)); // top left
-//                 edges.emplace_back(Connection(arr_index, arr_index - numCols + 1, 1.414f)); // top right
-//                 edges.emplace_back(Connection(arr_index, arr_index + numCols + 1, 1.414f)); // bottom right
-//                 edges.emplace_back(Connection(arr_index, arr_index + numCols - 1, 1.414f)); // bottom left
-//             }
-//         }
-//     }
-
-//     return edges;
-// }
 
 std::vector<Connection> GenGridGraph(int numRows, int numCols)
 {
