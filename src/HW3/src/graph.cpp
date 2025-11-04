@@ -168,3 +168,97 @@ std::vector<Connection> GenGridGraph(int numRows, int numCols)
     std::cout << "and has " << edges.size() << " edges." << std::endl;
     return edges;
 }
+
+std::vector<Connection> GenMapGraph(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map)
+{
+    std::vector<Connection> edges;
+    // std::cout << std::endl;
+    for (unsigned int i = 0; i < MAP_HEIGHT; i++)
+    {
+        for (unsigned int j = 0; j < MAP_WIDTH; j++)
+        {
+            int fromNode = static_cast<int>(i * MAP_WIDTH + j);
+            float cost = 1.0f;
+
+            if ((i == 0) | (i == MAP_HEIGHT) | (j == 0) | (j == MAP_WIDTH))
+            {
+                continue;
+            }
+            // select each element
+            auto cell = map[i][j];
+            if (cell == Cell::Empty)
+            {
+                if (map[i + 1][j] == Cell::Empty)
+                {
+                    int toNode = fromNode + static_cast<int>(MAP_WIDTH); // cell above
+                    edges.emplace_back(fromNode, toNode, cost);
+                }
+                if (map[i][j + 1] == Cell::Empty)
+                {
+                    int toNode = fromNode + 1; // cell to the right
+                    edges.emplace_back(fromNode, toNode, cost);
+                }
+                if (map[i - 1][j] == Cell::Empty)
+                {
+                    int toNode = fromNode - static_cast<int>(MAP_WIDTH); // cell below
+                    edges.emplace_back(fromNode, toNode, cost);
+                }
+                if (map[i][j - 1] == Cell::Empty)
+                {
+                    int toNode = fromNode - 1; // cell to the left
+                    edges.emplace_back(fromNode, toNode, cost);
+                }
+            }
+            // switch (map[i][j])
+            // {
+            // case Cell::Wall:
+            // {
+            //     std::cout << "#" << std::flush;
+            //     break;
+            // }
+            // default:
+            //     std::cout << "_" << std::flush;
+            //     break;
+            // }
+        }
+        // std::cout << std::endl;
+    }
+    return edges;
+}
+
+/**
+ * @brief Convert a sketch into a map to be drawn with draw_map().
+ *
+ * @param map_sketch array of strings where the string represents a row and the char index for each string is the column number. To index for row i, column j -> `map_sketch[i][j]`
+ * @return `std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> output_map`: collection of MAP_HEIGHT number of rows.
+ */
+std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> convert_sketch_to_map(std::array<std::string, MAP_HEIGHT> map_sketch)
+{
+    // std::cout << std::endl;
+    // The inner array contains each row. The outer array contains all the rows that make the map.
+    std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> output_map;
+    for (unsigned int i = 0; i < MAP_HEIGHT; i++) // loop for each row i in the map.
+    {
+        for (unsigned int j = 0; j < MAP_WIDTH; j++) // loop for elem j in the i row of the map
+        {
+            // ? why is this flipped?
+            output_map[i][j] = Cell::Empty;
+
+            switch (map_sketch[i][j])
+            {
+            case '#':
+            {
+                output_map[i][j] = Cell::Wall;
+                // std::cout << "#";
+                break;
+            }
+            default:
+                output_map[i][j] = Cell::Empty;
+                // std::cout << " ";
+                break;
+            }
+        }
+        // std::cout << std::endl;
+    }
+    return output_map;
+};

@@ -1,6 +1,8 @@
 #ifndef BOID_HPP
 #define BOID_HPP
 
+#include "../global.hpp"
+
 #include "./utils.hpp"
 #include "./steering_behavior.hpp"
 // Steering behavior libs
@@ -27,10 +29,12 @@ public:
     Boid(Boid &&other) = default; // move constructor
 
     // Basic Obj Functions
+    void update(float dt, std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map);
     void update(float dt);
     void draw(sf::RenderWindow &window);
     Static getCharacter() { return m_character; }
     KinematicSteeringOutput getSteering() { return m_steering; }
+    sf::Vector2f getPosition() { return m_character.getPosition(); }
     bool breadcrumbs_on = true;
     void setTexture(sf::Texture &texture);
     void setTarget(Static target) { m_target = target; };
@@ -39,7 +43,7 @@ public:
     float speed = 100.0f;
     float smoothing = 0.2f;
     std::unique_ptr<KinematicMovement> controller;
-    bool mouseInputOff = false;
+    bool mouseInputOn = true;
     Breadcrumbs breadcrumbs;
 
 private:

@@ -1,3 +1,4 @@
+#include "../include/global.hpp"
 #include "../include/graph.hpp"
 #include "../include/pathfinding_algos.hpp"
 
@@ -54,7 +55,7 @@ void boid_movement(Boid &boid, sf::Window &window)
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
     {
-        boid.controller = std::move(std::make_unique<KinematicArrive>(5.0f));
+        boid.controller = std::move(std::make_unique<KinematicArrive>(0.5f));
         std::cout << "Boid Arriving" << std::endl;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::E))
@@ -82,10 +83,90 @@ void boid_movement(Boid &boid, sf::Window &window)
         boid.controller = std::move(std::make_unique<Wander>(window.getSize().x, window.getSize().y));
         std::cout << "Boid Wander" << std::endl;
     }
+};
+
+void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
+{
+    auto cell_shape = sf::RectangleShape(sf::Vector2f(CELL_SIZE, CELL_SIZE));
+    for (unsigned int i = 0; i < MAP_HEIGHT; i++)
+    {
+        for (unsigned int j = 0; j < MAP_WIDTH; j++)
+        {
+            // indicies are switched because of SFML x-y direction convention
+            cell_shape.setPosition(sf::Vector2f(static_cast<float>(CELL_SIZE * j), static_cast<float>(CELL_SIZE * i)));
+
+            // map prints sideways so indices are switched.
+            switch (map[i][j])
+            {
+            case Cell::Wall:
+                cell_shape.setFillColor(sf::Color::Blue);
+                break;
+
+            default:
+                cell_shape.setFillColor(sf::Color::White);
+                break;
+            }
+            window.draw(cell_shape);
+        }
+    }
+};
+
+unsigned int calculateNodeIndex(sf::Vector2f position)
+{
+    return (static_cast<unsigned int>(position.y) / CELL_SIZE) * MAP_WIDTH + static_cast<unsigned int>(position.x) / CELL_SIZE;
 }
 
-void generate_scene(sf::RenderWindow &window)
+sf::Vector2f calculatePositionfromNode(unsigned int node)
 {
+    return sf::Vector2f(static_cast<float>(node % CELL_SIZE) * CELL_SIZE, static_cast<float>(node / CELL_SIZE) * CELL_SIZE);
+}
+std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
+{
+    std::array<std::string, MAP_HEIGHT> map_sketch = {
+        "  ####################################  ",
+        "          #        ##        #          ",
+        "                  ###### ### # ### ###  ",
+        "                   ##                   ",
+        "   ## # ##### # ## ## ## # ##### # ##   ",
+        "#     #   #   #    ##    #   #   #      ",
+        "#   # ### # ### ######## ### # ### ###  ",
+        "    # #       # #      # #       # #    ",
+        "##### # ##### # ######## # ##### # ### #",
+        "        #   #              #   #        ",
+        "##### # ##### # ######## # ##### # ### #",
+        "    # #       # #      # #       # #    ",
+        " #### # ##### # ######## # ##### # ###  ",
+        " #        #        ##        #          ",
+        " # ## ### # ### ## ## ## ### # ### ##   ",
+        " ## #     #     # #### #     #     # #  ",
+        " ## # # ##### # # #### # # ##### # # #  ",
+        " #    #   #   #    ##    #   #   #      ",
+        " # ###### # ###### ## ###### # ######   ",
+        " #                 ##                   ",
+        " #        #        ##        #          ",
+        " #### ### # ### ######## ### # ### ###  ",
+        " #                 ##                   ",
+        " # ## # ##### # ## ## ## # ##### # ##   ",
+        " #    #   #   #    ##    #   #   #      ",
+        " #### ### # ### ######## ### # ### ###  ",
+        "    # #       # #      # #       # #    ",
+        "##### # ##### # ######## # ##### # ### #",
+        "        #   #              #   #        ",
+        "##### # ##### # ######## # ##### # ### #",
+        "    # #       # #      # #       # #    ",
+        " #### # ##### # ######## # ##### # ###  ",
+        " #        #        ##        #          ",
+        " # ## ### # ### ## ## ## ### # ### ##   ",
+        " ## #     #     # #### #     #     # #  ",
+        " ## # # ##### # # #### # # ##### # # #  ",
+        " #    #   #   #    ##    #   #   #      ",
+        " # ###### # ###### ## ###### # ######   ",
+        " #                 ##                   ",
+        " #####################################  "};
+
+    // convert map_sketch into map
+    std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map = convert_sketch_to_map(map_sketch);
+    return map;
 }
 
 int main()
@@ -96,36 +177,48 @@ int main()
     // Seed the random number generator before using random numbers.
     srand(static_cast<unsigned>(time(0)));
     // create window object to render game.
-    auto window = sf::RenderWindow(sf::VideoMode({800u, 600u}), "CSC584 HW2: Steering Behaviors");
+    auto window = sf::RenderWindow(sf::VideoMode({800u, 800u}), "CSC584 HW2: Steering Behaviors");
     // set the framerate limit to 144 fps.
     window.setFramerateLimit(144);
     // create a texture object to load the boid image.
     sf::Texture texture;
     if (!texture.loadFromFile("/home/prem/code/CSC584/src/HW3/assets/boid-sm.png")) // make sure the texture loads correctly.
         return EXIT_FAILURE;
-    // sf::Sprite sprite(texture); // create a sprite object to represent the boid in the window.
-    Static startPos = Static(sf::Vector2f(400, 300), sf::degrees(0.0f));
+
+    // Convention for position: origin at the top-left corner. x axis points towards right on screen. y-axis points down on screen.
+    Static startPos = Static(sf::Vector2f(2 * CELL_SIZE, 1 * CELL_SIZE), sf::degrees(0.0f));
 
     Boid boid(texture, startPos, window);
+    boid.speed = 50.0f;
     auto seek_behavior = std::make_unique<KinematicSeek>();
     boid.controller = std::move(seek_behavior);
-    boid.mouseInputOff = true;
+    boid.mouseInputOn = false;
+    auto map = generate_scene();
 
     /* ------------------------------- Setup graph ------------------------------ */
     // Need to make a graph out of the window.
     Graph graph = Graph();
     std::cout << "Generating a graph!" << std::endl;
+    auto edges = GenMapGraph(map);
+    window.display();
 
-    // for (Connection &edge : edges)
-    // {
-    //     graph.addEdge(edge);
-    // }
+    for (Connection &edge : edges)
+    {
+        graph.addEdge(edge);
+    }
 
+    /* -------------------------- Setup Pathfinding Var ------------------------- */
     auto pathfinding = Pathfinding();
+    std::vector<Connection> path;
+    // stores the node value for start, current, mouse input, and the next target.
+    unsigned int startNode, currentNode, mouseNode, targetNode, goalNode;
+    sf::Vector2f targetPos; // stores the position of the next target
+    sf::Vector2f goalPos;   // stores the position of the goal
+    auto boid_position = boid.getPosition();
 
-    auto inputHandler = InputHandler(window);
-    auto prevTarget = inputHandler.update();
-    auto target = Static();
+    /* -------------------- Input Target Position from Mouse -------------------- */
+    auto inputHandler = InputHandler(window); // create input handler object
+    Static mouse;
 
     /* -------------------------------------------------------------------------- */
     /*                                  Game Loop                                 */
@@ -133,7 +226,7 @@ int main()
     while (window.isOpen())
     {
         window.clear(sf::Color::White); // clear the window with a white background.
-        target = inputHandler.update();
+        mouse = inputHandler.update();  // holds the position data for mouse
 
         while (const std::optional event = window.pollEvent()) // event polling loop.
         {
@@ -142,13 +235,52 @@ int main()
                 window.close();
             }
 
-            boid_movement(boid, window);
+            boid_movement(boid, window); // change boid movement algorithm based on keyboard input
         }
+        boid_position = boid.getPosition(); // store boid position
+
+        draw_map(map, window); // draw map
+
+        if (path.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
+        {
+            /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
+            boid_position = boid.getPosition();
+            startNode = calculateNodeIndex(boid_position);
+            currentNode = startNode;
+            goalNode = 1501;
+            goalPos = calculatePositionfromNode(goalNode);
+            path = pathfinding.DijkstraAlgorithm(graph, startNode, goalNode);
+            /* ------------------- Set the first waypoint for the boid ------------------ */
+            targetNode = path.back().getToNode();
+            sf::Vector2f targetPos = calculatePositionfromNode(targetNode);
+            Static target = Static(targetPos, sf::degrees(0.0f));
+            boid.setTarget(target);
+            path.pop_back();
+        }
+        else // continue following existing path
+        {
+            // Calculate currentNode, mouseNode
+            currentNode = calculateNodeIndex(boid_position);
+            mouseNode = calculateNodeIndex(mouse.getPosition());
+
+            if (currentNode == targetNode) // once boid reaches targetNode then set it to the next node
+            {
+                int targetNode = path.back().getToNode();
+                sf::Vector2f nextTargetPosition = calculatePositionfromNode(targetNode);
+                Static nextTarget = Static(nextTargetPosition, sf::degrees(0.0f));
+                boid.setTarget(nextTarget);
+                path.pop_back();
+            }
+        }
+        std::cout << std::endl;
+        std::cout << "Boid: " << boid_position.x << " | " << boid_position.y << " | " << currentNode << std::endl;
+        std::cout << "Mouse: " << mouse.getPosition().x << " | " << mouse.getPosition().y << " | " << mouseNode << std::endl;
+        std::cout << "Target: " << targetPos.x << " | " << targetPos.y << " | " << targetNode << std::endl;
+        std::cout << "Goal: " << goalPos.x << " | " << goalPos.y << " | " << goalNode << std::endl;
+
         // update the boid position.
         boid.update(0.01f);
         boid.draw(window);
-
-        generate_scene(window);
 
         // display the new frame.
         window.display();

@@ -1,5 +1,6 @@
 #ifndef GRAPH_HPP
 #define GRAPH_HPP
+#include "global.hpp"
 
 #include <string>
 #include <vector>
@@ -96,11 +97,15 @@ private:
 };
 
 // Function to generate random graph
-std::vector<Connection> GenGridGraph(int numRows, int numCols);
-
-// Function to generate random graph
 std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices);
 // Function to generate random graph
 std::vector<Connection> GenRandomGraphs(int numEdges, int numVertices, bool printGraph);
+
+// Function to generate open Grid graph
+std::vector<Connection> GenGridGraph(int numRows, int numCols);
+
+std::vector<Connection> GenMapGraph(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map);
+
+std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> convert_sketch_to_map(std::array<std::string, MAP_HEIGHT> map_sketch);
 
 #endif
