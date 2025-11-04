@@ -90,7 +90,7 @@ AStarNodeRecord PathfindingList<NodeRecordType>::smallestElement(AStarNodeRecord
 }
 
 // template <typename NodeRecordType>
-std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, int end)
+std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph &graph, int start, int end)
 {
     // Step 0
     NodeRecord startRecord(start, start, 0.0f);
@@ -111,15 +111,15 @@ std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, i
         {
             break;
         }
-        // if (!current.connection.isConnected())
-        // {
-        //     continue;
-        // }
         auto connections = graph.getNodes(current.node);
 
         // Loop through each connection of the smallest element and check if it's on the open list, closed list, or unvisited.
         for (auto &connection : connections)
         {
+            if (!connection.isConnectedToDifferentNode())
+            {
+                continue;
+            }
             // std::cout << connection << std::endl;
 
             // ToNode of the current connection
@@ -185,14 +185,14 @@ std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph graph, int start, i
             current = closedList.find(current.connection.getFromNode());
         }
 
-        std::reverse(path.begin(), path.end());
+        // std::reverse(path.begin(), path.end());
 
         return path;
     }
 };
 
 // template <typename NodeRecordType>
-std::vector<Connection> Pathfinding::Astar(Graph graph, int start, int end, Heuristic &heuristic)
+std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heuristic &heuristic)
 {
 
     // Step 0
@@ -216,10 +216,7 @@ std::vector<Connection> Pathfinding::Astar(Graph graph, int start, int end, Heur
         {
             break;
         }
-        // if (!current.connection.isConnected())
-        // {
-        //     continue;
-        // }
+
         auto connections = graph.getNodes(current.node);
 
         // Loop through each connection of the smallest element and check if it's on the open list, closed list, or unvisited.
@@ -232,6 +229,11 @@ std::vector<Connection> Pathfinding::Astar(Graph graph, int start, int end, Heur
             float endNodeCost = current.costSoFar + connection.getCost();
             AStarNodeRecord endNodeRecord = AStarNodeRecord(endNode);
             float endNodeHeuristic = 0.0f;
+
+            if (!current.connection.isConnectedToDifferentNode())
+            {
+                continue;
+            }
 
             // Skip if the node is on the closed list.
             // This means that we have explored all the nodes connected to this node.
@@ -315,7 +317,7 @@ std::vector<Connection> Pathfinding::Astar(Graph graph, int start, int end, Heur
             current = closedList.find(current.connection.getFromNode());
         }
 
-        std::reverse(path.begin(), path.end());
+        // std::reverse(path.begin(), path.end());
 
         return path;
     }

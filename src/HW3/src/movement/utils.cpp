@@ -26,7 +26,7 @@ Static InputHandler::update()
     {
         auto targetPos = sf::Vector2f(mousePosition.x, mousePosition.y);
         target = Static(targetPos, sf::degrees(0.f));
-        // std::cout << "x: " << targetPos.x << "," << targetPos.y << std::endl;
+        std::cout << "x: " << targetPos.x << "," << targetPos.y << std::endl;
     }
     else
     {
