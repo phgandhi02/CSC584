@@ -202,7 +202,7 @@ int main()
     auto pathfinding = Pathfinding();
     std::vector<Connection> path;
     // stores the node value for start, current, mouse input, and the next target.
-    unsigned int startNode, currentNode, mouseNode, targetNode, goalNode;
+    unsigned int startNode, currentNode, targetNode, goalNode;
     goalNode = 1055;        // known empty cell
     sf::Vector2f targetPos; // stores the position of the next target
     sf::Vector2f goalPos;   // stores the position of the goal
