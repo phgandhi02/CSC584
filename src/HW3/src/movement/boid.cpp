@@ -6,13 +6,12 @@
 const float PI_F = 3.14159265358979f;
 
 Boid::Boid(const sf::Texture &texture, Static startPos, sf::RenderWindow &window)
-    : m_sprite(texture), m_inputHandler(window), breadcrumbs(startPos, 100)
+    : breadcrumbs(startPos, 100), m_sprite(texture), m_inputHandler(window)
 {
     m_sprite.setPosition(startPos.getPosition());
     m_sprite.setRotation(startPos.getOrientation());
     breadcrumbs_on = true;
     m_character = startPos;
-    float m_rotation;
 };
 
 // Main function to run in the game loop. Updates boid m_character based on steering behavior pointed to m_controller.
