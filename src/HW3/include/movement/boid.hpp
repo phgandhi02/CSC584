@@ -29,7 +29,6 @@ public:
     Boid(Boid &&other) = default; // move constructor
 
     // Basic Obj Functions
-    void update(float dt, std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map);
     void update(float dt);
     void draw(sf::RenderWindow &window);
     Static getCharacter() { return m_character; }
