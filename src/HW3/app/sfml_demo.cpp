@@ -241,6 +241,7 @@ int main()
             path = std::vector<Connection>{};
             goalPos = mouse.getPosition();
             goalNode = calculateNodeIndex(goalPos);
+            goalNode = (goalNode < MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT) ? goalNode : 1055;
         }
 
         if (path.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
@@ -254,20 +255,22 @@ int main()
                 goalPos = calculatePositionfromNode(goalNode);
                 path = pathfinding.DijkstraAlgorithm(graph, startNode, goalNode);
                 /* ------------------- Set the first waypoint for the boid ------------------ */
-                targetNode = path.back().getToNode();
-                targetPos = calculatePositionfromNode(targetNode);
-                target = Static(targetPos, sf::degrees(0.0f));
-                boid.setTarget(target);
-                path.pop_back();
+                if (!path.empty())
+                {
+                    targetNode = path.back().getToNode();
+                    targetPos = calculatePositionfromNode(targetNode);
+                    target = Static(targetPos, sf::degrees(0.0f));
+                    boid.setTarget(target);
+                    path.pop_back();
+                }
             }
         }
         else // continue following existing path
         {
             // Calculate currentNode, mouseNode
             currentNode = calculateNodeIndex(boid_position);
-            mouseNode = calculateNodeIndex(mouse.getPosition());
 
-            if (currentNode == targetNode) // once boid reaches targetNode then set it to the next node
+            if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
             {
                 targetNode = path.back().getToNode();
                 targetPos = calculatePositionfromNode(targetNode);
@@ -275,12 +278,17 @@ int main()
                 boid.setTarget(target);
                 path.pop_back();
             }
+            else if (targetNode == goalNode)
+            {
+                targetPos = calculatePositionfromNode(targetNode);
+                target = Static(targetPos, sf::degrees(0.0f));
+                boid.setTarget(target);
+            }
         }
-        std::cout << std::endl;
-        std::cout << "Boid: " << boid_position.x << " | " << boid_position.y << " | " << currentNode << std::endl;
+        // std::cout << std::endl;
+        // std::cout << "Boid: " << boid_position.x << " | " << boid_position.y << " | " << currentNode << std::endl;
         // std::cout << "Mouse: " << mouse.getPosition().x << " | " << mouse.getPosition().y << " | " << mouseNode << std::endl;
-        std::cout << "Target: " << targetPos.x << " | " << targetPos.y << " | " << targetNode << std::endl;
-        // std::cout << "Goal: " << goalPos.x << " | " << goalPos.y << " | " << goalNode << std::endl;
+        // std::cout << "Target: " << targetPos.x << " | " << targetPos.y << " | " << targetNode << std::endl;
 
         // update the boid position.
         boid.update(0.01f);
