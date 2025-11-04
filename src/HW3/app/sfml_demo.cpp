@@ -115,32 +115,18 @@ int main()
     // Need to make a graph out of the window.
     Graph graph = Graph();
     std::cout << "Generating a graph!" << std::endl;
-    auto edges = GenGridGraph(window.getSize().x / 2, window.getSize().y / 2);
 
-    // std::vector<std::vector<int>> matrix(4, std::vector<int>(4));
+    // for (Connection &edge : edges)
+    // {
+    //     graph.addEdge(edge);
+    // }
 
-    // auto edges = GenGridGraph(4, 4);
-
-    for (Connection &edge : edges)
-    {
-        graph.addEdge(edge);
-    }
     auto pathfinding = Pathfinding();
 
     auto inputHandler = InputHandler(window);
-
-    int x_pos, y_pos;
     auto prevTarget = inputHandler.update();
     auto target = Static();
 
-    // int startNode = (window.getSize().x / 2) * window.getSize().x + (window.getSize().y / 2);
-    int startNode = 100;
-
-    auto path = pathfinding.DijkstraAlgorithm(graph, startNode, prevTarget.getPosition().x * window.getSize().x + prevTarget.getPosition().y);
-    x_pos = path.back().getToNode() / window.getSize().y;
-    y_pos = path.back().getToNode() % window.getSize().y;
-    auto boidWaypoint = Static(sf::Vector2f(x_pos, y_pos), sf::degrees(0));
-    boid.setTarget(boidWaypoint);
     /* -------------------------------------------------------------------------- */
     /*                                  Game Loop                                 */
     /* -------------------------------------------------------------------------- */
@@ -148,21 +134,6 @@ int main()
     {
         window.clear(sf::Color::White); // clear the window with a white background.
         target = inputHandler.update();
-        if ((prevTarget == target) == false)
-        {
-            path = pathfinding.DijkstraAlgorithm(graph, 1, target.getPosition().x * window.getSize().x + target.getPosition().y);
-        }
-        else
-        {
-            if (static_cast<sf::Vector2i>(boid.getCharacter().getPosition()) == static_cast<sf::Vector2i>(boidWaypoint.getPosition()))
-            {
-                x_pos = path.back().getToNode() / window.getSize().y;
-                y_pos = path.back().getToNode() % window.getSize().y;
-                boidWaypoint = Static(sf::Vector2f(x_pos, y_pos), sf::degrees(0));
-                boid.setTarget(boidWaypoint);
-                path.pop_back();
-            }
-        }
 
         while (const std::optional event = window.pollEvent()) // event polling loop.
         {
