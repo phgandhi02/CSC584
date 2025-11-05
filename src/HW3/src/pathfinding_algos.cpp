@@ -212,28 +212,31 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
         // get the smallest element in the open list
         current = openList.smallestElement(current);
 
+        // If it is the goal node then terminate.
         if (current.node == end)
         {
             break;
         }
 
+        // Otherwise get its outgoing connections
         auto connections = graph.getNodes(current.node);
 
         // Loop through each connection of the smallest element and check if it's on the open list, closed list, or unvisited.
         for (auto &connection : connections)
         {
-            // std::cout << connection << std::endl;
-
-            // ToNode of the current connection
-            int endNode = connection.getToNode();
-            float endNodeCost = current.costSoFar + connection.getCost();
-            AStarNodeRecord endNodeRecord = AStarNodeRecord(endNode);
-            float endNodeHeuristic = 0.0f;
-
+            // make sure the current connection is actually connected to a different node.
             if (!current.connection.isConnectedToDifferentNode())
             {
                 continue;
             }
+            // std::cout << connection << std::endl;
+
+            // Get the cost estimate for the endNode
+            int endNode = connection.getToNode();
+            float endNodeCost = current.costSoFar + connection.getCost();
+
+            AStarNodeRecord endNodeRecord = AStarNodeRecord(endNode);
+            float endNodeHeuristic = 0.0f;
 
             // Skip if the node is on the closed list.
             // This means that we have explored all the nodes connected to this node.
@@ -242,6 +245,7 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
                 // find the record in the closed list corresponding to the endNode
                 endNodeRecord = closedList.find(endNode);
 
+                // if we didn't find a shorter route, then skip.
                 if (endNodeRecord.costSoFar <= endNodeCost)
                     continue;
                 else
