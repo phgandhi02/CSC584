@@ -197,7 +197,7 @@ int main()
     auto pathfinding = Pathfinding();
     std::vector<Connection> path;
     // stores the node value for start, current, mouse input, and the next target.
-    unsigned int startNode, currentNode, mouseNode, targetNode, goalNode;
+    unsigned int startNode, currentNode, targetNode, goalNode;
     goalNode = 1055;        // known empty cell
     sf::Vector2f targetPos; // stores the position of the next target
     sf::Vector2f goalPos;   // stores the position of the goal
@@ -285,7 +285,7 @@ int main()
         }
         std::cout << std::endl;
         std::cout << "Boid: " << boid_position.x << " | " << boid_position.y << " | " << currentNode << std::endl;
-        std::cout << "Mouse: " << mouse.getPosition().x << " | " << mouse.getPosition().y << " | " << mouseNode << std::endl;
+        std::cout << "Mouse: " << mouse.getPosition().x << " | " << mouse.getPosition().y << std::endl;
         std::cout << "Target: " << targetPos.x << " | " << targetPos.y << " | " << targetNode << std::endl;
 
         // update the boid position.

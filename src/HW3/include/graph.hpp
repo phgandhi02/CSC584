@@ -34,7 +34,7 @@ public:
     int getCost() { return this->m_cost; }
     int getFromNode() { return this->m_fromNode; }
     int getToNode() { return this->m_toNode; }
-    // check if fromNode is connected to different toNode.
+    // return true if the fromNode is different than the toNode.
     bool isConnectedToDifferentNode() { return (m_fromNode != m_toNode) ? true : false; }
 
     void setCost(float cost) { this->m_cost = cost; }
