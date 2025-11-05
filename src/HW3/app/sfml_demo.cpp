@@ -163,14 +163,11 @@ std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
 int main()
 {
     /* ------------------------------- Setup Boid ------------------------------- */
-
-    std::cout << "Program Running!" << std::endl;
     // Seed the random number generator before using random numbers.
     srand(static_cast<unsigned>(time(0)));
     // create window object to render game.
     auto window = sf::RenderWindow(sf::VideoMode({800u, 800u}), "CSC584 HW2: Steering Behaviors");
-    // set the framerate limit to 144 fps.
-    window.setFramerateLimit(144);
+    window.setFramerateLimit(144); // set the framerate limit to 144 fps.
     // create a texture object to load the boid image.
     sf::Texture texture;
     if (!texture.loadFromFile("/home/prem/code/CSC584/src/HW3/assets/boid-sm.png")) // make sure the texture loads correctly.
@@ -187,12 +184,10 @@ int main()
     auto map = generate_scene();
 
     /* ------------------------------- Setup graph ------------------------------ */
-    // Need to make a graph out of the window.
     Graph graph = Graph();
     std::cout << "Generating a graph!" << std::endl;
     auto edges = GenMapGraph(map);
     window.display();
-
     for (Connection &edge : edges)
     {
         graph.addEdge(edge);
@@ -202,7 +197,7 @@ int main()
     auto pathfinding = Pathfinding();
     std::vector<Connection> path;
     // stores the node value for start, current, mouse input, and the next target.
-    unsigned int startNode, currentNode, targetNode, goalNode;
+    unsigned int startNode, currentNode, mouseNode, targetNode, goalNode;
     goalNode = 1055;        // known empty cell
     sf::Vector2f targetPos; // stores the position of the next target
     sf::Vector2f goalPos;   // stores the position of the goal
@@ -235,6 +230,7 @@ int main()
 
         draw_map(map, window); // draw map
 
+        // check if there's mouse input. If true, set new target to the mouse input.
         if (!mouse.operator==(noTarget))
         {
             boid_position = boid.getPosition();
@@ -244,6 +240,7 @@ int main()
             goalNode = (goalNode < MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT) ? goalNode : 1055;
         }
 
+        // create a path to goal node or follow an existing path.
         if (path.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
         {
             if (currentNode != goalNode)
@@ -253,7 +250,8 @@ int main()
                 startNode = calculateNodeIndex(boid_position);
                 currentNode = startNode;
                 goalPos = calculatePositionfromNode(goalNode);
-                path = pathfinding.DijkstraAlgorithm(graph, startNode, goalNode);
+                EuclidianHeuristic heuristic;
+                path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
                 /* ------------------- Set the first waypoint for the boid ------------------ */
                 if (!path.empty())
                 {
@@ -285,10 +283,10 @@ int main()
                 boid.setTarget(target);
             }
         }
-        // std::cout << std::endl;
-        // std::cout << "Boid: " << boid_position.x << " | " << boid_position.y << " | " << currentNode << std::endl;
-        // std::cout << "Mouse: " << mouse.getPosition().x << " | " << mouse.getPosition().y << " | " << mouseNode << std::endl;
-        // std::cout << "Target: " << targetPos.x << " | " << targetPos.y << " | " << targetNode << std::endl;
+        std::cout << std::endl;
+        std::cout << "Boid: " << boid_position.x << " | " << boid_position.y << " | " << currentNode << std::endl;
+        std::cout << "Mouse: " << mouse.getPosition().x << " | " << mouse.getPosition().y << " | " << mouseNode << std::endl;
+        std::cout << "Target: " << targetPos.x << " | " << targetPos.y << " | " << targetNode << std::endl;
 
         // update the boid position.
         boid.update(0.01f);
