@@ -189,7 +189,6 @@ std::vector<Connection> Pathfinding::DijkstraAlgorithm(Graph &graph, int start, 
     }
 };
 
-// template <typename NodeRecordType>
 std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heuristic &heuristic)
 {
 
@@ -227,7 +226,6 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
             {
                 continue;
             }
-            // std::cout << connection << std::endl;
 
             // Get the cost estimate for the endNode
             int endNode = connection.getToNode();
@@ -246,17 +244,11 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
                 // if we didn't find a shorter route, then skip.
                 if (endNodeRecord.costSoFar <= endNodeCost)
                     continue;
-                // else
-                // {
 
                 // otherwise remove endNodeRecord from closed list
                 closedList.subtract(endNodeRecord);
                 // use the node's old cost values to calculate its heuristic without calling the possibly expensive heuristic function.
                 endNodeHeuristic = endNodeRecord.estimatedTotalCost - endNodeRecord.costSoFar;
-
-                // maybe delete
-                // endNodeRecord.estimatedTotalCost = endNodeCost + endNodeHeuristic;
-                // }
             }
             // check if the node is on the openlist.
             // if it is on the open list then we want to see if this is a worse route.
@@ -269,18 +261,10 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
 
                     // if our route is no better, then skip
                     if (endNodeRecord.costSoFar <= endNodeCost)
-                    {
                         continue;
-                    }
-                    // else
-                    // {
-                    // otherwise remove endNodeRecord from closed list
-                    // closedList.subtract(endNodeRecord);
-                    // use the node's old cost values to calculate its heuristic without calling the possibly expensive heuristic function.
 
                     // again, we can calculate its heuristic
                     endNodeHeuristic = endNodeRecord.getCost() - endNodeRecord.costSoFar;
-                    // }
                 }
                 else // otherwise we know we've got an unvisited node, so we make a record for it.
                 {
@@ -307,10 +291,6 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
         }
         openList.subtract(current);
         closedList.add(current);
-        // std::cout << "Open List" << std::endl;
-        // std::cout << openList << std::endl;
-        // std::cout << "Closed List" << std::endl;
-        // std::cout << closedList << std::endl;
     }
 
     if (current.node != end)
@@ -327,9 +307,6 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
             path.push_back(current.connection);
             current = closedList.find(current.connection.getFromNode());
         }
-
-        // std::reverse(path.begin(), path.end());
-
         return path;
     }
 };
