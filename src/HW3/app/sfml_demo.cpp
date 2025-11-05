@@ -152,8 +152,6 @@ int main()
             {
                 window.close();
             }
-
-            // boid_movement(boid, window); // change boid movement algorithm based on keyboard input
         }
         boid_position = boid.getPosition(); // store boid position
 
@@ -174,13 +172,24 @@ int main()
         {
             if (currentNode != goalNode)
             {
-                /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
+                /* ------------------------ Run A* Algorithm ------------------------ */
+                // std::cout << "Graph Analysis Running!" << std::endl;
                 boid_position = boid.getPosition();
                 startNode = calculateNodeIndex(boid_position);
                 currentNode = startNode;
                 goalPos = calculatePositionfromNode(goalNode);
                 EuclidianHeuristic heuristic;
+                // auto start = std::chrono::high_resolution_clock::now();
                 path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
+                // path = pathfinding.DijkstraAlgorithm(graph, startNode, goalNode);
+                // auto stop = std::chrono::high_resolution_clock::now();
+                // std::cout << "Graph Analysis Complete!" << std::endl;
+                // for (auto &connection : path)
+                // {
+                //     std::cout << connection << std::endl;
+                // }
+                // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+                // std::cout << "Euclidean Heuristic took " << duration.count() << " microseconds" << std::endl;
                 /* ------------------- Set the first waypoint for the boid ------------------ */
                 if (!path.empty())
                 {
