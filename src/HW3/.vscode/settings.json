@@ -107,5 +107,8 @@
     "files.exclude": {
         "**/build": true,
         "**/SFML": true
-    }
+    },
+    "conventionalCommits.scopes": [
+        "build"
+    ]
 }

@@ -3,6 +3,40 @@
 
 #include <chrono>
 
+void RunDijkstra(Graph graph, int startNode, int goalNode)
+{
+    std::cout << "Graph Analysis Running!" << std::endl;
+    auto pathfinding = Pathfinding();
+
+    auto start = std::chrono::high_resolution_clock::now();
+    auto path = pathfinding.DijkstraAlgorithm(graph, startNode, goalNode);
+    // After function call
+    auto stop = std::chrono::high_resolution_clock::now();
+    for (auto &connection : path)
+    {
+        std::cout << connection << std::endl;
+    }
+    std::cout << "Graph Analysis Complete!" << std::endl;
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    std::cout << "Dijkstra took " << duration.count() << " microseconds" << std::endl;
+}
+
+void RunAstar(Graph graph, Heuristic &heuristic, int startNode, int goalNode)
+{
+    auto pathfinding = Pathfinding();
+    auto start = std::chrono::high_resolution_clock::now();
+    auto path = pathfinding.Astar(graph, 1, 7, heuristic);
+    auto stop = std::chrono::high_resolution_clock::now();
+    for (auto &connection : path)
+    {
+        std::cout << connection << std::endl;
+    }
+    std::cout << "Graph Analysis Complete!" << std::endl;
+
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    std::cout << "A* with Heuristic took " << duration.count() << " microseconds" << std::endl;
+}
+
 int main()
 {
     std::cout << "Program Running!" << std::endl;
@@ -17,32 +51,12 @@ int main()
         graph.addEdge(edge);
     }
 
-    std::cout << "Graph Analysis Running!" << std::endl;
-    auto pathfinding = Pathfinding();
+    RunDijkstra(graph, 1, 7);
+    auto euclidianHeuristic = EuclidianHeuristic();
+    RunAstar(graph, euclidianHeuristic, 1, 7);
 
-    auto start = std::chrono::high_resolution_clock::now();
-    auto path = pathfinding.DijkstraAlgorithm(graph, 1, 7);
-    // After function call
-    auto stop = std::chrono::high_resolution_clock::now();
-    for (auto &connection : path)
-    {
-        std::cout << connection << std::endl;
-    }
-    std::cout << "Graph Analysis Complete!" << std::endl;
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "Dijkstra took " << duration.count() << " microseconds" << std::endl;
+    auto manhattanHeuristic = ManhattanHeuristic();
+    RunAstar(graph, manhattanHeuristic, 1, 7);
 
-    start = std::chrono::high_resolution_clock::now();
-    auto heuristic = EuclidianHeuristic();
-    path = pathfinding.Astar(graph, 1, 7, heuristic);
-    stop = std::chrono::high_resolution_clock::now();
-    for (auto &connection : path)
-    {
-        std::cout << connection << std::endl;
-    }
-    std::cout << "Graph Analysis Complete!" << std::endl;
-
-    duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "Dijkstra took " << duration.count() << " microseconds" << std::endl;
     return 0;
 }
