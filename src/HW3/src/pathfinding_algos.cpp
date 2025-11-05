@@ -248,16 +248,17 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
                 // if we didn't find a shorter route, then skip.
                 if (endNodeRecord.costSoFar <= endNodeCost)
                     continue;
-                else
-                {
-                    // otherwise remove endNodeRecord from closed list
-                    closedList.subtract(endNodeRecord);
-                    // use the node's old cost values to calculate its heuristic without calling the possibly expensive heuristic function.
-                    endNodeHeuristic = endNodeRecord.estimatedTotalCost - endNodeRecord.costSoFar;
+                // else
+                // {
 
-                    // maybe delete
-                    endNodeRecord.estimatedTotalCost = endNodeCost + endNodeHeuristic;
-                }
+                // otherwise remove endNodeRecord from closed list
+                closedList.subtract(endNodeRecord);
+                // use the node's old cost values to calculate its heuristic without calling the possibly expensive heuristic function.
+                endNodeHeuristic = endNodeRecord.estimatedTotalCost - endNodeRecord.costSoFar;
+
+                // maybe delete
+                // endNodeRecord.estimatedTotalCost = endNodeCost + endNodeHeuristic;
+                // }
             }
             // check if the node is on the openlist.
             // if it is on the open list then we want to see if this is a worse route.
