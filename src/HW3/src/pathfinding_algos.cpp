@@ -222,7 +222,7 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
         for (auto &connection : connections)
         {
             // make sure the current connection is actually connected to a different node.
-            if (!current.connection.isConnectedToDifferentNode())
+            if (!connection.isConnectedToDifferentNode())
             {
                 continue;
             }
