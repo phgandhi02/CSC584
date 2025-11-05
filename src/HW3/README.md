@@ -1,8 +1,5 @@
 # CSC584 HW3 README
 
-## Features
-
-
 ## Build the project
 
 1. Configure and build the project.
@@ -12,20 +9,26 @@
    ```bash
    cmake -S . -B build
    cmake --build build
+   cd ./build/bin/
+   ./graph_analysis # run this command to run the graph analysis
+   ./sfml_demo # run this command to run the demo integrating pathfinding into HW2
    ```
 
 or run the `./compile_and_test.sh` script from the project root directory.
-
-1. Run the executable at `./build/bin/main`.
-
 ---
 
 If the cmake doesn't work then try using the Makefile generated for the standard testing environment:
 
 ```bash
+cd cmake-build/
 make clean
 make
 make run
 ```
 
-## Interactive Controls 
+# Run Project
+From the `build/bin/` directory, run the following commands to execute the programs:
+```bash
+./graph_analysis
+./sfml_demo
+```
