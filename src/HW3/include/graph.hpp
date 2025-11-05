@@ -78,6 +78,7 @@ public:
     {
         return (node == rhs.node && connection == rhs.connection && costSoFar == rhs.costSoFar && estimatedTotalCost == rhs.estimatedTotalCost);
     }
+    float getCost() { return connection.getCost(); }
     float estimatedTotalCost = 0.0f;
 };
 

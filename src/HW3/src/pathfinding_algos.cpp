@@ -74,9 +74,7 @@ NodeRecord PathfindingList<NodeRecordType>::smallestElement(NodeRecord &smallest
 template <typename NodeRecordType>
 AStarNodeRecord PathfindingList<NodeRecordType>::smallestElement(AStarNodeRecord &smallestRecord)
 {
-    // std::cout << "Looking for smallest node: " << std::endl;
     auto lowestEstimatedTotalCostSoFar = nodeRecords[0].estimatedTotalCost;
-    // auto smallestRecord = nodeRecords[0];
 
     for (auto &record : nodeRecords)
     {
@@ -264,39 +262,47 @@ std::vector<Connection> Pathfinding::Astar(Graph &graph, int start, int end, Heu
             // if it is on the open list then we want to see if this is a worse route.
             else
             {
-                // AStarNodeRecord endNodeRecord = AStarNodeRecord(endNode);
                 if (openList.contains(endNode))
                 {
-                    // check if the toNode of the current connection is in the openlist.
+                    // check if the toNode/endNode of the current connection is in the openlist.
                     endNodeRecord = openList.find(endNode);
+
+                    // if our route is no better, then skip
                     if (endNodeRecord.costSoFar <= endNodeCost)
                     {
                         continue;
                     }
-                    else
-                    {
-                        // otherwise remove endNodeRecord from closed list
-                        closedList.subtract(endNodeRecord);
-                        // use the node's old cost values to calculate its heuristic without calling the possibly expensive heuristic function.
-                        endNodeHeuristic = endNodeRecord.estimatedTotalCost - endNodeRecord.costSoFar;
-                    }
+                    // else
+                    // {
+                    // otherwise remove endNodeRecord from closed list
+                    // closedList.subtract(endNodeRecord);
+                    // use the node's old cost values to calculate its heuristic without calling the possibly expensive heuristic function.
+
+                    // again, we can calculate its heuristic
+                    endNodeHeuristic = endNodeRecord.getCost() - endNodeRecord.costSoFar;
+                    // }
                 }
-                else
+                else // otherwise we know we've got an unvisited node, so we make a record for it.
                 {
-                    // Unvisited node so we need to make a new record
-                    endNodeRecord = AStarNodeRecord(endNode, connection.getToNode(), connection.getCost());
+                    /* ------------- Unvisited node so we need to make a new record ------------- */
+                    // create a new node
+                    endNodeRecord = AStarNodeRecord(endNode);
+                    // set the NodeRecord's node equal to the endNode
                     endNodeRecord.estimatedTotalCost = heuristic.estimate(endNode);
-                }
 
-                endNodeRecord.costSoFar = endNodeCost; // update costSoFar with connection cost
-                endNodeRecord.connection = connection; // update with connection from the fromNode to the toNode.
-                endNodeRecord.estimatedTotalCost = endNodeCost + endNodeHeuristic;
-
-                // add it to the openList
-                if (!openList.contains(endNode))
-                {
-                    openList.add(endNodeRecord);
+                    // We'll need to calculate the heuristic value using the function, since we don't have an existing record to use.
+                    endNodeHeuristic = heuristic.estimate(endNode);
                 }
+            }
+
+            endNodeRecord.costSoFar = endNodeCost; // update costSoFar with connection cost
+            endNodeRecord.connection = connection; // update with connection from the fromNode to the toNode.
+            endNodeRecord.estimatedTotalCost = endNodeCost + endNodeHeuristic;
+
+            // add it to the openList
+            if (!openList.contains(endNode))
+            {
+                openList.add(endNodeRecord);
             }
         }
         openList.subtract(current);
