@@ -51,6 +51,16 @@ int main()
         graph.addEdge(edge);
     }
 
+    Graph smallGraph = Graph();
+    smallGraph.addEdge(Connection(1, 2, 1.3f));
+    smallGraph.addEdge(Connection(1, 3, 1.6f));
+    smallGraph.addEdge(Connection(1, 4, 3.3f));
+    smallGraph.addEdge(Connection(2, 5, 1.5f));
+    smallGraph.addEdge(Connection(2, 6, 1.9f));
+    smallGraph.addEdge(Connection(3, 4, 1.3f));
+    smallGraph.addEdge(Connection(6, 7, 1.4f));
+    RunDijkstra(smallGraph, 1, 7);
+
     RunDijkstra(graph, 1, 7);
     auto euclidianHeuristic = EuclidianHeuristic();
     RunAstar(graph, euclidianHeuristic, 1, 7);

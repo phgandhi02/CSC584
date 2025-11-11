@@ -32,3 +32,9 @@ From the `build/bin/` directory, run the following commands to execute the progr
 ./graph_analysis
 ./sfml_demo
 ```
+
+## Graph Analysis
+This program demonstrates parts 1,2, and 3 of the assignment.
+
+## SFML Demo
+This program demonstrates part 4 of the assignment.
