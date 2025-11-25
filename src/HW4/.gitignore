@@ -1,0 +1,11 @@
+LICENSE.md
+TODO.txt
+SFML
+build
+out
+*.pdf
+*.pdf:Zone.Identifier
+.cache
+.idea
+.vs
+cmake-build/
