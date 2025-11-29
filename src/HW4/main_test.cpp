@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "tests/decision_trees_unittest.cpp"
+#include "tests/decision_trees_test.cpp"
 
 // Tests the main file logic. Will always fail.
 TEST(MainTestCase, MainCompleted)

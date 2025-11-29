@@ -41,11 +41,11 @@ target_include_directories(DecisionMakingLib PUBLIC include)
 file(GLOB_RECURSE TESTS "tests/*.cpp")
 
 # --- Create The Test Executable ---
-add_executable(test_main test_main.cpp)
+add_executable(main_test main_test.cpp)
 
 # Link DecisionMakingLib and gtest_main to the runTests program
 add_library(TestLib ${TESTS})
-target_link_libraries(test_main PRIVATE DecisionMakingLib TestLib gtest_main)
+target_link_libraries(main_test PRIVATE DecisionMakingLib TestLib gtest_main)
 
 # Automatically find all the tests in your test runner
-gtest_discover_tests(test_main)
+gtest_discover_tests(main_test)
