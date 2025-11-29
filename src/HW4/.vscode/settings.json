@@ -93,7 +93,7 @@
         "valarray": "cpp"
     },
     "C_Cpp.codeAnalysis.clangTidy.enabled": true,
-    "C_Cpp.default.cppStandard": "",
+    "C_Cpp.default.cppStandard": "c++17",
     "C_Cpp.default.intelliSenseMode": "",
     "C_Cpp.inlayHints.autoDeclarationTypes.enabled": false,
     "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": false,
@@ -101,14 +101,17 @@
     "search.useGlobalIgnoreFiles": false,
     "explorer.excludeGitIgnore": true,
     "C_Cpp.codeAnalysis.exclude": {
-        "/home/prem/code/CSC584/src/HW3/build/**": true,
-        "/home/prem/code/CSC584/src/HW3/SFML/**": true
+        "/home/prem/code/CSC584/src/HW4/build/**": true,
+        "/home/prem/code/CSC584/src/HW4/SFML/**": true
     },
     "files.exclude": {
         "**/build": true,
         "**/SFML": true
     },
     "conventionalCommits.scopes": [
-        "build"
-    ]
+        "build",
+        "main"
+    ],
+    "C_Cpp.default.cStandard": "c17",
+    "C_Cpp.clang_format_style": "{ColumnLimit: 80}"
 }
