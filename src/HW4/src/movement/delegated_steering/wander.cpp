@@ -14,7 +14,7 @@ float Wander::sampleDifference()
     return randomValue;
 };
 
-KinematicSteeringOutput Wander::checkCollision(Static &predictedCharacter, Static &character, sf::Vector2f velocity)
+KinematicSteeringOutput Wander::checkCollision(Static &predictedCharacter, Static &character)
 {
     const bool left_collision = 0 > predictedCharacter.getPosition().x;
     const bool right_collision = predictedCharacter.getPosition().x > m_windowSizeX;
@@ -82,7 +82,7 @@ KinematicSteeringOutput Wander::getSteering(Static &character)
 
     auto predictedPosition = character.getPosition() + velocity * prediction;
     auto predictedCharacter = Static(predictedPosition, character.getOrientation());
-    auto collisionSteering = checkCollision(predictedCharacter, character, velocity);
+    auto collisionSteering = checkCollision(predictedCharacter, character);
 
     if (collisionSteering.null_output == true)
     {
