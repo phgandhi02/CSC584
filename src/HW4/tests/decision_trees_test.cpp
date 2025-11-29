@@ -27,13 +27,23 @@ public:
 // test the DecisionTreeNode constructor
 TEST(DecisionTreeNodeTest,ConstructNode)
 {
+    // Arrange
     auto node = TestDecisionTreeNode();
-    EXPECT_EQ(&node, &node.makeDecision());
+    // Act
+    auto nodeAddress = &node.makeDecision();
+    // Assert
+    EXPECT_EQ(&node, nodeAddress);
 }
 
 // test the DecisionTreeNode constructor
 TEST(ActionNodeTest,ConstructNode)
 {
+    // Arrange
     auto node = Action();
-    EXPECT_EQ(&node, &node.makeDecision());
+    // Act
+    auto nodeAddress = &node.makeDecision();
+    
+    // Assert
+    EXPECT_EQ(&node, nodeAddress);
 }
+
