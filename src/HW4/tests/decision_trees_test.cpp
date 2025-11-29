@@ -47,3 +47,15 @@ TEST(ActionNodeTest,ConstructNode)
     EXPECT_EQ(&node, nodeAddress);
 }
 
+TEST(DecisionNodeTest,ConstructNode)
+{
+    // Arrange
+    auto trueNode = Action();
+    auto falseNode = Action();
+    auto node = Decision(trueNode,falseNode);
+    // Act
+    auto nodeAddress = &node.makeDecision();
+
+    // Assert
+    EXPECT_EQ(&trueNode,nodeAddress);
+}

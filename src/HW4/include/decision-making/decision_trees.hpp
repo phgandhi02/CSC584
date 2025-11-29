@@ -51,7 +51,11 @@ public:
      */
     Decision(DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
         trueNode(trueBranch), falseNode(falseBranch) {}; 
-    DecisionTreeNode& makeDecision() override;
+    DecisionTreeNode& makeDecision() override {
+        DecisionTreeNode& branch = getBranch();
+        return branch.makeDecision();
+
+    };
 private:
     /**
      * @brief Branch if test value is true
