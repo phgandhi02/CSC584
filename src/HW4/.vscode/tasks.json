@@ -21,31 +21,6 @@
             }
         },
         {
-            "label": "Build Graph Analysis (gdb)",
-            "type": "shell",
-            "command": "/usr/bin/g++",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-Wall",
-                "-Wextra",
-                "-Wpedantic",
-                "-g",
-                "${workspaceFolder}/app/graph_analysis.cpp",
-                "${workspaceFolder}/src/graph.cpp",
-                "${workspaceFolder}/src/pathfinding_algos.cpp",
-                "${workspaceFolder}/src/heuristic.cpp",
-                "-o",
-                "${workspaceFolder}/build/bin/graph_analysis"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": [
-                "$gcc"
-            ]
-        },
-        {
             "label": "Build SFML Demo (gdb)",
             "type": "shell",
             "command": "/usr/bin/g++",
@@ -58,8 +33,9 @@
                 // Compile with debug info
                 "-g",
                 // Source Files
-                "${workspaceFolder}/app/sfml_demo.cpp",
-                "${workspaceFolder}/src/*.cpp", // include all graph and pathfinding src files
+                "${workspaceFolder}/main.cpp",
+                "${workspaceFolder}/src/*.cpp",
+                "${workspaceFolder}/src/pathfinding/*.cpp", // include all graph and pathfinding src files
                 "${workspaceFolder}/src/movement/*.cpp", // include all mvmt base class src files
                 "${workspaceFolder}/src/movement/delegated_steering/*.cpp", // include all delegated steering src files
                 "${workspaceFolder}/src/movement/steering/*.cpp", // include all steering src files
@@ -75,7 +51,7 @@
                 "-lsfml-audio",
                 // Output
                 "-o",
-                "${workspaceFolder}/build/bin/sfml_demo"
+                "${workspaceFolder}/build/bin/main"
             ],
             "group": {
                 "kind": "build",
