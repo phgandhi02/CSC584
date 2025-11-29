@@ -10,7 +10,7 @@ class Wander: public KinematicFace {
             :m_windowSizeX(windowSizeX), m_windowSizeY(windowSizeY) {};
         ~Wander() = default;
         KinematicSteeringOutput getSteering(Static& character) override;
-        KinematicSteeringOutput checkCollision(Static& predictedCharacter,Static& character, sf::Vector2f velocity);
+        KinematicSteeringOutput checkCollision(Static& predictedCharacter,Static& character);
         float sampleDifference();
         // The forward offset of the wander circle.
         float wanderOffset = 0.5f;
