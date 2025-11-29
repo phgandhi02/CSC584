@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(CSC584_HW2 LANGUAGES CXX)
+project(CSC584_HW3 LANGUAGES CXX)
 # enable_testing()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
