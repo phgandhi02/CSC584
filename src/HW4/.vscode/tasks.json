@@ -35,6 +35,7 @@
                 // Source Files
                 "${workspaceFolder}/main.cpp",
                 "${workspaceFolder}/src/*.cpp",
+                "${workspaceFolder}/src/decision-making/*.cpp", // include all decision making files
                 "${workspaceFolder}/src/pathfinding/*.cpp", // include all graph and pathfinding src files
                 "${workspaceFolder}/src/movement/*.cpp", // include all mvmt base class src files
                 "${workspaceFolder}/src/movement/delegated_steering/*.cpp", // include all delegated steering src files
