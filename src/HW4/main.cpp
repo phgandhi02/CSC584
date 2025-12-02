@@ -15,28 +15,100 @@
 #include <iostream>
 #include <memory>
 #include <random>
+void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
+{
+    auto cell_shape = sf::RectangleShape(sf::Vector2f(CELL_SIZE, CELL_SIZE));
+    for (unsigned int i = 0; i < MAP_HEIGHT; i++)
+    {
+        for (unsigned int j = 0; j < MAP_WIDTH; j++)
+        {
+            // indicies are switched because of SFML x-y direction convention
+            cell_shape.setPosition(sf::Vector2f(static_cast<float>(CELL_SIZE * j), static_cast<float>(CELL_SIZE * i)));
+
+            // map prints sideways so indices are switched.
+            switch (map[i][j])
+            {
+            case Cell::Wall:
+                cell_shape.setFillColor(sf::Color::Blue);
+                break;
+
+            default:
+                cell_shape.setFillColor(sf::Color::Yellow);
+                break;
+            }
+            window.draw(cell_shape);
+        }
+    }
+};
+
+std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
+{
+    // convert MAP_SKETCH into map
+    std::array<std::string, MAP_HEIGHT> MAP_SKETCH = {
+    "########################################",
+    "#           #                          #",
+    "#           #                          #",
+    "#           #                          #",
+    "#           #                          #",
+    "#           #                          #",
+    "#           #                          #",
+    "#####   ###################   ##########",
+    "#                  #                   #",
+    "#                  #                   #",
+    "#                  #                   #",
+    "#                  #                   #",
+    "#                  #                   #",
+    "#                                      #",
+    "#                                      #",
+    "#                                      #",
+    "#                  #                   #",
+    "#                  #                   #",
+    "#                  #                   #",
+    "#                  #                   #",
+    "#                  #                   #",
+    "#                  #                   #",
+    "########   ###################   #######",
+    "#                         #            #",
+    "#                         #            #",
+    "#                         #            #",
+    "#                         #            #",
+    "#                         #            #",
+    "#                         #            #",
+    "#                         #            #",
+    "#                         #            #",
+    "#                         #            #",
+    "###################   ##################",
+    "#                                      #",
+    "#                                      #",
+    "#                                      #",
+    "#########                              #",
+    "#                                      #",
+    "#                                      #",
+    "########################################"};
+    std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map = convert_sketch_to_map(MAP_SKETCH);
+    return map;
+}
 
 int main() {
     /* -------------------------------------------------------------------------- */
     /*                               Game Loop Setup                              */
     /* -------------------------------------------------------------------------- */ 
-
-    // create game objects and game state vars
-
     // window creates Window obj. Must include event handling loop to ensure
     // the program doesn't end immediately. 
     // * use sf::VideoMode to get desktop resolution for dynamic sizing
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "CSC584 HW4"); 
+    sf::RenderWindow window(sf::VideoMode({800, 800}), "CSC584 HW4"); 
 
     /* -------------------------------------------------------------------------- */
     /*                               Main Game Loop                               */
     /* -------------------------------------------------------------------------- */
-    while (window.isOpen()) {
+    while (window.isOpen()) 
+    {
         // check all the window's events that were triggered since the last
         // iteration of the loop
         while (const std::optional event = window.pollEvent()) {
             // "close requested" event: we close the window
             if (event->is<sf::Event::Closed>())
+            {
                 // Implement any logic needed before closing game ie. save game etc.
                 window.close();
             
@@ -47,6 +119,7 @@ int main() {
         window.clear(sf::Color::White);
 
         // draw on window
+        draw_map(map, window); // draw map
 
         // * must call display end the current frame
         window.display();
