@@ -40,5 +40,13 @@ int main() {
             
             /* ------------------------- Check for Input Events ------------------------- */
         }
+        
+        // * Must call clear before drawing anything o.w. content from previous frames will show.
+        window.clear(sf::Color::White);
+
+        // draw on window
+
+        // * must call display end the current frame
+        window.display();
     }
 }
