@@ -1,9 +1,9 @@
 #include "./include/global.hpp"
-#include "./include/pathfinding/graph.hpp"
-#include "./include/pathfinding/pathfinding_algos.hpp"
 
-// Boid libs
-#include "./include/movement/boid.hpp"
+#include "movement/boid.hpp"
+
+#include "pathfinding/graph.hpp"
+#include "pathfinding/pathfinding_algos.hpp"
 
 // SFML libs
 #include <SFML/Graphics.hpp>
