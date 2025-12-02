@@ -24,7 +24,7 @@ int main() {
     // window creates Window obj. Must include event handling loop to ensure
     // the program doesn't end immediately. 
     // * use sf::VideoMode to get desktop resolution for dynamic sizing
-    sf::Window window(sf::VideoMode({800, 600}), "CSC584 HW4"); 
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "CSC584 HW4"); 
 
     /* -------------------------------------------------------------------------- */
     /*                               Main Game Loop                               */
