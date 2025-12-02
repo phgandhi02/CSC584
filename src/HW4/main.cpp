@@ -19,7 +19,9 @@
 int main() {
     /* -------------------------------------------------------------------------- */
     /*                               Game Loop Setup                              */
-    /* -------------------------------------------------------------------------- */
+    /* -------------------------------------------------------------------------- */ 
+
+    // create game objects and game state vars
 
     // window creates Window obj. Must include event handling loop to ensure
     // the program doesn't end immediately. 
