@@ -152,8 +152,8 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
     Static target; // kinematic data struct of target
     auto pathfinding = Pathfinding();
 
-    startNode = calculateNodeIndex(startPos);
-    goalNode = calculateNodeIndex(goalPos);
+    startNode = calcNodeIndex(startPos);
+    goalNode = calcNodeIndex(goalPos);
 
     // Make sure goal node is within the map
     if (goalNode >= MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT || goalNode < 0)
@@ -293,7 +293,7 @@ int main() {
                 enemyCat.setTextureRect(PLAYER_CAPTURED_CAT_TEXTURE_RECT);
             }
 
-            if (goalNode != calculateNodeIndex(playerPosition))
+            if (calcNodeIndex(enemyCatPosition) != calcNodeIndex(playerPosition))
             {
                 path = std::vector<Connection>{};
                 goalNode = calculateNodeIndex(playerPosition);
@@ -324,7 +324,7 @@ int main() {
             else // continue following existing path
             {
                 // Calculate currentNode, mouseNode
-                currentNode = calculateNodeIndex(enemyCatPosition);
+                currentNode = calcNodeIndex(enemyCatPosition);
 
                 if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
                 {
@@ -348,10 +348,10 @@ int main() {
                 enemyCat.setTextureRect(IDLE_WONDERING_CAT_TEXTURE_RECT);
             }
             
-            if (goalNode != calculateNodeIndex(playerPosition))
+            if (goalNode != calcNodeIndex(playerPosition))
             {
                 path = std::vector<Connection>{};
-                goalNode = calculateNodeIndex(playerPosition);
+                goalNode = calcNodeIndex(playerPosition);
                 goalNode = (goalNode < MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT) ? goalNode : 1055;
             }
             
@@ -361,7 +361,7 @@ int main() {
                 if (currentNode != goalNode)
                 {
                     /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
-                    startNode = calculateNodeIndex(sf::Vector2f(rng.getRandomInt(),rng.getRandomInt()));
+                    startNode = calcNodeIndex(sf::Vector2f(rng.getRandomInt(),rng.getRandomInt()));
                     currentNode = startNode;
                     EuclidianHeuristic heuristic;
                     path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
@@ -379,7 +379,7 @@ int main() {
             else // continue following existing path
             {
                 // Calculate currentNode, mouseNode
-                currentNode = calculateNodeIndex(enemyCatPosition);
+                currentNode = calcNodeIndex(enemyCatPosition);
 
                 if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
                 {
@@ -417,7 +417,7 @@ int main() {
             {
                 random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());
                 startNode = 42;
-                goalNode = calculateNodeIndex(random_position);
+                goalNode = calcNodeIndex(random_position);
                 EuclidianHeuristic heuristic;
                 path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
                 // std::cout << random_position.x << " | " << random_position.y << std::endl;      

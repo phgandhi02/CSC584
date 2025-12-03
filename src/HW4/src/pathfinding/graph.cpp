@@ -263,7 +263,7 @@ std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> convert_sketch_to_map(std::a
     return output_map;
 };
 
-unsigned int calculateNodeIndex(sf::Vector2f position)
+unsigned int calcNodeIndex(sf::Vector2f position)
 {
     return (static_cast<unsigned int>(position.y) / CELL_SIZE) * MAP_WIDTH + static_cast<unsigned int>(position.x) / CELL_SIZE;
 }
