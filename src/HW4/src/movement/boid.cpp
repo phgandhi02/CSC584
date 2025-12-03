@@ -10,7 +10,7 @@ Boid::Boid(const sf::Texture &texture, Static startPos, sf::RenderWindow &window
 {
     m_sprite.setPosition(startPos.getPosition());
     m_sprite.setRotation(startPos.getOrientation());
-    breadcrumbs_on = true;
+    breadcrumbs_on = false;
     m_character = startPos;
 };
 
