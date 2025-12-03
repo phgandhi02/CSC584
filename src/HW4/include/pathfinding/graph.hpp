@@ -113,6 +113,6 @@ std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> convert_sketch_to_map(std::a
 
 unsigned int calcNodeIndex(sf::Vector2f position);
 
-sf::Vector2f calculatePositionfromNode(unsigned int node);
+sf::Vector2f calcPosfromNode(unsigned int node);
 
 #endif

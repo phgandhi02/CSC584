@@ -180,7 +180,7 @@ void follow_path(std::vector<Connection> path, Boid& boid)
     if (!path.empty())
     {
         targetNode = path.back().getToNode();
-        targetPos = calculatePositionfromNode(targetNode);
+        targetPos = calcPosfromNode(targetNode);
         target = Static(targetPos, sf::degrees(0.0f));
         boid.setTarget(target);
         path.pop_back();
@@ -329,14 +329,14 @@ int main() {
                 if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
                 {
                     targetNode = path.back().getToNode();
-                    targetPos = calculatePositionfromNode(targetNode);
+                    targetPos = calcPosfromNode(targetNode);
                     target = Static(targetPos, sf::degrees(0.0f));
                     enemyCat.setTarget(target);
                     path.pop_back();
                 }
                 else if (targetNode == goalNode)
                 {
-                    targetPos = calculatePositionfromNode(targetNode);
+                    targetPos = calcPosfromNode(targetNode);
                     target = Static(targetPos, sf::degrees(0.0f));
                     enemyCat.setTarget(target);
                 }
@@ -369,7 +369,7 @@ int main() {
                     if (!path.empty())
                     {
                         targetNode = path.back().getToNode();
-                        targetPos = calculatePositionfromNode(targetNode);
+                        targetPos = calcPosfromNode(targetNode);
                         target = Static(targetPos, sf::degrees(0.0f));
                         enemyCat.setTarget(target);
                         path.pop_back();
@@ -384,14 +384,14 @@ int main() {
                 if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
                 {
                     targetNode = path.back().getToNode();
-                    targetPos = calculatePositionfromNode(targetNode);
+                    targetPos = calcPosfromNode(targetNode);
                     target = Static(targetPos, sf::degrees(0.0f));
                     enemyCat.setTarget(target);
                     path.pop_back();
                 }
                 else if (targetNode == goalNode)
                 {
-                    targetPos = calculatePositionfromNode(targetNode);
+                    targetPos = calcPosfromNode(targetNode);
                     target = Static(targetPos, sf::degrees(0.0f));
                     enemyCat.setTarget(target);
                 }
