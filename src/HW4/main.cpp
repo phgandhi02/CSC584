@@ -113,12 +113,7 @@ int main() {
     /*                               Game Loop Setup                              */
     /* -------------------------------------------------------------------------- */
     auto rng = RandomNumGen(40,760); // Create random number generator for getting random seed locations
-
-    // window creates Window obj. Must include event handling loop to ensure the program doesn't end immediately. 
-    // * use sf::VideoMode to get desktop resolution for dynamic sizing
-    sf::RenderWindow window(sf::VideoMode({800, 800}), "CSC584 HW4"); 
-    window.setFramerateLimit(60); // set the framerate limit to 60 fps.
-
+    auto spriteSheetTextures = sf::Texture("sprite_sheet.png");
     /* ------------------------------- Setup graph ------------------------------ */
     auto map = generate_scene();
     Graph graph = Graph();
@@ -128,19 +123,22 @@ int main() {
     {
         graph.addEdge(edge);
     }
-
     /* ---------------------------- Setup Pathfinding --------------------------- */
     auto pathfinding = Pathfinding();
     std::vector<Connection> path;
     // stores the node value for start, current, mouse input, and the next target.
     unsigned int startNode, currentNode, targetNode, goalNode;
 
+    // window creates Window obj. Must include event handling loop to ensure the program doesn't end immediately. 
+    // * use sf::VideoMode to get desktop resolution for dynamic sizing
+    sf::RenderWindow window(sf::VideoMode({800, 800}), "CSC584 HW4"); 
+    window.setFramerateLimit(60); // set the framerate limit to 60 fps.
+
     int i = 0;
     auto seedTexture = sf::Texture("seeds.png");
     sf::Sprite seed(seedTexture);
     seed.scale(sf::Vector2f(.3,.3));
 
-    auto spriteSheetTextures = sf::Texture("sprite_sheet.png");
     // Create enemy sprite
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
     Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
