@@ -108,6 +108,25 @@ std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
     return map;
 }
 
+void draw_enemy(Boid &enemy, sf::RenderWindow &window)
+{
+    auto enemy_orientation = enemy.getOrientation();
+        if (enemy_orientation.asDegrees() < 0)
+        {
+            if (enemy.getTextureRect() == RIGHT_CHASING_CAT_TEXTURE_RECT)
+            {
+                enemy.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT,LEFT_CHASING_CAT_TEXTURE_ORIGIN);
+            }
+        } else 
+        {
+            if (enemy.getTextureRect() == LEFT_CHASING_CAT_TEXTURE_RECT)
+            {
+                enemy.setTextureRect(RIGHT_CHASING_CAT_TEXTURE_RECT,RIGHT_CHASING_CAT_TEXTURE_ORIGIN);
+            }
+        }
+        enemy.draw(window);
+}
+
 int main() {
     /* -------------------------------------------------------------------------- */
     /*                               Game Loop Setup                              */
@@ -170,26 +189,12 @@ int main() {
         // * Must call clear before drawing anything o.w. content from previous frames will show.
         window.clear(sf::Color::White);
 
-        // draw on window
-        draw_map(map, window); // draw map
+        /* ----------------------------- Update Sprites ----------------------------- */
         enemyCat.update(0.01f);
 
-        auto enemyCat_orientation = enemyCat.getOrientation();
-        if (enemyCat_orientation.asDegrees() < 0)
-        {
-            if (enemyCat.getTextureRect() == RIGHT_CHASING_CAT_TEXTURE_RECT)
-            {
-                enemyCat.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT,LEFT_CHASING_CAT_TEXTURE_ORIGIN);
-            }
-        } else 
-        {
-            if (enemyCat.getTextureRect() == LEFT_CHASING_CAT_TEXTURE_RECT)
-            {
-                enemyCat.setTextureRect(RIGHT_CHASING_CAT_TEXTURE_RECT,RIGHT_CHASING_CAT_TEXTURE_ORIGIN);
-            }
-        }
-        enemyCat.draw(window);
-        // window.draw(enemy);
+        /* ------------------------------- Draw Window ------------------------------ */
+        draw_map(map, window); // draw map
+        draw_enemy(enemyCat,window);
 
         i++;
         if ((i % 100) == 0)
