@@ -172,7 +172,7 @@ int main() {
     int i = 0;
     auto seedTexture = sf::Texture("seeds.png");
     sf::Sprite seed(seedTexture);
-    seed.scale(sf::Vector2f(.3,.3));
+    seed.scale(sf::Vector2f(.3f,.3f));
 
     // Create enemy sprite
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
@@ -197,7 +197,7 @@ int main() {
     auto playerSeekBehavior = std::make_unique<KinematicSeek>();
     player.controller = std::move(playerSeekBehavior);
     player.breadcrumbs_on = false;
-    player.speed *= 1.5;
+    player.speed *= 2;
 
     /* -------------------------------------------------------------------------- */
     /*                               Main Game Loop                               */
@@ -283,7 +283,7 @@ int main() {
         draw_player(player,window);
 
         i++;
-        if ((i % 100) == 0)
+        if ((i % 300) == 0)
         {
             auto random_position = sf::Vector2f();
             while (path.empty())
