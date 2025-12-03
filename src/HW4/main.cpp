@@ -143,6 +143,50 @@ void draw_player(Boid &player, sf::RenderWindow &window)
         player.draw(window);
 }
 
+std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2f goalPos)
+{
+    std::vector<Connection> path;
+    // stores the node value for start, current, mouse input, and the next target.
+    unsigned int startNode, goalNode; // vars to hold nodes
+    sf::Vector2f targetPos; // stores the position of the next target
+    Static target; // kinematic data struct of target
+    auto pathfinding = Pathfinding();
+
+    startNode = calculateNodeIndex(startPos);
+    goalNode = calculateNodeIndex(goalPos);
+
+    // Make sure goal node is within the map
+    if (goalNode >= MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT || goalNode < 0)
+        return path; // return empty path
+    if (graph.getNodes(goalNode).empty())
+    {
+        return path; // return empty path
+    }
+
+    EuclidianHeuristic heuristic;
+    path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
+    return path;
+}
+
+/*
+set Boid to next target from path if path is not empty
+*/
+void follow_path(std::vector<Connection> path, Boid boid)
+{
+    unsigned int targetNode;
+    sf::Vector2f targetPos;
+    Static target;
+    // Check if the path is empty. If not empty then pop next target
+    if (!path.empty())
+    {
+        targetNode = path.back().getToNode();
+        targetPos = calculatePositionfromNode(targetNode);
+        target = Static(targetPos, sf::degrees(0.0f));
+        boid.setTarget(target);
+        path.pop_back();
+    }
+}
+
 int main() {
     /* -------------------------------------------------------------------------- */
     /*                               Game Loop Setup                              */
