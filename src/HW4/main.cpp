@@ -3,6 +3,8 @@ TODO: add kitchen asset sprites to map
 
 TODO: implement seed eating behavior
 
+TODO: implement movement behaviors for enemy
+TODO: implement pathfinding behaviors for enemy
 TODO: implement decision tree for enemy
 */
 // Global Include 
@@ -132,9 +134,13 @@ int main() {
 
     // Create enemy sprite
     auto enemyCatTexture = sf::Texture("chasingCat.png");
-    sf::Sprite enemyCat(enemyCatTexture);
-    enemyCat.scale(sf::Vector2f(.3,.3));
-    enemyCat.setPosition(sf::Vector2f(100,100));
+    auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
+    Boid enemyCat(enemyCatTexture, enemyStartPos, window);
+    enemyCat.setSpriteScale(.3,.3);
+    enemyCat.mouseInputOn = true;
+    auto seek_behavior = std::make_unique<KinematicSeek>();
+    enemyCat.controller = std::move(seek_behavior);
+    enemyCat.breadcrumbs_on = false;
     /* -------------------------------------------------------------------------- */
     /*                               Main Game Loop                               */
     /* -------------------------------------------------------------------------- */
@@ -159,7 +165,8 @@ int main() {
 
         // draw on window
         draw_map(map, window); // draw map
-        window.draw(enemyCat);
+        enemyCat.update(0.01f);
+        enemyCat.draw(window);
 
         i++;
         if ((i % 100) == 0)
