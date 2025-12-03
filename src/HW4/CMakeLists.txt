@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 project(CSC584_HW4 LANGUAGES CXX)
 enable_testing()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_CXX_FLAGS_INIT "-Werror -Wall -Wextra -Wpedantic")
 
 include(GoogleTest)
 
