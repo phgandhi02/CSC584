@@ -14,7 +14,6 @@
 // STL
 #include <iostream>
 #include <memory>
-#include <random>
 void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
 {
     auto FLOOR_BROWN = sf::Color(210,180,140);
@@ -96,11 +95,7 @@ int main() {
     /* -------------------------------------------------------------------------- */
     /*                               Game Loop Setup                              */
     /* -------------------------------------------------------------------------- */
-    // Seed the random number generator before using any random numbers in the program.
-    srand(static_cast<unsigned>(time(0)));
-    std::random_device rd;  // a seed source for the random number engine
-    std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
-    std::uniform_int_distribution<> distrib(40, 760);
+    auto rng = RandomNumGen(40,760); // Create random number generator for getting random seed locations
 
     // window creates Window obj. Must include event handling loop to ensure
     // the program doesn't end immediately. 
@@ -159,7 +154,7 @@ int main() {
             auto random_position = sf::Vector2f();
             while (path.empty())
             {
-                random_position = sf::Vector2f(distrib(gen),distrib(gen));
+                random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());
                 startNode = 42;
                 goalNode = calculateNodeIndex(random_position);
                 EuclidianHeuristic heuristic;
