@@ -24,6 +24,8 @@ TODO: implement decision tree for enemy
 #include <iostream>
 #include <memory>
 auto RIGHT_CHASING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(837,575),sf::Vector2i(605,400));
+auto CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(RIGHT_CHASING_CAT_TEXTURE.size.x/2, RIGHT_CHASING_CAT_TEXTURE.size.y/2 + 150);
+
 void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
 {
     auto FLOOR_BROWN = sf::Color(210,180,140);
@@ -138,7 +140,7 @@ int main() {
     // auto enemyCatTexture = sf::Texture("leftChasingCat.png");
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
     Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
-    enemyCat.setTextureRect(RIGHT_CHASING_CAT_TEXTURE);
+    enemyCat.setTextureRect(RIGHT_CHASING_CAT_TEXTURE, CHASING_CAT_TEXTURE_ORIGIN);
     enemyCat.setSpriteScale(.25,.25);
     enemyCat.mouseInputOn = true;
     auto seek_behavior = std::make_unique<KinematicSeek>();

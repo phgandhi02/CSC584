@@ -43,6 +43,11 @@ public:
         m_sprite.setTextureRect(textureRect);
         m_sprite.setOrigin(sf::Vector2<float>(textureRect.size.x/2, textureRect.size.y/2));
     }
+    void setTextureRect(sf::IntRect textureRect, sf::Vector2f textureOrigin) {
+        m_sprite.setTextureRect(textureRect);
+        m_sprite.setOrigin(textureOrigin);
+    }
+    
     void setTarget(Static target) { m_target = target; };
 
     // Steering Function
