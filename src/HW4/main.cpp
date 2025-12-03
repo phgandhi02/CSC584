@@ -142,7 +142,6 @@ int main() {
 
     auto spriteSheetTextures = sf::Texture("sprite_sheet.png");
     // Create enemy sprite
-    // auto enemyCatTexture = sf::Texture("leftChasingCat.png");
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
     Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
     enemyCat.setTextureRect(LEFT_CHASING_CAT_TEXTURE, LEFT_CHASING_CAT_TEXTURE_ORIGIN);
