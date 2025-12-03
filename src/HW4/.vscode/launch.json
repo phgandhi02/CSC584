@@ -8,7 +8,7 @@
             "name": "Decision Making (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/main.cpp",
+            "program": "${workspaceFolder}/build/bin/main",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
