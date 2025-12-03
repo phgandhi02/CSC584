@@ -163,7 +163,7 @@ int main() {
     // window creates Window obj. Must include event handling loop to ensure the program doesn't end immediately. 
     // * use sf::VideoMode to get desktop resolution for dynamic sizing
     sf::RenderWindow window(sf::VideoMode({800, 800}), "CSC584 HW4"); 
-    window.setFramerateLimit(60); // set the framerate limit to 60 fps.
+    window.setFramerateLimit(144); // set the framerate limit to 60 fps.
 
     int i = 0;
     auto seedTexture = sf::Texture("seeds.png");
