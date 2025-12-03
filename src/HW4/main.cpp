@@ -23,6 +23,7 @@ TODO: implement decision tree for enemy
 // STL
 #include <iostream>
 #include <memory>
+auto RIGHT_CHASING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(837,575),sf::Vector2i(605,400));
 void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
 {
     auto FLOOR_BROWN = sf::Color(210,180,140);
@@ -132,11 +133,13 @@ int main() {
     sf::Sprite seed(seedTexture);
     seed.scale(sf::Vector2f(.3,.3));
 
+    auto spriteSheetTextures = sf::Texture("sprite_sheet.png");
     // Create enemy sprite
-    auto enemyCatTexture = sf::Texture("chasingCat.png");
+    // auto enemyCatTexture = sf::Texture("leftChasingCat.png");
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
-    Boid enemyCat(enemyCatTexture, enemyStartPos, window);
-    enemyCat.setSpriteScale(.3,.3);
+    Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
+    enemyCat.setTextureRect(RIGHT_CHASING_CAT_TEXTURE);
+    enemyCat.setSpriteScale(.25,.25);
     enemyCat.mouseInputOn = true;
     auto seek_behavior = std::make_unique<KinematicSeek>();
     enemyCat.controller = std::move(seek_behavior);

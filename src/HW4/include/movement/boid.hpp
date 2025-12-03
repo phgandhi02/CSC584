@@ -35,8 +35,14 @@ public:
     KinematicSteeringOutput getSteering() { return m_steering; }
     sf::Vector2f getPosition() { return m_character.getPosition(); }
     bool breadcrumbs_on = true;
+
+    // Basic Texture manipulation functions
     void setTexture(sf::Texture &texture);
     void setSpriteScale(float scaleX, float scaleY) {m_sprite.setScale(sf::Vector2f(scaleX,scaleY));}
+    void setTextureRect(sf::IntRect textureRect) {
+        m_sprite.setTextureRect(textureRect);
+        m_sprite.setOrigin(sf::Vector2<float>(textureRect.size.x/2, textureRect.size.y/2));
+    }
     void setTarget(Static target) { m_target = target; };
 
     // Steering Function
