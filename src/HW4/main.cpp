@@ -26,9 +26,10 @@ TODO: implement decision tree for enemy
 
 auto IDLE_WONDERING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(198,15),sf::Vector2i(378,500));
 auto PLAYER_CAPTURED_CAT_TEXTURE = sf::IntRect(sf::Vector2i(206,540),sf::Vector2i(346,496));
-auto LEFT_CHASING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(788,47),sf::Vector2i(605,400));
+auto LEFT_CHASING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(1393,447),sf::Vector2i(-605,-400));
+auto LEFT_CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(-LEFT_CHASING_CAT_TEXTURE.size.x/2, LEFT_CHASING_CAT_TEXTURE.size.y/2 + 250);
 auto RIGHT_CHASING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(837,575),sf::Vector2i(605,400));
-auto CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(RIGHT_CHASING_CAT_TEXTURE.size.x/2, RIGHT_CHASING_CAT_TEXTURE.size.y/2 + 150);
+auto RIGHT_CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(RIGHT_CHASING_CAT_TEXTURE.size.x/2, RIGHT_CHASING_CAT_TEXTURE.size.y/2 + 150);
 
 void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
 {
@@ -144,7 +145,7 @@ int main() {
     // auto enemyCatTexture = sf::Texture("leftChasingCat.png");
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
     Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
-    enemyCat.setTextureRect(RIGHT_CHASING_CAT_TEXTURE, CHASING_CAT_TEXTURE_ORIGIN);
+    enemyCat.setTextureRect(LEFT_CHASING_CAT_TEXTURE, LEFT_CHASING_CAT_TEXTURE_ORIGIN);
     enemyCat.setSpriteScale(.25,.25);
     enemyCat.mouseInputOn = true;
     auto seek_behavior = std::make_unique<KinematicSeek>();
