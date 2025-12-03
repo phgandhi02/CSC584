@@ -122,6 +122,25 @@ void draw_enemy(Boid &enemy, sf::RenderWindow &window)
         enemy.draw(window);
 }
 
+void draw_player(Boid &player, sf::RenderWindow &window)
+{
+    auto player_orientation = player.getOrientation();
+        if (player_orientation.asDegrees() < 0)
+        {
+            if (player.getTextureRect() == RIGHT_PLAYER_TEXTURE_RECT)
+            {
+                player.setTextureRect(LEFT_PLAYER_TEXTURE_RECT,LEFT_PLAYER_TEXTURE_ORIGIN);
+            }
+        } else 
+        {
+            if (player.getTextureRect() == LEFT_PLAYER_TEXTURE_RECT)
+            {
+                player.setTextureRect(RIGHT_PLAYER_TEXTURE_RECT);
+            }
+        }
+        player.draw(window);
+}
+
 int main() {
     /* -------------------------------------------------------------------------- */
     /*                               Game Loop Setup                              */
@@ -159,9 +178,21 @@ int main() {
     enemyCat.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT, LEFT_CHASING_CAT_TEXTURE_ORIGIN);
     enemyCat.setSpriteScale(.25,.25);
     enemyCat.mouseInputOn = true;
-    auto seek_behavior = std::make_unique<KinematicSeek>();
-    enemyCat.controller = std::move(seek_behavior);
+    auto enemySeekBehavior = std::make_unique<KinematicSeek>();
+    enemyCat.controller = std::move(enemySeekBehavior);
     enemyCat.breadcrumbs_on = false;
+
+    // Create player sprite
+    auto playerStartPos = Static(sf::Vector2f(500,400), sf::degrees(0));
+    Boid player(spriteSheetTextures, playerStartPos, window);
+    player.setTextureRect(RIGHT_PLAYER_TEXTURE_RECT);
+    player.setSpriteScale(.15,.15);
+    player.mouseInputOn = true;
+    auto playerSeekBehavior = std::make_unique<KinematicSeek>();
+    player.controller = std::move(playerSeekBehavior);
+    player.breadcrumbs_on = false;
+    player.speed *= 1.5;
+
     /* -------------------------------------------------------------------------- */
     /*                               Main Game Loop                               */
     /* -------------------------------------------------------------------------- */
@@ -185,11 +216,13 @@ int main() {
         window.clear(sf::Color::White);
 
         /* ----------------------------- Update Sprites ----------------------------- */
-        enemyCat.update(0.01f);
+        enemyCat.update(TIME_STEP);
+        player.update(TIME_STEP);
 
         /* ------------------------------- Draw Window ------------------------------ */
         draw_map(map, window); // draw map
         draw_enemy(enemyCat,window);
+        draw_player(player,window);
 
         i++;
         if ((i % 100) == 0)

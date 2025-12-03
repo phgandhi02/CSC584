@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 
+const float TIME_STEP = 0.0069444444;
+
 constexpr unsigned int MAP_HEIGHT = 40;
 constexpr unsigned int MAP_WIDTH = 40;
 constexpr unsigned int CELL_SIZE = 20;
@@ -14,6 +16,10 @@ const auto LEFT_CHASING_CAT_TEXTURE_RECT = sf::IntRect(sf::Vector2i(1393,447),sf
 const auto LEFT_CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(-LEFT_CHASING_CAT_TEXTURE_RECT.size.x/2, LEFT_CHASING_CAT_TEXTURE_RECT.size.y/2 + 250);
 const auto RIGHT_CHASING_CAT_TEXTURE_RECT = sf::IntRect(sf::Vector2i(837,575),sf::Vector2i(605,400));
 const auto RIGHT_CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(RIGHT_CHASING_CAT_TEXTURE_RECT.size.x/2, RIGHT_CHASING_CAT_TEXTURE_RECT.size.y/2 + 150);
+
+const auto RIGHT_PLAYER_TEXTURE_RECT = sf::IntRect(sf::Vector2i(1537,95),sf::Vector2i(319,335));
+const auto LEFT_PLAYER_TEXTURE_RECT = sf::IntRect(sf::Vector2i(2617,343),sf::Vector2i(-334,-332));
+const auto LEFT_PLAYER_TEXTURE_ORIGIN = sf::Vector2f(-LEFT_PLAYER_TEXTURE_RECT.size.x/2, LEFT_PLAYER_TEXTURE_RECT.size.y/2 + 150);
 
 enum Cell {Empty = ' ', Wall = '#' };
 
