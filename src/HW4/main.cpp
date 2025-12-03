@@ -107,14 +107,30 @@ int main() {
     // * use sf::VideoMode to get desktop resolution for dynamic sizing
     sf::RenderWindow window(sf::VideoMode({800, 800}), "CSC584 HW4"); 
     window.setFramerateLimit(60); // set the framerate limit to 60 fps.
-    /* -------------------------------------------------------------------------- */
-    /*                               Main Game Loop                               */
-    /* -------------------------------------------------------------------------- */
+
+    /* ------------------------------- Setup graph ------------------------------ */
     auto map = generate_scene();
+    Graph graph = Graph();
+    std::cout << "Generating a graph!" << std::endl;
+    auto edges = GenMapGraph(map);
+    for (Connection &edge : edges)
+    {
+        graph.addEdge(edge);
+    }
+
+    /* -------------------------- Setup Pathfinding Var ------------------------- */
+    auto pathfinding = Pathfinding();
+    std::vector<Connection> path;
+    // stores the node value for start, current, mouse input, and the next target.
+    unsigned int startNode, currentNode, targetNode, goalNode;
+
     int i = 0;
     auto seedTexture = sf::Texture("seeds.png");
     sf::Sprite seed(seedTexture);
     seed.scale(sf::Vector2f(.3,.3));
+    /* -------------------------------------------------------------------------- */
+    /*                               Main Game Loop                               */
+    /* -------------------------------------------------------------------------- */
     while (window.isOpen()) 
     {
         // check all the window's events that were triggered since the last
