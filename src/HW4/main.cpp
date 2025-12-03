@@ -17,6 +17,9 @@
 #include <random>
 void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
 {
+    auto FLOOR_BROWN = sf::Color(210,180,140);
+    auto WALL_DARK_BROWN = sf::Color(139,69,19);
+
     auto cell_shape = sf::RectangleShape(sf::Vector2f(CELL_SIZE, CELL_SIZE));
     for (unsigned int i = 0; i < MAP_HEIGHT; i++)
     {
@@ -29,11 +32,11 @@ void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::Rende
             switch (map[i][j])
             {
             case Cell::Wall:
-                cell_shape.setFillColor(sf::Color::Blue);
+                cell_shape.setFillColor(WALL_DARK_BROWN);
                 break;
 
             default:
-                cell_shape.setFillColor(sf::Color::Yellow);
+                cell_shape.setFillColor(FLOOR_BROWN);
                 break;
             }
             window.draw(cell_shape);
