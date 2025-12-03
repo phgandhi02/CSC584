@@ -199,6 +199,7 @@ int main() {
     player.breadcrumbs_on = false;
     player.speed *= 2;
 
+    float distance;
     /* -------------------------------------------------------------------------- */
     /*                               Main Game Loop                               */
     /* -------------------------------------------------------------------------- */
@@ -221,25 +222,50 @@ int main() {
         /* ------------------------- Pathfinding for Enemies ------------------------ */
         enemyCatPosition = enemyCat.getPosition();
         playerPosition = player.getPosition();
-        if (goalNode != calculateNodeIndex(playerPosition))
+
+
+        distance = (playerPosition - enemyCatPosition).length();
+        if (distance < 150)
         {
-            path = std::vector<Connection>{};
-            goalNode = calculateNodeIndex(playerPosition);
-            goalNode = (goalNode < MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT) ? goalNode : 1055;
-        }
-        
-        // create a path to goal node or follow an existing path.
-        if (path.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
-        {
-            if (currentNode != goalNode)
+            if (enemyCat.getTextureRect() != PLAYER_CAPTURED_CAT_TEXTURE_RECT)
             {
-                /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
-                startNode = calculateNodeIndex(enemyCatPosition);
-                currentNode = startNode;
-                EuclidianHeuristic heuristic;
-                path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
-                /* ------------------- Set the first waypoint for the boid ------------------ */
-                if (!path.empty())
+                enemyCat.setTextureRect(PLAYER_CAPTURED_CAT_TEXTURE_RECT);
+            }
+
+            if (goalNode != calculateNodeIndex(playerPosition))
+            {
+                path = std::vector<Connection>{};
+                goalNode = calculateNodeIndex(playerPosition);
+                goalNode = (goalNode < MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT) ? goalNode : 1055;
+            }
+            
+            // create a path to goal node or follow an existing path.
+            if (path.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
+            {
+                if (currentNode != goalNode)
+                {
+                    /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
+                    startNode = calculateNodeIndex(enemyCatPosition);
+                    currentNode = startNode;
+                    EuclidianHeuristic heuristic;
+                    path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
+                    /* ------------------- Set the first waypoint for the boid ------------------ */
+                    if (!path.empty())
+                    {
+                        targetNode = path.back().getToNode();
+                        targetPos = calculatePositionfromNode(targetNode);
+                        target = Static(targetPos, sf::degrees(0.0f));
+                        enemyCat.setTarget(target);
+                        path.pop_back();
+                    }
+                }
+            }
+            else // continue following existing path
+            {
+                // Calculate currentNode, mouseNode
+                currentNode = calculateNodeIndex(enemyCatPosition);
+
+                if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
                 {
                     targetNode = path.back().getToNode();
                     targetPos = calculatePositionfromNode(targetNode);
@@ -247,29 +273,69 @@ int main() {
                     enemyCat.setTarget(target);
                     path.pop_back();
                 }
+                else if (targetNode == goalNode)
+                {
+                    targetPos = calculatePositionfromNode(targetNode);
+                    target = Static(targetPos, sf::degrees(0.0f));
+                    enemyCat.setTarget(target);
+                }
             }
-        }
-        else // continue following existing path
+        } else 
         {
-            // Calculate currentNode, mouseNode
-            currentNode = calculateNodeIndex(enemyCatPosition);
-
-            if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
+            if (enemyCat.getTextureRect() != IDLE_WONDERING_CAT_TEXTURE_RECT)
             {
-                targetNode = path.back().getToNode();
-                targetPos = calculatePositionfromNode(targetNode);
-                target = Static(targetPos, sf::degrees(0.0f));
-                enemyCat.setTarget(target);
-                path.pop_back();
+                enemyCat.setTextureRect(IDLE_WONDERING_CAT_TEXTURE_RECT);
             }
-            else if (targetNode == goalNode)
+            
+            if (goalNode != calculateNodeIndex(playerPosition))
             {
-                targetPos = calculatePositionfromNode(targetNode);
-                target = Static(targetPos, sf::degrees(0.0f));
-                enemyCat.setTarget(target);
+                path = std::vector<Connection>{};
+                goalNode = calculateNodeIndex(playerPosition);
+                goalNode = (goalNode < MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT) ? goalNode : 1055;
+            }
+            
+            // create a path to goal node or follow an existing path.
+            if (path.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
+            {
+                if (currentNode != goalNode)
+                {
+                    /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
+                    startNode = calculateNodeIndex(sf::Vector2f(rng.getRandomInt(),rng.getRandomInt()));
+                    currentNode = startNode;
+                    EuclidianHeuristic heuristic;
+                    path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
+                    /* ------------------- Set the first waypoint for the boid ------------------ */
+                    if (!path.empty())
+                    {
+                        targetNode = path.back().getToNode();
+                        targetPos = calculatePositionfromNode(targetNode);
+                        target = Static(targetPos, sf::degrees(0.0f));
+                        enemyCat.setTarget(target);
+                        path.pop_back();
+                    }
+                }
+            }
+            else // continue following existing path
+            {
+                // Calculate currentNode, mouseNode
+                currentNode = calculateNodeIndex(enemyCatPosition);
+
+                if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
+                {
+                    targetNode = path.back().getToNode();
+                    targetPos = calculatePositionfromNode(targetNode);
+                    target = Static(targetPos, sf::degrees(0.0f));
+                    enemyCat.setTarget(target);
+                    path.pop_back();
+                }
+                else if (targetNode == goalNode)
+                {
+                    targetPos = calculatePositionfromNode(targetNode);
+                    target = Static(targetPos, sf::degrees(0.0f));
+                    enemyCat.setTarget(target);
+                }
             }
         }
-
         // * Must call clear before drawing anything o.w. content from previous frames will show.
         window.clear(sf::Color::White);
 
