@@ -69,10 +69,10 @@ Breadcrumbs::Breadcrumbs(Static character, float delay)
         sf::Color::Yellow};
     m_currentColor = 0;
 
-    auto initBreadcrumb = Breadcrumb(character, m_radius, m_outlineThickness, m_colors[m_currentColor]);
-    m_breadcrumbs = {initBreadcrumb};
+    // auto initBreadcrumb = Breadcrumb(character, m_radius, m_outlineThickness, m_colors[m_currentColor]);
+    // m_breadcrumbs = {initBreadcrumb};
 
-    m_numFramesSinceBreadcrumb += 1;
+    // m_numFramesSinceBreadcrumb += 1;
 };
 
 void Breadcrumbs::update(Static character)
