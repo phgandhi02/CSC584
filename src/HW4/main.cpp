@@ -264,6 +264,23 @@ int main() {
         }
 
         /* ------------------------- Pathfinding for Enemies ------------------------ */
+        /*
+        * Trying to implement decision tree here.
+        TODO: wrap pathfinding logic into a function.
+        ! lots of dependencies.
+
+        Basic pseudo-code:
+        if (distance < 150)
+        {
+            Enemy speed temporarily increases
+            Enemy chases player
+        } else 
+        {
+            Enemy wanders map
+        }
+        */
+        
+
         enemyCatPosition = enemyCat.getPosition();
         playerPosition = player.getPosition();
 
