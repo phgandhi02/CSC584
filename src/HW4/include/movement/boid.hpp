@@ -34,6 +34,7 @@ public:
     Static getCharacter() { return m_character; }
     KinematicSteeringOutput getSteering() { return m_steering; }
     sf::Vector2f getPosition() { return m_character.getPosition(); }
+    sf::Angle getOrientation() { return m_character.getOrientation(); }
     bool breadcrumbs_on = true;
 
     // Basic Texture manipulation functions
@@ -47,6 +48,7 @@ public:
         m_sprite.setTextureRect(textureRect);
         m_sprite.setOrigin(textureOrigin);
     }
+    sf::IntRect getTextureRect() { return m_sprite.getTextureRect(); }
     
     void setTarget(Static target) { m_target = target; };
 
