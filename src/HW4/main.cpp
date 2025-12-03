@@ -24,12 +24,7 @@ TODO: implement decision tree for enemy
 #include <iostream>
 #include <memory>
 
-const auto IDLE_WONDERING_CAT_TEXTURE_RECT = sf::IntRect(sf::Vector2i(198,15),sf::Vector2i(378,500));
-const auto PLAYER_CAPTURED_CAT_TEXTURE_RECT = sf::IntRect(sf::Vector2i(206,540),sf::Vector2i(346,496));
-const auto LEFT_CHASING_CAT_TEXTURE_RECT = sf::IntRect(sf::Vector2i(1393,447),sf::Vector2i(-605,-400));
-const auto LEFT_CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(-LEFT_CHASING_CAT_TEXTURE_RECT.size.x/2, LEFT_CHASING_CAT_TEXTURE_RECT.size.y/2 + 250);
-const auto RIGHT_CHASING_CAT_TEXTURE_RECT = sf::IntRect(sf::Vector2i(837,575),sf::Vector2i(605,400));
-const auto RIGHT_CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(RIGHT_CHASING_CAT_TEXTURE_RECT.size.x/2, RIGHT_CHASING_CAT_TEXTURE_RECT.size.y/2 + 150);
+
 
 void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
 {
