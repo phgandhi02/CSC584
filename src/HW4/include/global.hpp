@@ -12,10 +12,11 @@ enum Cell {Empty = ' ', Wall = '#' };
 class RandomNumGen
 {
 public:
-    RandomNumGen(float lower_limit, float higher_limit) {
-        std::random_device rd;  // a seed source for the random number engine
-        std::mt19937 m_gen(rd()); // mersenne_twister_engine seeded with rd()
-        std::uniform_int_distribution<> m_distrib(static_cast<int>(lower_limit),static_cast<int>(higher_limit));
+    RandomNumGen(int lower_limit, int higher_limit):
+        m_gen(), m_distrib(static_cast<int>(lower_limit),static_cast<int>(higher_limit)) {
+        // ;  // a seed source for the random number engine
+        // std::mt19937 this->m_gen(rd()); // mersenne_twister_engine seeded with rd()
+        // std::uniform_int_distribution<> this->m_distrib();
     }
     ~RandomNumGen() = default;
     int getRandomInt() {return m_distrib(m_gen);}
