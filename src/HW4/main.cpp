@@ -100,15 +100,17 @@ int main() {
     // the program doesn't end immediately. 
     // * use sf::VideoMode to get desktop resolution for dynamic sizing
     sf::RenderWindow window(sf::VideoMode({800, 800}), "CSC584 HW4"); 
-
+    window.setFramerateLimit(60); // set the framerate limit to 60 fps.
     /* -------------------------------------------------------------------------- */
     /*                               Main Game Loop                               */
     /* -------------------------------------------------------------------------- */
+    auto map = generate_scene();
     while (window.isOpen()) 
     {
         // check all the window's events that were triggered since the last
         // iteration of the loop
-        while (const std::optional event = window.pollEvent()) {
+        while (const std::optional event = window.pollEvent()) 
+        {
             // "close requested" event: we close the window
             if (event->is<sf::Event::Closed>())
             {
@@ -116,8 +118,9 @@ int main() {
                 window.close();
             
             /* ------------------------- Check for Input Events ------------------------- */
+            }
         }
-        
+
         // * Must call clear before drawing anything o.w. content from previous frames will show.
         window.clear(sf::Color::White);
 
