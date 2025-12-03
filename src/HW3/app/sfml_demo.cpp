@@ -99,7 +99,7 @@ int main()
     window.setFramerateLimit(144); // set the framerate limit to 144 fps.
     // create a texture object to load the boid image.
     sf::Texture texture;
-    if (!texture.loadFromFile("/home/prem/code/CSC584/src/HW3/assets/boid-sm.png")) // make sure the texture loads correctly.
+    if (!texture.loadFromFile("boid-sm.png")) // make sure the texture loads correctly.
         return EXIT_FAILURE;
 
     // Convention for position: origin at the top-left corner. x axis points towards right on screen. y-axis points down on screen.
