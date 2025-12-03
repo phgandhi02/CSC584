@@ -3,8 +3,6 @@ TODO: add kitchen asset sprites to map
 
 TODO: implement seed eating behavior
 
-TODO: implement movement behaviors for enemy
-TODO: implement pathfinding behaviors for enemy
 TODO: implement decision tree for enemy
 */
 // Global Include 
@@ -174,16 +172,20 @@ int main() {
 
     // Create enemy sprite
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
+    auto enemyCatPosition = enemyStartPos.getPosition();
+    sf::Vector2f targetPos; // stores the position of the next target
+    Static target;
     Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
     enemyCat.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT, LEFT_CHASING_CAT_TEXTURE_ORIGIN);
     enemyCat.setSpriteScale(.25,.25);
-    enemyCat.mouseInputOn = true;
+    enemyCat.mouseInputOn = false;
     auto enemySeekBehavior = std::make_unique<KinematicSeek>();
     enemyCat.controller = std::move(enemySeekBehavior);
     enemyCat.breadcrumbs_on = false;
 
     // Create player sprite
     auto playerStartPos = Static(sf::Vector2f(500,400), sf::degrees(0));
+    auto playerPosition = playerStartPos.getPosition();
     Boid player(spriteSheetTextures, playerStartPos, window);
     player.setTextureRect(RIGHT_PLAYER_TEXTURE_RECT);
     player.setSpriteScale(.15,.15);
@@ -209,6 +211,58 @@ int main() {
                 window.close();
             
             /* ------------------------- Check for Input Events ------------------------- */
+            }
+        }
+
+        /* ------------------------- Pathfinding for Enemies ------------------------ */
+        enemyCatPosition = enemyCat.getPosition();
+        playerPosition = player.getPosition();
+        if (goalNode != calculateNodeIndex(playerPosition))
+        {
+            path = std::vector<Connection>{};
+            goalNode = calculateNodeIndex(playerPosition);
+            goalNode = (goalNode < MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT) ? goalNode : 1055;
+        }
+        
+        // create a path to goal node or follow an existing path.
+        if (path.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
+        {
+            if (currentNode != goalNode)
+            {
+                /* ------------------------ Run Dijkstra's Algorithm ------------------------ */
+                startNode = calculateNodeIndex(enemyCatPosition);
+                currentNode = startNode;
+                EuclidianHeuristic heuristic;
+                path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
+                /* ------------------- Set the first waypoint for the boid ------------------ */
+                if (!path.empty())
+                {
+                    targetNode = path.back().getToNode();
+                    targetPos = calculatePositionfromNode(targetNode);
+                    target = Static(targetPos, sf::degrees(0.0f));
+                    enemyCat.setTarget(target);
+                    path.pop_back();
+                }
+            }
+        }
+        else // continue following existing path
+        {
+            // Calculate currentNode, mouseNode
+            currentNode = calculateNodeIndex(enemyCatPosition);
+
+            if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
+            {
+                targetNode = path.back().getToNode();
+                targetPos = calculatePositionfromNode(targetNode);
+                target = Static(targetPos, sf::degrees(0.0f));
+                enemyCat.setTarget(target);
+                path.pop_back();
+            }
+            else if (targetNode == goalNode)
+            {
+                targetPos = calculatePositionfromNode(targetNode);
+                target = Static(targetPos, sf::degrees(0.0f));
+                enemyCat.setTarget(target);
             }
         }
 
