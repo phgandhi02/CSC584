@@ -13,7 +13,6 @@ class RandomNumGen
 {
 public:
     RandomNumGen(float lower_limit, float higher_limit) {
-        srand(static_cast<unsigned>(time(0)));
         std::random_device rd;  // a seed source for the random number engine
         std::mt19937 m_gen(rd()); // mersenne_twister_engine seeded with rd()
         std::uniform_int_distribution<> m_distrib(static_cast<int>(lower_limit),static_cast<int>(higher_limit));
