@@ -24,7 +24,9 @@ TODO: implement decision tree for enemy
 #include <iostream>
 #include <memory>
 
-
+class GameState
+{
+};
 
 void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
 {
