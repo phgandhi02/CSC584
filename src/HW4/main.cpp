@@ -95,7 +95,13 @@ std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
 int main() {
     /* -------------------------------------------------------------------------- */
     /*                               Game Loop Setup                              */
-    /* -------------------------------------------------------------------------- */ 
+    /* -------------------------------------------------------------------------- */
+    // Seed the random number generator before using any random numbers in the program.
+    srand(static_cast<unsigned>(time(0)));
+    std::random_device rd;  // a seed source for the random number engine
+    std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> distrib(40, 760);
+
     // window creates Window obj. Must include event handling loop to ensure
     // the program doesn't end immediately. 
     // * use sf::VideoMode to get desktop resolution for dynamic sizing
@@ -105,6 +111,10 @@ int main() {
     /*                               Main Game Loop                               */
     /* -------------------------------------------------------------------------- */
     auto map = generate_scene();
+    int i = 0;
+    auto seedTexture = sf::Texture("seeds.png");
+    sf::Sprite seed(seedTexture);
+    seed.scale(sf::Vector2f(.3,.3));
     while (window.isOpen()) 
     {
         // check all the window's events that were triggered since the last
@@ -126,6 +136,18 @@ int main() {
 
         // draw on window
         draw_map(map, window); // draw map
+
+        i++;
+        if ((i % 200) == 0)
+        {
+            seed.setPosition(sf::Vector2f(distrib(gen),distrib(gen)));
+            window.draw(seed);
+            i = 0;
+        } else {
+            window.draw(seed);
+        }
+        std::cout << i << std::endl;
+
 
         // * must call display end the current frame
         window.display();
