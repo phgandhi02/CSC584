@@ -105,8 +105,7 @@ int main() {
     /* -------------------------------------------------------------------------- */
     auto rng = RandomNumGen(40,760); // Create random number generator for getting random seed locations
 
-    // window creates Window obj. Must include event handling loop to ensure
-    // the program doesn't end immediately. 
+    // window creates Window obj. Must include event handling loop to ensure the program doesn't end immediately. 
     // * use sf::VideoMode to get desktop resolution for dynamic sizing
     sf::RenderWindow window(sf::VideoMode({800, 800}), "CSC584 HW4"); 
     window.setFramerateLimit(60); // set the framerate limit to 60 fps.
@@ -121,7 +120,7 @@ int main() {
         graph.addEdge(edge);
     }
 
-    /* -------------------------- Setup Pathfinding Var ------------------------- */
+    /* ---------------------------- Setup Pathfinding --------------------------- */
     auto pathfinding = Pathfinding();
     std::vector<Connection> path;
     // stores the node value for start, current, mouse input, and the next target.
