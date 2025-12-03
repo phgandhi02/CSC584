@@ -154,15 +154,26 @@ int main() {
         draw_map(map, window); // draw map
 
         i++;
-        if ((i % 200) == 0)
+        if ((i % 100) == 0)
         {
-            seed.setPosition(sf::Vector2f(distrib(gen),distrib(gen)));
+            auto random_position = sf::Vector2f();
+            while (path.empty())
+            {
+                random_position = sf::Vector2f(distrib(gen),distrib(gen));
+                startNode = 42;
+                goalNode = calculateNodeIndex(random_position);
+                EuclidianHeuristic heuristic;
+                path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
+                std::cout << random_position.x << " | " << random_position.y << std::endl;      
+            }    
+
+            seed.setPosition(random_position);
             window.draw(seed);
             i = 0;
+            path = std::vector<Connection>();
         } else {
             window.draw(seed);
         }
-        std::cout << i << std::endl;
 
 
         // * must call display end the current frame
