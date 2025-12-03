@@ -130,6 +130,12 @@ int main() {
     auto seedTexture = sf::Texture("seeds.png");
     sf::Sprite seed(seedTexture);
     seed.scale(sf::Vector2f(.3,.3));
+
+    // Create enemy sprite
+    auto enemyCatTexture = sf::Texture("chasingCat.png");
+    sf::Sprite enemyCat(enemyCatTexture);
+    enemyCat.scale(sf::Vector2f(.3,.3));
+    enemyCat.setPosition(sf::Vector2f(100,100));
     /* -------------------------------------------------------------------------- */
     /*                               Main Game Loop                               */
     /* -------------------------------------------------------------------------- */
@@ -154,6 +160,7 @@ int main() {
 
         // draw on window
         draw_map(map, window); // draw map
+        window.draw(enemyCat);
 
         i++;
         if ((i % 100) == 0)
