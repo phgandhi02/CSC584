@@ -171,7 +171,7 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
 /*
 set Boid to next target from path if path is not empty
 */
-void follow_path(std::vector<Connection> path, Boid boid)
+void follow_path(std::vector<Connection> path, Boid& boid)
 {
     unsigned int targetNode;
     sf::Vector2f targetPos;
