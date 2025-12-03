@@ -36,6 +36,7 @@ public:
     sf::Vector2f getPosition() { return m_character.getPosition(); }
     bool breadcrumbs_on = true;
     void setTexture(sf::Texture &texture);
+    void setSpriteScale(float scaleX, float scaleY) {m_sprite.setScale(sf::Vector2f(scaleX,scaleY));}
     void setTarget(Static target) { m_target = target; };
 
     // Steering Function
