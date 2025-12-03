@@ -55,7 +55,7 @@ Breadcrumb::Breadcrumb(Static pos, float radius, float outlineThickness, sf::Col
     image.setOutlineColor(color);
 };
 
-Breadcrumbs::Breadcrumbs(Static character, float delay)
+Breadcrumbs::Breadcrumbs(float delay)
 {
     m_numFramesSinceBreadcrumb = 0;
     m_delay = delay;
@@ -68,11 +68,6 @@ Breadcrumbs::Breadcrumbs(Static character, float delay)
         sf::Color::Red,
         sf::Color::Yellow};
     m_currentColor = 0;
-
-    // auto initBreadcrumb = Breadcrumb(character, m_radius, m_outlineThickness, m_colors[m_currentColor]);
-    // m_breadcrumbs = {initBreadcrumb};
-
-    // m_numFramesSinceBreadcrumb += 1;
 };
 
 void Breadcrumbs::update(Static character)
