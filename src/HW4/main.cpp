@@ -23,6 +23,10 @@ TODO: implement decision tree for enemy
 // STL
 #include <iostream>
 #include <memory>
+
+auto IDLE_WONDERING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(198,15),sf::Vector2i(378,500));
+auto PLAYER_CAPTURED_CAT_TEXTURE = sf::IntRect(sf::Vector2i(206,540),sf::Vector2i(346,496));
+auto LEFT_CHASING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(788,47),sf::Vector2i(605,400));
 auto RIGHT_CHASING_CAT_TEXTURE = sf::IntRect(sf::Vector2i(837,575),sf::Vector2i(605,400));
 auto CHASING_CAT_TEXTURE_ORIGIN = sf::Vector2f(RIGHT_CHASING_CAT_TEXTURE.size.x/2, RIGHT_CHASING_CAT_TEXTURE.size.y/2 + 150);
 
@@ -172,6 +176,7 @@ int main() {
         draw_map(map, window); // draw map
         enemyCat.update(0.01f);
         enemyCat.draw(window);
+        // window.draw(enemy);
 
         i++;
         if ((i % 100) == 0)
@@ -184,7 +189,7 @@ int main() {
                 goalNode = calculateNodeIndex(random_position);
                 EuclidianHeuristic heuristic;
                 path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
-                std::cout << random_position.x << " | " << random_position.y << std::endl;      
+                // std::cout << random_position.x << " | " << random_position.y << std::endl;      
             }    
 
             seed.setPosition(random_position);
