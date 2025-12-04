@@ -204,7 +204,6 @@ int main() {
   // Setup graph
   std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map =
       convert_sketch_to_map(MAP_SKETCH);
-  ;
 
   Graph graph = Graph();
   std::cout << "Generating a graph!" << std::endl;
@@ -255,6 +254,7 @@ int main() {
   player.speed *= 2;
 
   float distance;
+  auto gameState = GameState(graph,enemyCat,player,seed.getPosition(),0);
   
   // MAIN GAME LOOP
   
