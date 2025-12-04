@@ -3,6 +3,7 @@
 
 #include "../movement/boid.hpp"
 #include "../movement/steering_behavior.hpp"
+#include "../../include/pathfinding/graph.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
