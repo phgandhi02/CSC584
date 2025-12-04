@@ -1,6 +1,9 @@
 #ifndef GAME_STATE_HPP
 #define GAME_STATE_HPP
 
+#include "../movement/boid.hpp"
+#include "../movement/steering_behavior.hpp"
+#include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
 class CharacterState
@@ -30,6 +33,21 @@ public:
         m_player = CharacterState(player);
     }
     ~GameState() = default;
+
+    // Game Metric getters
+    float getDistance() { return (m_player.getPosition() - m_enemyCat.getPosition()).length(); }
+    
+
+    // Game conditional tests
+    bool isEnemyTextRect(sf::IntRect textRect) { return (textRect == m_enemyCat.textureRect); }
+    bool isPlayerTextRect(sf::IntRect textRect) { return (textRect == m_player.textureRect); }
+
+    // Member Variable getters
+    sf::Vector2f getEnemyCatPos() {return m_enemyCat.getPosition();}
+    sf::Vector2f getPlayerPos() {return m_player.getPosition();}
+    sf::Vector2f getSeedPos() {return m_seedPos;}
+    float getScore() { return m_score; }
+private:
     CharacterState m_enemyCat;
     CharacterState m_player;
     sf::Vector2f m_seedPos;
