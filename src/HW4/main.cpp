@@ -223,6 +223,8 @@ int main() {
     auto seedTexture = sf::Texture("seeds.png");
     sf::Sprite seed(seedTexture);
     seed.scale(sf::Vector2f(.3f,.3f));
+    std::vector<Connection> seedPath;
+    auto random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());;
 
     // Create enemy sprite
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
@@ -418,8 +420,7 @@ int main() {
         i++;
         if ((i % 300) == 0)
         {
-            auto random_position = sf::Vector2f();
-            while (path.empty())
+            while (graph.getNodes(calcNodeIndex(random_position)).empty())
             {
                 random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());
                 startNode = 42;
