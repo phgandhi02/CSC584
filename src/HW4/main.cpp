@@ -172,11 +172,17 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
 
     EuclidianHeuristic heuristic;
     path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
+    // for (auto &connection : path)
+    // {
+    //     std::cout << connection << std::endl;
+    // }
+    std::cout << path.size() << std::endl;
     return path;
 }
 
 /*
 set Boid to next target from path if path is not empty
+! This function is broken. It is not 
 */
 void follow_path(std::vector<Connection>& path, Boid& boid)
 {
@@ -189,6 +195,8 @@ void follow_path(std::vector<Connection>& path, Boid& boid)
         currentNode = calcNodeIndex(boid.getPosition());
         targetNode = path.back().getToNode();
         targetPos = calcPosfromNode(targetNode);
+        std::cout << currentNode << " | " << targetNode << " | " << boid.getTarget().getPosition().x << " , " << boid.getTarget().getPosition().y << std::endl;
+
         target = Static(targetPos, sf::degrees(0.0f));
         boid.setTarget(target);
         path.pop_back();
@@ -320,7 +328,7 @@ int main() {
             
             // create a path to goal node or follow an existing path.
             // create a path to the goal node
-            if (enemyPath.empty() && graph.getNodes(calcNodeIndex(playerPosition)).size() >= 1) // Initialize Dijkstra's to plan a path to a known free cell.
+            if (enemyPath.empty() && graph.getNodes(calcNodeIndex(playerPosition)).size() >= 1) 
             {
                 enemyPath = pathfind(graph,enemyCatPosition,playerPosition);
                 if (!enemyPath.empty())
@@ -331,8 +339,8 @@ int main() {
                 }
                 
             }
-            else // continue following existing path
-                follow_path(enemyPath,enemyCat);
+            else // continue following existing path 
+                follow_path(enemyPath,enemyCat); // ! this function is not even getting called.
         } else 
         {
             if (enemyCat.getTextureRect() != IDLE_WONDERING_CAT_TEXTURE_RECT)
