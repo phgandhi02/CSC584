@@ -1,8 +1,5 @@
 /*
 TODO: add kitchen asset sprites to map
-
-TODO: enemy pathfind only if player in valid position
-TODO: clean up logic for pathfinding
 TODO: implement seed eating behavior
 
 TODO: implement decision tree for enemy
