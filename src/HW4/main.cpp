@@ -93,11 +93,6 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
 
     EuclidianHeuristic heuristic;
     path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
-    // for (auto &connection : path)
-    // {
-    //     std::cout << connection << std::endl;
-    // }
-    std::cout << path.size() << std::endl;
     return path;
 }
 
@@ -115,9 +110,7 @@ void follow_path(std::vector<Connection>& path, Boid& boid)
     nextNode = path.back().getFromNode();
     targetNode = path.back().getToNode();
     goalNode = path.front().getToNode();
-
-    std::cout << currentNode << " | " << targetNode << " | " << calcNodeIndex(boid.getTarget().getPosition()) << std::endl;
-
+    
     if (currentNode == nextNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
     {
         
