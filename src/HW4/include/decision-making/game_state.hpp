@@ -54,6 +54,7 @@ public:
     sf::Vector2f getSeedPos() {return m_seedPos;}
     unsigned int getSeedCurrentNode() { return calcNodeIndex(m_seedPos);}
     float getScore() { return m_score; }
+    std::vector<Connection> getPath(sf::Vector2f startPos, sf::Vector2f endPos);
 private:
     Graph m_graph;
     CharacterState m_enemyCat;
