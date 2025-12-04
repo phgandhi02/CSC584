@@ -362,7 +362,7 @@ int main() {
                 {
                     target = Static(calcPosfromNode(enemyPath.back().getToNode()), sf::degrees(0.0f));
                     enemyCat.setTarget(target);
-                    enemyPath.pop_back();
+                    // enemyPath.pop_back();
                 }
             }
             else // continue following existing path
