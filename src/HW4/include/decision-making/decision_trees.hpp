@@ -1,9 +1,11 @@
-#ifndef DECISION_TREES_HPP
-#define DECISION_TREES_HPP
 /*
 Decision Trees lib contains various recursive decision node objs that can be
 used to construct a decision tree.
 */
+#ifndef DECISION_TREES_HPP
+#define DECISION_TREES_HPP
+
+#include "game_state.hpp"
 
 /**
  * @class DecisionTreeNode
