@@ -362,7 +362,7 @@ int main() {
         draw_player(player,window);
 
         i++;
-        if ((i % 300) == 0)
+        if ((i % 750) == 0)
         {
             while (graph.getNodes(calcNodeIndex(random_position)).size() <= 1)
             {
