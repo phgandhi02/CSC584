@@ -34,6 +34,7 @@ public:
 class Breadcrumbs
 {
 public:
+    Breadcrumbs() = default;
     Breadcrumbs(float delay);
     ~Breadcrumbs() = default;
     // number of frames between each breadcrumb
