@@ -11,48 +11,7 @@ constexpr unsigned int MAP_HEIGHT = 40;
 constexpr unsigned int MAP_WIDTH = 40;
 constexpr unsigned int CELL_SIZE = 20;
 
-// convert MAP_SKETCH into map
-std::array<std::string, MAP_HEIGHT> MAP_SKETCH = {
-    "########################################",
-    "#           #                          #",
-    "#           #                          #",
-    "#           #                          #",
-    "#           #                          #",
-    "#           #                          #",
-    "#           #                          #",
-    "#####   ###################   ##########",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                                      #",
-    "#                                      #",
-    "#                                      #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "########   ###################   #######",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "###################   ##################",
-    "#                                      #",
-    "#                                      #",
-    "#                                      #",
-    "#########                              #",
-    "#                                      #",
-    "#                                      #",
-    "########################################"};
+
 
 const auto IDLE_WONDERING_CAT_TEXTURE_RECT =
     sf::IntRect(sf::Vector2i(198, 15), sf::Vector2i(378, 500));
@@ -98,31 +57,5 @@ private:
   std::uniform_int_distribution<> m_distrib;
 };
 
-void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map,
-              sf::RenderWindow &window) {
-  auto FLOOR_BROWN = sf::Color(210, 180, 140);
-  auto WALL_DARK_BROWN = sf::Color(139, 69, 19);
-
-  auto cell_shape = sf::RectangleShape(sf::Vector2f(CELL_SIZE, CELL_SIZE));
-  for (unsigned int i = 0; i < MAP_HEIGHT; i++) {
-    for (unsigned int j = 0; j < MAP_WIDTH; j++) {
-      // indicies are switched because of SFML x-y direction convention
-      cell_shape.setPosition(sf::Vector2f(static_cast<float>(CELL_SIZE * j),
-                                          static_cast<float>(CELL_SIZE * i)));
-
-      // map prints sideways so indices are switched.
-      switch (map[i][j]) {
-      case Cell::Wall:
-        cell_shape.setFillColor(WALL_DARK_BROWN);
-        break;
-
-      default:
-        cell_shape.setFillColor(FLOOR_BROWN);
-        break;
-      }
-      window.draw(cell_shape);
-    }
-  }
-};
 
 #endif // GLOBAL_HPP
