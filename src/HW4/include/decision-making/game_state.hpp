@@ -27,10 +27,12 @@ public:
 class GameState
 {
 public:
-    GameState(Boid& enemyCat, Boid& player, Boid seed, float score)
+    GameState(Boid& enemyCat, Boid& player, sf::Vector2f seedPos, float score)
     {
         m_enemyCat = CharacterState(enemyCat);
         m_player = CharacterState(player);
+        m_seedPos = seedPos;
+        m_score = score;
     }
     ~GameState() = default;
 
