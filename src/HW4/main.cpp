@@ -164,7 +164,7 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
     if (goalNode >= MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT || goalNode < 0)
         return path; // return empty path
     // Check if goal node is in the graph
-    if (graph.getNodes(goalNode).empty())
+    if (static_cast<int>(graph.getNodes(goalNode).size()) <= 1)
     {
         return path; // return empty path
     }
@@ -177,20 +177,26 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
 /*
 set Boid to next target from path if path is not empty
 */
-void follow_path(std::vector<Connection> path, Boid& boid)
+void follow_path(std::vector<Connection>& path, Boid& boid)
 {
-    unsigned int targetNode;
+    unsigned int targetNode, currentNode, goalNode;
     sf::Vector2f targetPos;
     Static target;
     // Check if the path is empty. If not empty then pop next target
     if (!path.empty())
     {
+        currentNode = calcNodeIndex(boid.getPosition());
         targetNode = path.back().getToNode();
         targetPos = calcPosfromNode(targetNode);
         target = Static(targetPos, sf::degrees(0.0f));
         boid.setTarget(target);
         path.pop_back();
-    }
+    } else if (targetNode == goalNode)
+        {
+            targetPos = calcPosfromNode(targetNode);
+            target = Static(targetPos, sf::degrees(0.0f));
+            boid.setTarget(target);
+        }
 }
 
 int main() {
@@ -219,7 +225,7 @@ int main() {
     sf::Sprite seed(seedTexture);
     seed.scale(sf::Vector2f(.3f,.3f));
     std::vector<Connection> seedPath;
-    auto random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());;
+    auto random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());
 
     // Create enemy sprite
     auto enemyStartPos = Static(sf::Vector2f(100,100), sf::degrees(0));
@@ -270,9 +276,6 @@ int main() {
         /* ------------------------- Pathfinding for Enemies ------------------------ */
         /*
         * Trying to implement decision tree here.
-        TODO: wrap pathfinding logic into a function.
-        ! lots of dependencies.
-
         Basic pseudo-code:
         if (distance < 150)
         {
@@ -304,10 +307,16 @@ int main() {
             
             // create a path to goal node or follow an existing path.
             // create a path to the goal node
-            if (enemyPath.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
+            if (enemyPath.empty() && graph.getNodes(calcNodeIndex(playerPosition)).size() >= 1) // Initialize Dijkstra's to plan a path to a known free cell.
             {
                 enemyPath = pathfind(graph,enemyCatPosition,playerPosition);
-                follow_path(enemyPath,enemyCat);
+                if (!enemyPath.empty())
+                {
+                    target = Static(calcPosfromNode(enemyPath.back().getToNode()), sf::degrees(0.0f));
+                    enemyCat.setTarget(target);
+                    enemyPath.pop_back();
+                }
+                
             }
             else // continue following existing path
                 follow_path(enemyPath,enemyCat);
@@ -315,6 +324,7 @@ int main() {
         {
             if (enemyCat.getTextureRect() != IDLE_WONDERING_CAT_TEXTURE_RECT)
             {
+                enemyPath = std::vector<Connection>{};
                 enemyCat.setTextureRect(IDLE_WONDERING_CAT_TEXTURE_RECT);
             }
             
@@ -322,8 +332,18 @@ int main() {
             // create a path to the goal node
             if (enemyPath.empty()) // Initialize Dijkstra's to plan a path to a known free cell.
             {
-                enemyPath = pathfind(graph,enemyCatPosition,playerPosition);
-                follow_path(enemyPath,enemyCat);
+                random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());
+                while (graph.getNodes(calcNodeIndex(random_position)).size() <= 1)
+                {
+                    random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());
+                }
+                enemyPath = pathfind(graph,enemyCatPosition,random_position);
+                if (!enemyPath.empty())
+                {
+                    target = Static(calcPosfromNode(enemyPath.back().getToNode()), sf::degrees(0.0f));
+                    enemyCat.setTarget(target);
+                    enemyPath.pop_back();
+                }
             }
             else // continue following existing path
                 follow_path(enemyPath,enemyCat);
@@ -344,16 +364,14 @@ int main() {
         i++;
         if ((i % 300) == 0)
         {
-            while (graph.getNodes(calcNodeIndex(random_position)).empty())
+            while (graph.getNodes(calcNodeIndex(random_position)).size() <= 1)
             {
                 random_position = sf::Vector2f(rng.getRandomInt(),rng.getRandomInt());
-                pathfind(graph,calcPosfromNode(42),random_position);
             }    
 
             seed.setPosition(random_position);
             window.draw(seed);
             i = 0;
-            seedPath = std::vector<Connection>();
         } else {
             window.draw(seed);
         }
