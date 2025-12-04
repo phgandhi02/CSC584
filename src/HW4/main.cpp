@@ -155,9 +155,15 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
     startNode = calcNodeIndex(startPos);
     goalNode = calcNodeIndex(goalPos);
 
+    // Check if startNode is the same as the goalNode
+    if (startNode == goalNode)
+    {
+        return path; // return empty path
+    }
     // Make sure goal node is within the map
     if (goalNode >= MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT || goalNode < 0)
         return path; // return empty path
+    // Check if goal node is in the graph
     if (graph.getNodes(goalNode).empty())
     {
         return path; // return empty path
