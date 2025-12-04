@@ -57,6 +57,8 @@ public:
      * 
      * @return DecisionTreeNode& 
      */
+    Decision(GameState gameState, DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
+        DecisionTreeNode(gameState),trueNode(trueBranch), falseNode(falseBranch) {}; 
     Decision(DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
         trueNode(trueBranch), falseNode(falseBranch) {}; 
     DecisionTreeNode& makeDecision() override {
