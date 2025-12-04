@@ -14,6 +14,8 @@ TODO: implement decision tree for enemy
 #include "movement/boid.hpp" // boid object which handles inputs events and steering behavior
 #include "pathfinding/graph.hpp" // graph object for graph representation of world for pathfinding
 #include "pathfinding/pathfinding_algos.hpp" // algorithms for pathfinding (Dijkstra's and A*)
+#include "decision-making/decision_trees.hpp"
+#include "decision-making/decision_trees.hpp"
 
 // SFML libs
 #include <SFML/Graphics.hpp>
@@ -108,39 +110,43 @@ std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
 void draw_enemy(Boid &enemy, sf::RenderWindow &window)
 {
     auto enemy_orientation = enemy.getOrientation();
-        if (enemy_orientation.asDegrees() < 0)
-        {
-            if (enemy.getTextureRect() == RIGHT_CHASING_CAT_TEXTURE_RECT)
-            {
-                enemy.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT,LEFT_CHASING_CAT_TEXTURE_ORIGIN);
-            }
-        } else 
-        {
-            if (enemy.getTextureRect() == LEFT_CHASING_CAT_TEXTURE_RECT)
-            {
-                enemy.setTextureRect(RIGHT_CHASING_CAT_TEXTURE_RECT,RIGHT_CHASING_CAT_TEXTURE_ORIGIN);
-            }
-        }
-        enemy.draw(window);
+    // if (enemy_orientation.asDegrees() < 0)
+    // {
+    //     if (enemy.getTextureRect() == RIGHT_CHASING_CAT_TEXTURE_RECT)
+    //     {
+    //         enemy.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT,LEFT_CHASING_CAT_TEXTURE_ORIGIN);
+    //     }
+    // } else 
+    // {
+    //     if (enemy.getTextureRect() == LEFT_CHASING_CAT_TEXTURE_RECT)
+    //     {
+    //         enemy.setTextureRect(RIGHT_CHASING_CAT_TEXTURE_RECT,RIGHT_CHASING_CAT_TEXTURE_ORIGIN);
+    //     }
+    // }
+    enemy.draw(window);
+    auto circle = sf::CircleShape(5.0f);
+    circle.setFillColor(sf::Color::Blue); 
+    circle.setPosition(enemy.getPosition());
+    window.draw(circle);
 }
 
 void draw_player(Boid &player, sf::RenderWindow &window)
 {
     auto player_orientation = player.getOrientation();
-        if (player_orientation.asDegrees() < 0)
+    if (player_orientation.asDegrees() < 0)
+    {
+        if (player.getTextureRect() == RIGHT_PLAYER_TEXTURE_RECT)
         {
-            if (player.getTextureRect() == RIGHT_PLAYER_TEXTURE_RECT)
-            {
-                player.setTextureRect(LEFT_PLAYER_TEXTURE_RECT,LEFT_PLAYER_TEXTURE_ORIGIN);
-            }
-        } else 
-        {
-            if (player.getTextureRect() == LEFT_PLAYER_TEXTURE_RECT)
-            {
-                player.setTextureRect(RIGHT_PLAYER_TEXTURE_RECT);
-            }
+            player.setTextureRect(LEFT_PLAYER_TEXTURE_RECT,LEFT_PLAYER_TEXTURE_ORIGIN);
         }
-        player.draw(window);
+    } else 
+    {
+        if (player.getTextureRect() == LEFT_PLAYER_TEXTURE_RECT)
+        {
+            player.setTextureRect(RIGHT_PLAYER_TEXTURE_RECT);
+        }
+    }
+    player.draw(window);
 }
 
 std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2f goalPos)
@@ -171,6 +177,11 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
 
     EuclidianHeuristic heuristic;
     path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
+    // for (auto &connection : path)
+    // {
+    //     std::cout << connection << std::endl;
+    // }
+    std::cout << path.size() << std::endl;
     return path;
 }
 
@@ -179,24 +190,33 @@ set Boid to next target from path if path is not empty
 */
 void follow_path(std::vector<Connection>& path, Boid& boid)
 {
-    unsigned int targetNode, currentNode, goalNode;
+    unsigned int targetNode, currentNode, nextNode, goalNode;
     sf::Vector2f targetPos;
     Static target;
-    // Check if the path is empty. If not empty then pop next target
-    if (!path.empty())
+
+    // Calculate currentNode, mouseNode
+    currentNode = calcNodeIndex(boid.getPosition());
+    nextNode = path.back().getFromNode();
+    targetNode = path.back().getToNode();
+    goalNode = path.front().getToNode();
+
+    std::cout << currentNode << " | " << targetNode << " | " << calcNodeIndex(boid.getTarget().getPosition()) << std::endl;
+
+    if (currentNode == nextNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
     {
-        currentNode = calcNodeIndex(boid.getPosition());
-        targetNode = path.back().getToNode();
+        
         targetPos = calcPosfromNode(targetNode);
         target = Static(targetPos, sf::degrees(0.0f));
         boid.setTarget(target);
         path.pop_back();
-    } else if (targetNode == goalNode)
-        {
-            targetPos = calcPosfromNode(targetNode);
-            target = Static(targetPos, sf::degrees(0.0f));
-            boid.setTarget(target);
-        }
+    }
+    else if (targetNode == goalNode)
+    {
+        targetPos = calcPosfromNode(targetNode);
+        target = Static(targetPos, sf::degrees(0.0f));
+        boid.setTarget(target);
+        path.pop_back();
+    }
 }
 
 int main() {
@@ -233,7 +253,7 @@ int main() {
     sf::Vector2f targetPos; // stores the position of the next target
     Static target;
     Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
-    enemyCat.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT, LEFT_CHASING_CAT_TEXTURE_ORIGIN);
+    enemyCat.setTextureRect(IDLE_WONDERING_CAT_TEXTURE_RECT);
     enemyCat.setSpriteScale(.25,.25);
     enemyCat.mouseInputOn = false;
     auto enemySeekBehavior = std::make_unique<KinematicSeek>();
@@ -307,7 +327,7 @@ int main() {
             
             // create a path to goal node or follow an existing path.
             // create a path to the goal node
-            if (enemyPath.empty() && graph.getNodes(calcNodeIndex(playerPosition)).size() >= 1) // Initialize Dijkstra's to plan a path to a known free cell.
+            if (enemyPath.empty() && graph.getNodes(calcNodeIndex(playerPosition)).size() >= 1) 
             {
                 enemyPath = pathfind(graph,enemyCatPosition,playerPosition);
                 if (!enemyPath.empty())
@@ -318,7 +338,7 @@ int main() {
                 }
                 
             }
-            else // continue following existing path
+            else // continue following existing path 
                 follow_path(enemyPath,enemyCat);
         } else 
         {
@@ -342,7 +362,7 @@ int main() {
                 {
                     target = Static(calcPosfromNode(enemyPath.back().getToNode()), sf::degrees(0.0f));
                     enemyCat.setTarget(target);
-                    enemyPath.pop_back();
+                    // enemyPath.pop_back();
                 }
             }
             else // continue following existing path
