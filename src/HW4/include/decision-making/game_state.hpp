@@ -27,8 +27,10 @@ public:
 class GameState
 {
 public:
-    GameState(Boid& enemyCat, Boid& player, sf::Vector2f seedPos, float score)
+    GameState() = default;
+    GameState(Graph& graph, Boid& enemyCat, Boid& player, sf::Vector2f seedPos, float score)
     {
+        m_graph = graph;
         m_enemyCat = CharacterState(enemyCat);
         m_player = CharacterState(player);
         m_seedPos = seedPos;
@@ -50,6 +52,7 @@ public:
     sf::Vector2f getSeedPos() {return m_seedPos;}
     float getScore() { return m_score; }
 private:
+    Graph m_graph;
     CharacterState m_enemyCat;
     CharacterState m_player;
     sf::Vector2f m_seedPos;
