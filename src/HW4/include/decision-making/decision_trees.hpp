@@ -36,6 +36,8 @@ public:
  */
 class Action : public DecisionTreeNode {
 public:
+    Action() = default;
+    ~Action() = default;
     /**
      * @brief Terminates Decision Tree search and returns self.
      * 
