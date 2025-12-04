@@ -39,6 +39,9 @@ target_link_libraries(pathfinding PRIVATE SFML::Graphics)
 
 # --- Create the decision-making Library ---
 add_library(decision-making ${DECISIONMAKING})
+target_link_libraries(decision-making PRIVATE SFML::Graphics)
+target_link_libraries(decision-making PRIVATE SFML::System)
+
 
 add_executable(main main.cpp)
 target_compile_features(main PRIVATE cxx_std_17)
@@ -56,12 +59,15 @@ target_include_directories(decision-making PUBLIC include)
 
 file(GLOB_RECURSE TESTS "tests/*.cpp")
 
-# --- Create The Test Executable ---
-add_executable(main_test main_test.cpp)
 
 # Link decision-making and gtest_main to the runTests program
 add_library(TestLib ${TESTS})
+target_link_libraries(TestLib PUBLIC SFML::Graphics SFML::Window)
+
+# --- Create The Test Executable ---
+add_executable(main_test main_test.cpp)
 target_link_libraries(main_test PRIVATE decision-making TestLib gtest_main)
+
 
 # Automatically find all the tests in your test runner
 gtest_discover_tests(main_test)
