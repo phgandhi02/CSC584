@@ -1,7 +1,7 @@
 /*
 TODO: add kitchen asset sprites to map
+TODO: implement game state
 TODO: implement seed eating behavior
-
 TODO: implement decision tree for enemy
 */
 // Global Include
@@ -120,20 +120,21 @@ void follow_path(std::vector<Connection> &path, Boid &boid) {
 }
 
 int main() {
-  /* --------------------------------------------------------------------------
-   */
-  /*                               Game Loop Setup */
-  /* --------------------------------------------------------------------------
-   */
-  auto rng = RandomNumGen(
-      40,
-      760); // Create random number generator for getting random seed locations
+  // GAME SETUP
+
+    // Create Game Util Vars
+
+  // Create random number generator for getting random seed locations
+  auto rng = RandomNumGen(40, 760);
+  // store sprite sheet with all character textures
+  // * use sf::IntRect consts declared in global.hpp 
   auto spriteSheetTextures = sf::Texture("sprite_sheet.png");
-  /* ------------------------------- Setup graph ------------------------------
-   */
+
+  // Setup graph
   std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map =
       convert_sketch_to_map(MAP_SKETCH);
   ;
+
   Graph graph = Graph();
   std::cout << "Generating a graph!" << std::endl;
   auto edges = GenMapGraph(map);
@@ -146,6 +147,8 @@ int main() {
   // * use sf::VideoMode to get desktop resolution for dynamic sizing
   sf::RenderWindow window(sf::VideoMode({800, 800}), "CSC584 HW4");
   window.setFramerateLimit(144); // set the framerate limit to 60 fps.
+
+    // Create Game Logic Vars
 
   int i = 0;
   auto seedTexture = sf::Texture("seeds.png");
@@ -181,11 +184,9 @@ int main() {
   player.speed *= 2;
 
   float distance;
-  /* --------------------------------------------------------------------------
-   */
-  /*                               Main Game Loop */
-  /* --------------------------------------------------------------------------
-   */
+  
+  // MAIN GAME LOOP
+  
   while (window.isOpen()) {
     // check all the window's events that were triggered since the last
     // iteration of the loop
@@ -195,13 +196,11 @@ int main() {
         // Implement any logic needed before closing game ie. save game etc.
         window.close();
 
-        /* ------------------------- Check for Input Events
-         * ------------------------- */
+        // Check for Input Events
       }
     }
 
-    /* ------------------------- Pathfinding for Enemies
-     * ------------------------ */
+    // Pathfinding for Enemies
     /*
     * Trying to implement decision tree here.
     Basic pseudo-code:
@@ -249,9 +248,7 @@ int main() {
       }
 
       // create a path to goal node or follow an existing path.
-      // create a path to the goal node
-      if (enemyPath.empty()) // Initialize Dijkstra's to plan a path to a known
-                             // free cell.
+      if (enemyPath.empty())
       {
         random_position = sf::Vector2f(rng.getRandomInt(), rng.getRandomInt());
         while (graph.getNodes(calcNodeIndex(random_position)).size() <= 1) {
@@ -273,17 +270,18 @@ int main() {
     // frames will show.
     window.clear(sf::Color::White);
 
-    /* ----------------------------- Update Sprites
-     * ----------------------------- */
+    // Update Sprites
     enemyCat.update(TIME_STEP);
     player.update(TIME_STEP);
 
-    /* ------------------------------- Draw Window
-     * ------------------------------ */
+    // Draw Window
     draw_map(map, window); // draw map
     draw_enemy(enemyCat, window);
     draw_player(player, window);
 
+
+    // Logic for spawning seed randomly around map.
+    // TODO: refactor out of main func.
     i++;
     if ((i % 750) == 0) {
       while (graph.getNodes(calcNodeIndex(random_position)).size() <= 1) {
