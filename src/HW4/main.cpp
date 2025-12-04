@@ -23,87 +23,6 @@ TODO: implement decision tree for enemy
 #include <iostream>
 #include <memory>
 
-class GameState
-{
-};
-
-void draw_map(std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map, sf::RenderWindow &window)
-{
-    auto FLOOR_BROWN = sf::Color(210,180,140);
-    auto WALL_DARK_BROWN = sf::Color(139,69,19);
-
-    auto cell_shape = sf::RectangleShape(sf::Vector2f(CELL_SIZE, CELL_SIZE));
-    for (unsigned int i = 0; i < MAP_HEIGHT; i++)
-    {
-        for (unsigned int j = 0; j < MAP_WIDTH; j++)
-        {
-            // indicies are switched because of SFML x-y direction convention
-            cell_shape.setPosition(sf::Vector2f(static_cast<float>(CELL_SIZE * j), static_cast<float>(CELL_SIZE * i)));
-
-            // map prints sideways so indices are switched.
-            switch (map[i][j])
-            {
-            case Cell::Wall:
-                cell_shape.setFillColor(WALL_DARK_BROWN);
-                break;
-
-            default:
-                cell_shape.setFillColor(FLOOR_BROWN);
-                break;
-            }
-            window.draw(cell_shape);
-        }
-    }
-};
-
-std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
-{
-    // convert MAP_SKETCH into map
-    std::array<std::string, MAP_HEIGHT> MAP_SKETCH = {
-    "########################################",
-    "#           #                          #",
-    "#           #                          #",
-    "#           #                          #",
-    "#           #                          #",
-    "#           #                          #",
-    "#           #                          #",
-    "#####   ###################   ##########",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                                      #",
-    "#                                      #",
-    "#                                      #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "#                  #                   #",
-    "########   ###################   #######",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "#                         #            #",
-    "###################   ##################",
-    "#                                      #",
-    "#                                      #",
-    "#                                      #",
-    "#########                              #",
-    "#                                      #",
-    "#                                      #",
-    "########################################"};
-    std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map = convert_sketch_to_map(MAP_SKETCH);
-    return map;
-}
-
 void draw_enemy(Boid &enemy, sf::RenderWindow &window)
 {
     auto enemy_orientation = enemy.getOrientation();
@@ -223,7 +142,7 @@ int main() {
     auto rng = RandomNumGen(40,760); // Create random number generator for getting random seed locations
     auto spriteSheetTextures = sf::Texture("sprite_sheet.png");
     /* ------------------------------- Setup graph ------------------------------ */
-    auto map = generate_scene();
+    std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> map = convert_sketch_to_map(MAP_SKETCH);;
     Graph graph = Graph();
     std::cout << "Generating a graph!" << std::endl;
     auto edges = GenMapGraph(map);
