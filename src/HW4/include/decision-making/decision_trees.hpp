@@ -115,4 +115,13 @@ private:
     float m_gameState;
     float m_threshold;
 };
+
+class ChaseAction: public Action
+{
+  DecisionTreeNode& makeDecision() override {
+    // auto m_gameState = getGameState();
+    m_gameState.getPath(m_gameState.getEnemyCatPos(),m_gameState.getPlayerPos());
+    return *this;
+  }
+};
 #endif // DECISION_TREES_HPP
