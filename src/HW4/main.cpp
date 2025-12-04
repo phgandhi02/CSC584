@@ -109,39 +109,43 @@ std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> generate_scene()
 void draw_enemy(Boid &enemy, sf::RenderWindow &window)
 {
     auto enemy_orientation = enemy.getOrientation();
-        if (enemy_orientation.asDegrees() < 0)
-        {
-            if (enemy.getTextureRect() == RIGHT_CHASING_CAT_TEXTURE_RECT)
-            {
-                enemy.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT,LEFT_CHASING_CAT_TEXTURE_ORIGIN);
-            }
-        } else 
-        {
-            if (enemy.getTextureRect() == LEFT_CHASING_CAT_TEXTURE_RECT)
-            {
-                enemy.setTextureRect(RIGHT_CHASING_CAT_TEXTURE_RECT,RIGHT_CHASING_CAT_TEXTURE_ORIGIN);
-            }
-        }
-        enemy.draw(window);
+    // if (enemy_orientation.asDegrees() < 0)
+    // {
+    //     if (enemy.getTextureRect() == RIGHT_CHASING_CAT_TEXTURE_RECT)
+    //     {
+    //         enemy.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT,LEFT_CHASING_CAT_TEXTURE_ORIGIN);
+    //     }
+    // } else 
+    // {
+    //     if (enemy.getTextureRect() == LEFT_CHASING_CAT_TEXTURE_RECT)
+    //     {
+    //         enemy.setTextureRect(RIGHT_CHASING_CAT_TEXTURE_RECT,RIGHT_CHASING_CAT_TEXTURE_ORIGIN);
+    //     }
+    // }
+    enemy.draw(window);
+    auto circle = sf::CircleShape(5.0f);
+    circle.setFillColor(sf::Color::Blue); 
+    circle.setPosition(enemy.getPosition());
+    window.draw(circle);
 }
 
 void draw_player(Boid &player, sf::RenderWindow &window)
 {
     auto player_orientation = player.getOrientation();
-        if (player_orientation.asDegrees() < 0)
+    if (player_orientation.asDegrees() < 0)
+    {
+        if (player.getTextureRect() == RIGHT_PLAYER_TEXTURE_RECT)
         {
-            if (player.getTextureRect() == RIGHT_PLAYER_TEXTURE_RECT)
-            {
-                player.setTextureRect(LEFT_PLAYER_TEXTURE_RECT,LEFT_PLAYER_TEXTURE_ORIGIN);
-            }
-        } else 
-        {
-            if (player.getTextureRect() == LEFT_PLAYER_TEXTURE_RECT)
-            {
-                player.setTextureRect(RIGHT_PLAYER_TEXTURE_RECT);
-            }
+            player.setTextureRect(LEFT_PLAYER_TEXTURE_RECT,LEFT_PLAYER_TEXTURE_ORIGIN);
         }
-        player.draw(window);
+    } else 
+    {
+        if (player.getTextureRect() == LEFT_PLAYER_TEXTURE_RECT)
+        {
+            player.setTextureRect(RIGHT_PLAYER_TEXTURE_RECT);
+        }
+    }
+    player.draw(window);
 }
 
 std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2f goalPos)
