@@ -19,10 +19,14 @@ public:
      * 
      */
     DecisionTreeNode() = default;
+    DecisionTreeNode(GameState gameState): m_gameState(gameState) {};
     // base d'tor for DecisionTreeNode. Override with subclass d'tor.
     virtual ~DecisionTreeNode() = default;
     // abstract method for all decision tree node types. 
-    virtual DecisionTreeNode& makeDecision() = 0; 
+    virtual DecisionTreeNode& makeDecision() = 0;
+//     GameState getGameState() {return m_gameState;}
+// private:
+    GameState m_gameState;
 };
 
 /**
