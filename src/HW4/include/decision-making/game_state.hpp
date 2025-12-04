@@ -48,8 +48,11 @@ public:
 
     // Member Variable getters
     sf::Vector2f getEnemyCatPos() {return m_enemyCat.getPosition();}
+    unsigned int getEnemyCatCurrentNode() { return calcNodeIndex(m_enemyCat.getPosition());}
     sf::Vector2f getPlayerPos() {return m_player.getPosition();}
+    unsigned int getPlayerCurrentNode() { return calcNodeIndex(m_player.getPosition());}
     sf::Vector2f getSeedPos() {return m_seedPos;}
+    unsigned int getSeedCurrentNode() { return calcNodeIndex(m_seedPos);}
     float getScore() { return m_score; }
 private:
     Graph m_graph;
