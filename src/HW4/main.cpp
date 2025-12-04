@@ -15,6 +15,7 @@ TODO: implement decision tree for enemy
 #include "pathfinding/graph.hpp" // graph object for graph representation of world for pathfinding
 #include "pathfinding/pathfinding_algos.hpp" // algorithms for pathfinding (Dijkstra's and A*)
 #include "decision-making/decision_trees.hpp"
+#include "decision-making/decision_trees.hpp"
 
 // SFML libs
 #include <SFML/Graphics.hpp>
