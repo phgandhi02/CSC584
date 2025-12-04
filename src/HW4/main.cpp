@@ -182,42 +182,36 @@ std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos, sf::Vector2
 
 /*
 set Boid to next target from path if path is not empty
-! This function is broken. It is not 
 */
 void follow_path(std::vector<Connection>& path, Boid& boid)
 {
-    unsigned int targetNode, currentNode, goalNode;
+    unsigned int targetNode, currentNode, nextNode, goalNode;
     sf::Vector2f targetPos;
     Static target;
-    // Check if the path is empty. If not empty then pop next target
-    if (!path.empty())
-    {
-        currentNode = calcNodeIndex(boid.getPosition());
-        targetNode = path.back().getToNode();
-        targetPos = calcPosfromNode(targetNode);
-        std::cout << currentNode << " | " << targetNode << " | " << boid.getTarget().getPosition().x << " , " << boid.getTarget().getPosition().y << std::endl;
 
+    // Calculate currentNode, mouseNode
+    currentNode = calcNodeIndex(boid.getPosition());
+    nextNode = path.back().getFromNode();
+    targetNode = path.back().getToNode();
+    goalNode = path.front().getToNode();
+
+    std::cout << currentNode << " | " << targetNode << " | " << calcNodeIndex(boid.getTarget().getPosition()) << std::endl;
+
+    if (currentNode == nextNode && currentNode != goalNode && targetNode != goalNode) // once boid reaches targetNode then set it to the next node
+    {
+        
+        targetPos = calcPosfromNode(targetNode);
         target = Static(targetPos, sf::degrees(0.0f));
         boid.setTarget(target);
         path.pop_back();
-        // if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode)
-        // {
-        //     targetPos = calcPosfromNode(targetNode);
-        //     target = Static(targetPos, sf::degrees(0.0f));
-        //     boid.setTarget(target);
-        //     path.pop_back();
-        // } else if (targetNode == goalNode)
-        // {
-        //     targetPos = calcPosfromNode(targetNode);
-        //     target = Static(targetPos, sf::degrees(0.0f));
-        //     boid.setTarget(target);
-        // }
-    } else if (targetNode == goalNode)
-        {
-            targetPos = calcPosfromNode(targetNode);
-            target = Static(targetPos, sf::degrees(0.0f));
-            boid.setTarget(target);
-        }
+    }
+    else if (targetNode == goalNode)
+    {
+        targetPos = calcPosfromNode(targetNode);
+        target = Static(targetPos, sf::degrees(0.0f));
+        boid.setTarget(target);
+        path.pop_back();
+    }
 }
 
 int main() {
@@ -254,7 +248,7 @@ int main() {
     sf::Vector2f targetPos; // stores the position of the next target
     Static target;
     Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
-    enemyCat.setTextureRect(LEFT_CHASING_CAT_TEXTURE_RECT, LEFT_CHASING_CAT_TEXTURE_ORIGIN);
+    enemyCat.setTextureRect(IDLE_WONDERING_CAT_TEXTURE_RECT);
     enemyCat.setSpriteScale(.25,.25);
     enemyCat.mouseInputOn = false;
     auto enemySeekBehavior = std::make_unique<KinematicSeek>();
@@ -340,7 +334,7 @@ int main() {
                 
             }
             else // continue following existing path 
-                follow_path(enemyPath,enemyCat); // ! this function is not even getting called.
+                follow_path(enemyPath,enemyCat);
         } else 
         {
             if (enemyCat.getTextureRect() != IDLE_WONDERING_CAT_TEXTURE_RECT)
