@@ -36,6 +36,7 @@ public:
     sf::Vector2f getPosition() { return m_character.getPosition(); }
     sf::Angle getOrientation() { return m_character.getOrientation(); }
     bool breadcrumbs_on = true;
+    Static getTarget() { return m_target; }
 
     // Basic Texture manipulation functions
     void setTexture(sf::Texture &texture);

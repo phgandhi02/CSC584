@@ -3,5 +3,19 @@
     "C_Cpp.default.intelliSenseMode": "",
     "C_Cpp.inlayHints.autoDeclarationTypes.enabled": false,
     "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": false,
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "files.associations": {
+        "*.gitignore": "cpp",
+        "chrono": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "format": "cpp",
+        "iosfwd": "cpp",
+        "numeric": "cpp",
+        "ranges": "cpp",
+        "string_view": "cpp",
+        "functional": "cpp",
+        "regex": "cpp",
+        "tuple": "cpp"
+    }
 }
