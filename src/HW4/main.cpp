@@ -14,6 +14,7 @@ TODO: implement decision tree for enemy
 #include "movement/boid.hpp" // boid object which handles inputs events and steering behavior
 #include "pathfinding/graph.hpp" // graph object for graph representation of world for pathfinding
 #include "pathfinding/pathfinding_algos.hpp" // algorithms for pathfinding (Dijkstra's and A*)
+#include "decision-making/decision_trees.hpp"
 
 // SFML libs
 #include <SFML/Graphics.hpp>
@@ -191,6 +192,18 @@ void follow_path(std::vector<Connection>& path, Boid& boid)
         target = Static(targetPos, sf::degrees(0.0f));
         boid.setTarget(target);
         path.pop_back();
+        // if (currentNode == targetNode && currentNode != goalNode && targetNode != goalNode)
+        // {
+        //     targetPos = calcPosfromNode(targetNode);
+        //     target = Static(targetPos, sf::degrees(0.0f));
+        //     boid.setTarget(target);
+        //     path.pop_back();
+        // } else if (targetNode == goalNode)
+        // {
+        //     targetPos = calcPosfromNode(targetNode);
+        //     target = Static(targetPos, sf::degrees(0.0f));
+        //     boid.setTarget(target);
+        // }
     } else if (targetNode == goalNode)
         {
             targetPos = calcPosfromNode(targetNode);
