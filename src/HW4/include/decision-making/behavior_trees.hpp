@@ -15,20 +15,15 @@ enum Status {
 
 /**
  * @class BehaviorTreeNode
- * @brief Abstract recursive data struct for Decision Trees.
+ * @brief Abstract recursive data struct for Behavior Trees.
  * 
  */
 class BehaviorTreeNode {
 public:
-    /**
-     * @brief base c'tor for BehaviorTreeNode. Override with subclass c'tor.
-     * 
-     */
-    BehaviorTreeNode() = default;
     // base d'tor for BehaviorTreeNode. Override with subclass d'tor.
     virtual ~BehaviorTreeNode() = default;
     // abstract method for all decision tree node types. 
-    virtual BehaviorTreeNode& makeDecision(DecisionContext context) = 0; 
+    virtual Status run(DecisionContext context) = 0; 
 };
 
 /**
