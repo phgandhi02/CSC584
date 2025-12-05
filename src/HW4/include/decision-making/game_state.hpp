@@ -68,4 +68,13 @@ private:
     float m_score;
 };
 
+class DecisionContext
+{
+public:
+    DecisionContext(Boid& character, GameState& gameStateObj): 
+        boid(character), gameState(gameStateObj) {};
+    Boid& boid;
+    GameState gameState;
+};
+
 #endif // GAME_STATE_HPP

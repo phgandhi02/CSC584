@@ -19,14 +19,10 @@ public:
      * 
      */
     DecisionTreeNode() = default;
-    DecisionTreeNode(GameState gameState): m_gameState(gameState) {};
     // base d'tor for DecisionTreeNode. Override with subclass d'tor.
     virtual ~DecisionTreeNode() = default;
     // abstract method for all decision tree node types. 
-    virtual DecisionTreeNode& makeDecision() = 0;
-//     GameState getGameState() {return m_gameState;}
-// private:
-    GameState m_gameState;
+    virtual DecisionTreeNode& makeDecision(DecisionContext context) = 0; 
 };
 
 /**
@@ -43,7 +39,7 @@ public:
      * 
      * @return DecisionTreeNode& 
      */
-    DecisionTreeNode& makeDecision() override { return *this; }
+    DecisionTreeNode& makeDecision(DecisionContext context) override { return *this; }
 };
 
 /**
@@ -57,13 +53,11 @@ public:
      * 
      * @return DecisionTreeNode& 
      */
-    Decision(GameState gameState, DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
-        DecisionTreeNode(gameState),trueNode(trueBranch), falseNode(falseBranch) {}; 
     Decision(DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
         trueNode(trueBranch), falseNode(falseBranch) {}; 
-    DecisionTreeNode& makeDecision() override {
+    DecisionTreeNode& makeDecision(DecisionContext context) override {
         DecisionTreeNode& branch = getBranch();
-        return branch.makeDecision();
+        return branch.makeDecision(context);
 
     };
 private:
