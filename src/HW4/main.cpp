@@ -256,6 +256,16 @@ int main() {
   auto gameState = GameState();
   auto context = DecisionContext(enemyCat,gameState);
 
+  // Construct Decision Tree
+  
+  // Create actions
+  auto pathfindAction = PathfindPlayerAction();
+  auto wanderAction = WanderSteeringAction();
+  auto seekAction = SeekSteeringAction();
+
+  auto isPlayerClose = isCloseProximityDecision(250,seekAction,wanderAction);
+
+  Action action;
 
   // MAIN GAME LOOP
   
@@ -292,53 +302,55 @@ int main() {
     auto context = DecisionContext(enemyCat, gameState);
 
     distance = (playerPosition - enemyCatPosition).length();
-    if (distance < 150) {
-      if (enemyCat.getTextureRect() != PLAYER_CAPTURED_CAT_TEXTURE_RECT) {
-        enemyCat.setTextureRect(PLAYER_CAPTURED_CAT_TEXTURE_RECT);
-      }
+    // if (distance < 150) {
+    //   if (enemyCat.getTextureRect() != PLAYER_CAPTURED_CAT_TEXTURE_RECT) {
+    //     enemyCat.setTextureRect(PLAYER_CAPTURED_CAT_TEXTURE_RECT);
+    //   }
 
-      if (calcNodeIndex(enemyCatPosition) != calcNodeIndex(playerPosition)) {
-        enemyPath = std::vector<Connection>{};
-      }
+    //   if (calcNodeIndex(enemyCatPosition) != calcNodeIndex(playerPosition)) {
+    //     enemyPath = std::vector<Connection>{};
+    //   }
 
-      // create a path to goal node or follow an existing path.
-      // create a path to the goal node
-      if (enemyPath.empty() &&
-          graph.getNodes(calcNodeIndex(playerPosition)).size() >= 1) {
-        enemyPath = pathfind(graph, enemyCatPosition, playerPosition);
-        if (!enemyPath.empty()) {
-          target = Static(calcPosfromNode(enemyPath.back().getToNode()),
-                          sf::degrees(0.0f));
-          enemyCat.setTarget(target);
-          enemyPath.pop_back();
-        }
+    //   // create a path to goal node or follow an existing path.
+    //   // create a path to the goal node
+    //   if (enemyPath.empty() &&
+    //       graph.getNodes(calcNodeIndex(playerPosition)).size() >= 1) {
+    //     enemyPath = pathfind(graph, enemyCatPosition, playerPosition);
+    //     if (!enemyPath.empty()) {
+    //       target = Static(calcPosfromNode(enemyPath.back().getToNode()),
+    //                       sf::degrees(0.0f));
+    //       enemyCat.setTarget(target);
+    //       enemyPath.pop_back();
+    //     }
 
-      } else // continue following existing path
-        follow_path(enemyPath, enemyCat);
-    } else {
-      if (enemyCat.getTextureRect() != IDLE_WONDERING_CAT_TEXTURE_RECT) {
-        enemyPath = std::vector<Connection>{};
-        enemyCat.setTextureRect(IDLE_WONDERING_CAT_TEXTURE_RECT);
-      }
+    //   } else // continue following existing path
+    //     follow_path(enemyPath, enemyCat);
+    // } else {
+    //   if (enemyCat.getTextureRect() != IDLE_WONDERING_CAT_TEXTURE_RECT) {
+    //     enemyPath = std::vector<Connection>{};
+    //     enemyCat.setTextureRect(IDLE_WONDERING_CAT_TEXTURE_RECT);
+    //   }
 
-      // create a path to goal node or follow an existing path.
-      if (enemyPath.empty())
-      {
-        random_position = sf::Vector2f(rng.getRandomInt(), rng.getRandomInt());
-        while (graph.getNodes(calcNodeIndex(random_position)).size() <= 1) {
-          random_position =
-              sf::Vector2f(rng.getRandomInt(), rng.getRandomInt());
-        }
-        enemyPath = pathfind(graph, enemyCatPosition, random_position);
-        if (!enemyPath.empty()) {
-          target = Static(calcPosfromNode(enemyPath.back().getToNode()),
-                          sf::degrees(0.0f));
-          enemyCat.setTarget(target);
-          // enemyPath.pop_back();
-        }
-      } else // continue following existing path
-        follow_path(enemyPath, enemyCat);
-    }
+    //   // create a path to goal node or follow an existing path.
+    //   if (enemyPath.empty())
+    //   {
+    //     random_position = sf::Vector2f(rng.getRandomInt(), rng.getRandomInt());
+    //     while (graph.getNodes(calcNodeIndex(random_position)).size() <= 1) {
+    //       random_position =
+    //           sf::Vector2f(rng.getRandomInt(), rng.getRandomInt());
+    //     }
+    //     enemyPath = pathfind(graph, enemyCatPosition, random_position);
+    //     if (!enemyPath.empty()) {
+    //       target = Static(calcPosfromNode(enemyPath.back().getToNode()),
+    //                       sf::degrees(0.0f));
+    //       enemyCat.setTarget(target);
+    //       // enemyPath.pop_back();
+    //     }
+    //   } else // continue following existing path
+    //     follow_path(enemyPath, enemyCat);
+    // }
+
+    isPlayerClose.makeDecision(context);
 
     // * Must call clear before drawing anything o.w. content from previous
     // frames will show.
