@@ -152,6 +152,7 @@ public:
     /**
      * @brief Action to Pathfind to player
      * ! need to handle cases to make sure the enemy is on a valid node.
+     * TODO: need to test whether algo is planning when the player has shifted from the original plan or when the boid has shifted from the path.
      * @param context: DecisionContext obj
      * @return DecisionTreeNode& 
      */
