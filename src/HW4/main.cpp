@@ -259,14 +259,23 @@ int main() {
   // Construct Decision Tree
   
   // Create actions
-  auto pathfindAction = PathfindPlayerAction();
-  auto wanderAction = WanderSteeringAction();
-  auto seekAction = SeekSteeringAction();
+  // auto pathfindAction = PathfindPlayerAction();
+  // auto wanderAction = WanderSteeringAction();
+  // auto seekAction = SeekSteeringAction();
 
-  auto isPlayerClose = isCloseProximityDecision(150,seekAction,wanderAction);
-  auto isPlayerFar = isCloseProximityDecision(300,isPlayerClose,pathfindAction);
+  // auto isPlayerClose = isCloseProximityDecision(150,seekAction,wanderAction);
+  // auto isPlayerFar = isCloseProximityDecision(300,isPlayerClose,pathfindAction);
 
-  Action action;
+  // Action action;
+
+  // Construct Behavior Tree
+
+  // Create actions
+  auto pathfindClosePlayer = Sequence();
+  pathfindClosePlayer.addChild(std::make_unique<CheckPlayerProximity>(150));
+  pathfindClosePlayer.addChild(std::make_unique<IsEnemyOnValidNode>());
+  pathfindClosePlayer.addChild(std::make_unique<PathfindPlayer>());
+
 
   // MAIN GAME LOOP
   
@@ -302,7 +311,8 @@ int main() {
     gameState = GameState(graph,enemyCat,player,seed.getPosition(),0);
     auto context = DecisionContext(enemyCat, gameState);
 
-    isPlayerFar.makeDecision(context);
+    // isPlayerFar.makeDecision(context);
+    pathfindClosePlayer.run(context);
 
     // * Must call clear before drawing anything o.w. content from previous
     // frames will show.
