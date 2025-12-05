@@ -1,7 +1,6 @@
 /*
 TODO: add kitchen asset sprites to map
 TODO: implement seed eating behavior
-TODO: implement decision tree for enemy
 */
 // Global Include
 #include "./include/global.hpp"
