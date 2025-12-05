@@ -158,6 +158,7 @@ int main() {
   window.setFramerateLimit(144); // set the framerate limit to 60 fps.
 
     // Create Game Logic Vars
+  unsigned int score = 0;
 
   int i = 0;
   auto seedTexture = sf::Texture("seeds.png");
@@ -246,7 +247,7 @@ int main() {
     }
     
     // Create DecisionContext
-    gameState = GameState(graph,enemyCat,player,seed.getPosition(),0);
+    gameState = GameState(graph,enemyCat,player,seed.getPosition(),score);
     auto context = DecisionContext(enemyCat, gameState);
 
     // isPlayerFar.makeDecision(context);
@@ -269,8 +270,9 @@ int main() {
     // Logic for spawning seed randomly around map.
     // TODO: refactor out of main func.
     i++;
-    if ((i % 750) == 0) {
-      while (graph.getNodes(calcNodeIndex(random_position)).size() <= 1) {
+    if ((i % 1000) == 0) {
+      random_position = sf::Vector2f(rng.getRandomInt(), rng.getRandomInt());
+      while (graph.getNodes(calcNodeIndex(random_position)).size() < 1) {
         random_position = sf::Vector2f(rng.getRandomInt(), rng.getRandomInt());
       }
 
@@ -278,7 +280,12 @@ int main() {
       window.draw(seed);
       i = 0;
     } else {
-      window.draw(seed);
+      if (gameState.getSeedCurrentNode() == gameState.getPlayerCurrentNode())
+      {
+        score++;
+        i = 1000;
+      } else
+          window.draw(seed);
     }
 
     // * must call display end the current frame

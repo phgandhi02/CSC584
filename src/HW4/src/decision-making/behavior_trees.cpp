@@ -122,7 +122,8 @@ Status PathfindRandomNode::run(DecisionContext context)
         }
     }
 
-    std::cout << m_path.size() << std::endl;
+    // std::cout << m_path.size() << std::endl;
+    
     // check if path is empty so new path must be planned
     if (m_path.empty()) 
     {
