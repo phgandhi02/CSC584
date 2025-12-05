@@ -1,8 +1,6 @@
 #include "../../include/decision-making/game_state.hpp"
 
 #include "../../include/global.hpp"
-#include "../../include/pathfinding/pathfinding_algos.hpp"
-#include "../../include/pathfinding/heuristic.hpp"
 
 std::vector<Connection> GameState::getPath(sf::Vector2f startPos, sf::Vector2f goalPos)
 {
