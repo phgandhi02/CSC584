@@ -138,6 +138,8 @@ public:
         {
             context.boid.controller = std::move(enemySeekBehavior);
         }
+        
+        context.boid.setTarget(context.gameState.getPlayer()); 
         return *this;
     }
 };
