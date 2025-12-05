@@ -49,8 +49,10 @@ public:
 
     // Member Variable getters
     sf::Vector2f getEnemyCatPos() {return m_enemyCat.getPosition();}
+    Static getEnemyCat() { return m_enemyCat.character; }
     unsigned int getEnemyCatCurrentNode() { return calcNodeIndex(m_enemyCat.getPosition());}
     sf::Vector2f getPlayerPos() {return m_player.getPosition();}
+    Static getPlayer() { return m_player.character; }
     unsigned int getPlayerCurrentNode() { return calcNodeIndex(m_player.getPosition());}
     sf::Vector2f getSeedPos() {return m_seedPos;}
     unsigned int getSeedCurrentNode() { return calcNodeIndex(m_seedPos);}
