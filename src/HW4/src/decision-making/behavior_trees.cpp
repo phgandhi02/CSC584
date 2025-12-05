@@ -36,7 +36,7 @@ Status Inverter::run(DecisionContext context)
     }
 }
 
-Status isPlayerClose::run(DecisionContext context)
+Status CheckPlayerProximity::run(DecisionContext context)
 {
     auto dist = context.gameState.getDistance();
     // return true if player closer than threshold
@@ -46,7 +46,7 @@ Status isPlayerClose::run(DecisionContext context)
         return FAIL; // player far away
 }
 
-Status isEnemyOnValidNode::run(DecisionContext context)
+Status IsEnemyOnValidNode::run(DecisionContext context)
 { 
     auto boidPos = context.boid.getPosition();
     auto boidNodeIndex = calcNodeIndex(boidPos);
