@@ -112,12 +112,34 @@ private:
     float m_threshold;
 };
 
-class ChaseAction: public Action
-{
-  DecisionTreeNode& makeDecision() override {
-    // auto m_gameState = getGameState();
-    m_gameState.getPath(m_gameState.getEnemyCatPos(),m_gameState.getPlayerPos());
-    return *this;
-  }
+
+class WanderSteeringAction: public Action {
+public:
+    WanderSteeringAction() = default;
+    ~WanderSteeringAction() = default;
+    DecisionTreeNode& makeDecision(DecisionContext context) override 
+    {
+        auto enemySeekBehavior = std::make_unique<KinematicWander>();
+        if (!(context.boid.controller == enemySeekBehavior))
+        {
+            context.boid.controller = std::move(enemySeekBehavior);
+        }
+        return *this;
+    }
+};
+
+class SeekSteeringAction: public Action {
+public:
+    SeekSteeringAction() = default;
+    ~SeekSteeringAction() = default;
+    DecisionTreeNode& makeDecision(DecisionContext context) override 
+    {
+        auto enemySeekBehavior = std::make_unique<KinematicSeek>();
+        if (!(context.boid.controller == enemySeekBehavior))
+        {
+            context.boid.controller = std::move(enemySeekBehavior);
+        }
+        return *this;
+    }
 };
 #endif // DECISION_TREES_HPP
