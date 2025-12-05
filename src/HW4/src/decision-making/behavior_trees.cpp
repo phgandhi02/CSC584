@@ -45,3 +45,13 @@ Status isPlayerClose::run(DecisionContext context)
     else
         return FAIL; // player far away
 }
+
+Status isEnemyOnValidNode::run(DecisionContext context)
+{ 
+    auto boidPos = context.boid.getPosition();
+    auto boidNodeIndex = calcNodeIndex(boidPos);
+    if (context.gameState.getGraph().getNodes(boidNodeIndex).size() >= 1)
+        return SUCCESS;
+    else
+        return FAIL;
+}

@@ -83,4 +83,11 @@ private:
     float m_threshold = 150;
 };
 
+// Game Specific Behavior Tasks
+class isEnemyOnValidNode: public BehaviorTreeNode
+{
+public:
+    Status run(DecisionContext context);
+};
+
 #endif // BEHAVIOR_TREES_HPP
