@@ -7,6 +7,12 @@ used to construct a decision tree.
 
 #include "game_state.hpp"
 
+enum Status {
+    FAIL,
+    SUCCESS,
+    RUNNING
+};
+
 /**
  * @class BehaviorTreeNode
  * @brief Abstract recursive data struct for Decision Trees.
