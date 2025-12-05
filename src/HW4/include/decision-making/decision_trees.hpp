@@ -142,4 +142,24 @@ public:
         return *this;
     }
 };
+
+
+class PathfindAction: public Action {
+public:
+    PathfindAction() = default;
+    ~PathfindAction() = default;
+    DecisionTreeNode& makeDecision(DecisionContext context) override 
+    {
+        auto enemyPos = context.gameState.getEnemyCatPos();
+        auto playerPos = context.gameState.getPlayerPos();
+
+        if (m_path.empty() && context.gameState.getGraph().getNodes(calcNodeIndex(playerPos)).size() >= 1) 
+        {
+            m_path = context.gameState.getPath(enemyPos,playerPos);
+        } else // continue following existing path
+            context.gameState.followPath(m_path, context.boid);
+        return *this;
+    }
+    std::vector<Connection> m_path;
+};
 #endif // DECISION_TREES_HPP
