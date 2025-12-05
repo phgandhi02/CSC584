@@ -36,7 +36,7 @@ std::vector<Connection> GameState::getPath(sf::Vector2f startPos, sf::Vector2f g
 /*
 set Boid to next target from path if path is not empty
 */
-void followPath(std::vector<Connection> &path, Boid &boid) {
+void GameState::followPath(std::vector<Connection> &path, Boid &boid) {
   unsigned int targetNode, currentNode, nextNode, goalNode;
   sf::Vector2f targetPos;
   Static target;
