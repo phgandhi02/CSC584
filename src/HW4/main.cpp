@@ -128,66 +128,6 @@ void draw_player(Boid &player, sf::RenderWindow &window) {
   player.draw(window);
 }
 
-std::vector<Connection> pathfind(Graph graph, sf::Vector2f startPos,
-                                 sf::Vector2f goalPos) {
-  std::vector<Connection> path;
-  // stores the node value for start, current, mouse input, and the next target.
-  unsigned int startNode, goalNode; // vars to hold nodes
-  sf::Vector2f targetPos;           // stores the position of the next target
-  Static target;                    // kinematic data struct of target
-  auto pathfinding = Pathfinding();
-
-  startNode = calcNodeIndex(startPos);
-  goalNode = calcNodeIndex(goalPos);
-
-  // Check if startNode is the same as the goalNode
-  if (startNode == goalNode) {
-    return path; // return empty path
-  }
-  // Make sure goal node is within the map
-  if (goalNode >= MAP_WIDTH * MAP_WIDTH + MAP_HEIGHT || goalNode < 0)
-    return path; // return empty path
-  // Check if goal node is in the graph
-  if (static_cast<int>(graph.getNodes(goalNode).size()) <= 1) {
-    return path; // return empty path
-  }
-
-  EuclidianHeuristic heuristic;
-  path = pathfinding.Astar(graph, startNode, goalNode, heuristic);
-  return path;
-}
-
-/*
-set Boid to next target from path if path is not empty
-*/
-void follow_path(std::vector<Connection> &path, Boid &boid) {
-  unsigned int targetNode, currentNode, nextNode, goalNode;
-  sf::Vector2f targetPos;
-  Static target;
-
-  // Calculate currentNode, mouseNode
-  currentNode = calcNodeIndex(boid.getPosition());
-  nextNode = path.back().getFromNode();
-  targetNode = path.back().getToNode();
-  goalNode = path.front().getToNode();
-
-  if (currentNode == nextNode && currentNode != goalNode &&
-      targetNode !=
-          goalNode) // once boid reaches targetNode then set it to the next node
-  {
-
-    targetPos = calcPosfromNode(targetNode);
-    target = Static(targetPos, sf::degrees(0.0f));
-    boid.setTarget(target);
-    path.pop_back();
-  } else if (targetNode == goalNode) {
-    targetPos = calcPosfromNode(targetNode);
-    target = Static(targetPos, sf::degrees(0.0f));
-    boid.setTarget(target);
-    path.pop_back();
-  }
-}
-
 int main() {
   // GAME SETUP
 
@@ -227,7 +167,6 @@ int main() {
 
   // Create enemy sprite
   auto enemyStartPos = Static(sf::Vector2f(100, 100), sf::degrees(0));
-  auto enemyCatPosition = enemyStartPos.getPosition();
   sf::Vector2f targetPos; // stores the position of the next target
   Static target;
   Boid enemyCat(spriteSheetTextures, enemyStartPos, window);
@@ -241,7 +180,6 @@ int main() {
 
   // Create player sprite
   auto playerStartPos = Static(sf::Vector2f(500, 400), sf::degrees(0));
-  auto playerPosition = playerStartPos.getPosition();
   Boid player(spriteSheetTextures, playerStartPos, window);
   player.setTextureRect(RIGHT_PLAYER_TEXTURE_RECT);
   player.setSpriteScale(.15, .15);
@@ -282,22 +220,6 @@ int main() {
       }
     }
 
-    // Pathfinding for Enemies
-    /*
-    * Trying to implement decision tree here.
-    Basic pseudo-code:
-    if (distance < 150)
-    {
-        Enemy speed temporarily increases
-        Enemy chases player
-    } else
-    {
-        Enemy wanders map
-    }
-    */
-
-    enemyCatPosition = enemyCat.getPosition();
-    playerPosition = player.getPosition();
     gameState = GameState(graph,enemyCat,player,seed.getPosition(),0);
     auto context = DecisionContext(enemyCat, gameState);
 
