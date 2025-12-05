@@ -1,6 +1,5 @@
 /*
 TODO: add kitchen asset sprites to map
-TODO: implement game state
 TODO: implement seed eating behavior
 TODO: implement decision tree for enemy
 */
@@ -255,6 +254,9 @@ int main() {
 
   float distance;
   auto gameState = GameState();
+  auto context = DecisionContext(enemyCat,gameState);
+
+
   // MAIN GAME LOOP
   
   while (window.isOpen()) {
@@ -287,6 +289,7 @@ int main() {
     enemyCatPosition = enemyCat.getPosition();
     playerPosition = player.getPosition();
     gameState = GameState(graph,enemyCat,player,seed.getPosition(),0);
+    auto context = DecisionContext(enemyCat, gameState);
 
     distance = (playerPosition - enemyCatPosition).length();
     if (distance < 150) {

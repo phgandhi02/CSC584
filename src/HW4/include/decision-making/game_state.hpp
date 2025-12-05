@@ -73,8 +73,9 @@ class DecisionContext
 public:
     DecisionContext(Boid& character, GameState& gameStateObj): 
         boid(character), gameState(gameStateObj) {};
+    ~DecisionContext() = default;
     Boid& boid;
-    GameState gameState;
+    GameState& gameState;
 };
 
 #endif // GAME_STATE_HPP
