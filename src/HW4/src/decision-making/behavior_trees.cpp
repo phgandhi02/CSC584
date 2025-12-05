@@ -36,3 +36,12 @@ Status Inverter::run(DecisionContext context)
     }
 }
 
+Status isPlayerClose::run(DecisionContext context)
+{
+    auto dist = context.gameState.getDistance();
+    // return true if player closer than threshold
+    if (m_threshold > dist)
+        return SUCCESS;
+    else
+        return FAIL; // player far away
+}
