@@ -56,7 +56,7 @@ public:
     Decision(DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
         trueNode(trueBranch), falseNode(falseBranch) {}; 
     DecisionTreeNode& makeDecision(DecisionContext context) override {
-        DecisionTreeNode& branch = getBranch();
+        DecisionTreeNode& branch = getBranch(context);
         return branch.makeDecision(context);
 
     };
@@ -77,14 +77,14 @@ private:
      * @return true: this will return the trueNode branch.
      * @return false: this will return the falseNode branch.
      */
-    virtual bool testValue() = 0;
+    virtual bool testValue(DecisionContext context) = 0;
     /**
      * @brief Get the DecisionTreeNode based on the testValue() output
      * 
      * @return DecisionTreeNode& 
      */
-    DecisionTreeNode& getBranch() {
-        if (testValue()) {
+    DecisionTreeNode& getBranch(DecisionContext context) {
+        if (testValue(context)) {
             return trueNode;
         } else {
             return falseNode;
@@ -96,7 +96,7 @@ class BinaryDecision: public Decision {
 public:
     BinaryDecision(bool conditional, DecisionTreeNode& trueNode, DecisionTreeNode& falseNode): Decision(trueNode,falseNode), m_conditional(conditional) {}
     ~BinaryDecision() = default;
-    bool testValue() override { return (m_conditional)? true : false; }
+    bool testValue(DecisionContext context) override { return (m_conditional)? true : false; }
 
 private:
         bool m_conditional;
