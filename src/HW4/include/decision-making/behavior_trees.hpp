@@ -73,17 +73,17 @@ private:
 };
 
 // Game Specific Behavior Tasks
-class isPlayerClose: public BehaviorTreeNode
+class CheckPlayerProximity: public BehaviorTreeNode
 {
 public:
-    isPlayerClose() = default;
-    isPlayerClose(float distThreshold): m_threshold(distThreshold) {};
+    CheckPlayerProximity() = default;
+    CheckPlayerProximity(float distThreshold): m_threshold(distThreshold) {};
     Status run(DecisionContext context);
 private:
     float m_threshold = 150;
 };
 
-class isEnemyOnValidNode: public BehaviorTreeNode
+class IsEnemyOnValidNode: public BehaviorTreeNode
 {
 public:
     Status run(DecisionContext context);
@@ -103,4 +103,10 @@ private:
     std::vector<Connection> m_path;
 };
 
+
+class SeekPlayer: public BehaviorTreeNode
+{
+public:
+    Status run(DecisionContext context);
+};
 #endif // BEHAVIOR_TREES_HPP
