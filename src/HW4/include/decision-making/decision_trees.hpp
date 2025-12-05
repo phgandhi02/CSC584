@@ -102,13 +102,12 @@ private:
         bool m_conditional;
 };
 
-class FloatAboveDecision: public Decision {
+class isCloseProximityDecision: public Decision {
 public:
-    FloatAboveDecision(float *checkVal, float threshold, DecisionTreeNode& trueNode, DecisionTreeNode& falseNode): Decision(trueNode,falseNode), m_gameState(*checkVal), m_threshold(threshold) {}
-    ~FloatAboveDecision() = default;
-    bool testValue() override { return (m_gameState > m_threshold)? true : false; }
+    isCloseProximityDecision(float threshold, DecisionTreeNode& trueNode, DecisionTreeNode& falseNode): Decision(trueNode,falseNode), m_threshold(threshold) {}
+    ~isCloseProximityDecision() = default;
+    bool testValue(DecisionContext context) override { return (context.gameState.getDistance() < m_threshold)? true : false; }
 private:
-    float m_gameState;
     float m_threshold;
 };
 
