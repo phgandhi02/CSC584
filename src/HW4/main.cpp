@@ -254,8 +254,7 @@ int main() {
   player.speed *= 2;
 
   float distance;
-  auto gameState = GameState(graph,enemyCat,player,seed.getPosition(),0);
-  
+  auto gameState = GameState();
   // MAIN GAME LOOP
   
   while (window.isOpen()) {
@@ -287,6 +286,7 @@ int main() {
 
     enemyCatPosition = enemyCat.getPosition();
     playerPosition = player.getPosition();
+    gameState = GameState(graph,enemyCat,player,seed.getPosition(),0);
 
     distance = (playerPosition - enemyCatPosition).length();
     if (distance < 150) {
