@@ -19,10 +19,14 @@ public:
      * 
      */
     DecisionTreeNode() = default;
+    DecisionTreeNode(GameState gameState): m_gameState(gameState) {};
     // base d'tor for DecisionTreeNode. Override with subclass d'tor.
     virtual ~DecisionTreeNode() = default;
     // abstract method for all decision tree node types. 
-    virtual DecisionTreeNode& makeDecision() = 0; 
+    virtual DecisionTreeNode& makeDecision() = 0;
+//     GameState getGameState() {return m_gameState;}
+// private:
+    GameState m_gameState;
 };
 
 /**
@@ -32,6 +36,8 @@ public:
  */
 class Action : public DecisionTreeNode {
 public:
+    Action() = default;
+    ~Action() = default;
     /**
      * @brief Terminates Decision Tree search and returns self.
      * 
@@ -51,6 +57,8 @@ public:
      * 
      * @return DecisionTreeNode& 
      */
+    Decision(GameState gameState, DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
+        DecisionTreeNode(gameState),trueNode(trueBranch), falseNode(falseBranch) {}; 
     Decision(DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
         trueNode(trueBranch), falseNode(falseBranch) {}; 
     DecisionTreeNode& makeDecision() override {
@@ -108,5 +116,14 @@ public:
 private:
     float m_gameState;
     float m_threshold;
+};
+
+class ChaseAction: public Action
+{
+  DecisionTreeNode& makeDecision() override {
+    // auto m_gameState = getGameState();
+    m_gameState.getPath(m_gameState.getEnemyCatPos(),m_gameState.getPlayerPos());
+    return *this;
+  }
 };
 #endif // DECISION_TREES_HPP

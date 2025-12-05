@@ -32,3 +32,34 @@ std::vector<Connection> GameState::getPath(sf::Vector2f startPos, sf::Vector2f g
   path = pathfinding.Astar(m_graph, startNode, goalNode, heuristic);
   return path;
 };
+
+/*
+set Boid to next target from path if path is not empty
+*/
+void follow_path(std::vector<Connection> &path, Boid &boid) {
+  unsigned int targetNode, currentNode, nextNode, goalNode;
+  sf::Vector2f targetPos;
+  Static target;
+
+  // Calculate currentNode, mouseNode
+  currentNode = calcNodeIndex(boid.getPosition());
+  nextNode = path.back().getFromNode();
+  targetNode = path.back().getToNode();
+  goalNode = path.front().getToNode();
+
+  if (currentNode == nextNode && currentNode != goalNode &&
+      targetNode !=
+          goalNode) // once boid reaches targetNode then set it to the next node
+  {
+
+    targetPos = calcPosfromNode(targetNode);
+    target = Static(targetPos, sf::degrees(0.0f));
+    boid.setTarget(target);
+    path.pop_back();
+  } else if (targetNode == goalNode) {
+    targetPos = calcPosfromNode(targetNode);
+    target = Static(targetPos, sf::degrees(0.0f));
+    boid.setTarget(target);
+    path.pop_back();
+  }
+}
