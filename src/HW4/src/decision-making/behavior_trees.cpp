@@ -90,3 +90,15 @@ Status PathfindPlayer::run(DecisionContext context)
         return RUNNING;
 
 }
+
+Status SeekPlayer::run(DecisionContext context)
+{
+    auto seekBehavior = std::make_unique<KinematicSeek>();
+    if (!(context.boid.controller == seekBehavior))
+    {
+        context.boid.controller = std::move(seekBehavior);
+    }
+    
+    context.boid.setTarget(context.gameState.getPlayer()); 
+    return SUCCESS;
+}

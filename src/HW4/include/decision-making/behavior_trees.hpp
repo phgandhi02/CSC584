@@ -103,4 +103,10 @@ private:
     std::vector<Connection> m_path;
 };
 
+
+class SeekPlayer: public BehaviorTreeNode
+{
+public:
+    Status run(DecisionContext context);
+};
 #endif // BEHAVIOR_TREES_HPP
