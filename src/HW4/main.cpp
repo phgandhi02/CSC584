@@ -244,7 +244,8 @@ int main() {
         // Check for Input Events
       }
     }
-
+    
+    // Create DecisionContext
     gameState = GameState(graph,enemyCat,player,seed.getPosition(),0);
     auto context = DecisionContext(enemyCat, gameState);
 
