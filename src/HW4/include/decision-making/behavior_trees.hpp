@@ -72,4 +72,22 @@ private:
     std::unique_ptr<BehaviorTreeNode> m_child;
 };
 
+// Game Specific Behavior Tasks
+class isPlayerClose: public BehaviorTreeNode
+{
+public:
+    isPlayerClose() = default;
+    isPlayerClose(float distThreshold): m_threshold(distThreshold) {};
+    Status run(DecisionContext context);
+private:
+    float m_threshold = 150;
+};
+
+// Game Specific Behavior Tasks
+class isEnemyOnValidNode: public BehaviorTreeNode
+{
+public:
+    Status run(DecisionContext context);
+};
+
 #endif // BEHAVIOR_TREES_HPP
