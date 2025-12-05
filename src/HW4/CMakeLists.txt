@@ -41,6 +41,7 @@ target_link_libraries(pathfinding PRIVATE SFML::Graphics)
 add_library(decision-making ${DECISIONMAKING})
 target_link_libraries(decision-making PRIVATE SFML::Graphics)
 target_link_libraries(decision-making PRIVATE SFML::System)
+target_link_libraries(decision-making PRIVATE pathfinding)
 
 
 add_executable(main main.cpp)
