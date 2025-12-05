@@ -57,4 +57,19 @@ private:
     std::vector<std::unique_ptr<BehaviorTreeNode>> m_children;
 };
 
+// BTNode that will return SUCCESS only if all children return success 
+class Inverter : public BehaviorTreeNode {
+public:
+    // Add child to Selector Task.
+    void addChild(std::unique_ptr<BehaviorTreeNode> child) {
+        if (child)
+            m_child = std::move(child);
+        else
+            std::cout << "Child NULL" << std::endl;
+    }
+    Status run(DecisionContext context);
+private:
+    std::unique_ptr<BehaviorTreeNode> m_child;
+};
+
 #endif // BEHAVIOR_TREES_HPP
