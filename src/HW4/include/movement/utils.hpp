@@ -34,7 +34,8 @@ public:
 class Breadcrumbs
 {
 public:
-    Breadcrumbs(Static character, float delay);
+    Breadcrumbs() = default;
+    Breadcrumbs(float delay);
     ~Breadcrumbs() = default;
     // number of frames between each breadcrumb
     int m_delay = 50;

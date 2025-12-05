@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <array>
 #include <iostream>
 
 /*
@@ -111,8 +112,8 @@ std::vector<Connection> GenMapGraph(std::array<std::array<Cell, MAP_WIDTH>, MAP_
 
 std::array<std::array<Cell, MAP_WIDTH>, MAP_HEIGHT> convert_sketch_to_map(std::array<std::string, MAP_HEIGHT> map_sketch);
 
-unsigned int calculateNodeIndex(sf::Vector2f position);
+unsigned int calcNodeIndex(sf::Vector2f position);
 
-sf::Vector2f calculatePositionfromNode(unsigned int node);
+sf::Vector2f calcPosfromNode(unsigned int node);
 
 #endif

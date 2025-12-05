@@ -34,8 +34,23 @@ public:
     Static getCharacter() { return m_character; }
     KinematicSteeringOutput getSteering() { return m_steering; }
     sf::Vector2f getPosition() { return m_character.getPosition(); }
+    sf::Angle getOrientation() { return m_character.getOrientation(); }
     bool breadcrumbs_on = true;
+    Static getTarget() { return m_target; }
+
+    // Basic Texture manipulation functions
     void setTexture(sf::Texture &texture);
+    void setSpriteScale(float scaleX, float scaleY) {m_sprite.setScale(sf::Vector2f(scaleX,scaleY));}
+    void setTextureRect(sf::IntRect textureRect) {
+        m_sprite.setTextureRect(textureRect);
+        m_sprite.setOrigin(sf::Vector2<float>(textureRect.size.x/2, textureRect.size.y/2));
+    }
+    void setTextureRect(sf::IntRect textureRect, sf::Vector2f textureOrigin) {
+        m_sprite.setTextureRect(textureRect);
+        m_sprite.setOrigin(textureOrigin);
+    }
+    sf::IntRect getTextureRect() { return m_sprite.getTextureRect(); }
+    
     void setTarget(Static target) { m_target = target; };
 
     // Steering Function

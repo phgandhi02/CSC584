@@ -1,9 +1,11 @@
-#ifndef DECISION_TREES_HPP
-#define DECISION_TREES_HPP
 /*
 Decision Trees lib contains various recursive decision node objs that can be
 used to construct a decision tree.
 */
+#ifndef DECISION_TREES_HPP
+#define DECISION_TREES_HPP
+
+#include "game_state.hpp"
 
 /**
  * @class DecisionTreeNode
@@ -20,7 +22,7 @@ public:
     // base d'tor for DecisionTreeNode. Override with subclass d'tor.
     virtual ~DecisionTreeNode() = default;
     // abstract method for all decision tree node types. 
-    virtual DecisionTreeNode& makeDecision() = 0; 
+    virtual DecisionTreeNode& makeDecision(DecisionContext context) = 0; 
 };
 
 /**
@@ -30,12 +32,14 @@ public:
  */
 class Action : public DecisionTreeNode {
 public:
+    Action() = default;
+    ~Action() = default;
     /**
      * @brief Terminates Decision Tree search and returns self.
      * 
      * @return DecisionTreeNode& 
      */
-    DecisionTreeNode& makeDecision() override { return *this; }
+    DecisionTreeNode& makeDecision(DecisionContext context) override { return *this; }
 };
 
 /**
@@ -51,9 +55,9 @@ public:
      */
     Decision(DecisionTreeNode& trueBranch,DecisionTreeNode& falseBranch): 
         trueNode(trueBranch), falseNode(falseBranch) {}; 
-    DecisionTreeNode& makeDecision() override {
-        DecisionTreeNode& branch = getBranch();
-        return branch.makeDecision();
+    DecisionTreeNode& makeDecision(DecisionContext context) override {
+        DecisionTreeNode& branch = getBranch(context);
+        return branch.makeDecision(context);
 
     };
 private:
@@ -73,14 +77,14 @@ private:
      * @return true: this will return the trueNode branch.
      * @return false: this will return the falseNode branch.
      */
-    virtual bool testValue() = 0;
+    virtual bool testValue(DecisionContext context) = 0;
     /**
      * @brief Get the DecisionTreeNode based on the testValue() output
      * 
      * @return DecisionTreeNode& 
      */
-    DecisionTreeNode& getBranch() {
-        if (testValue()) {
+    DecisionTreeNode& getBranch(DecisionContext context) {
+        if (testValue(context)) {
             return trueNode;
         } else {
             return falseNode;
@@ -92,19 +96,112 @@ class BinaryDecision: public Decision {
 public:
     BinaryDecision(bool conditional, DecisionTreeNode& trueNode, DecisionTreeNode& falseNode): Decision(trueNode,falseNode), m_conditional(conditional) {}
     ~BinaryDecision() = default;
-    bool testValue() override { return (m_conditional)? true : false; }
+    bool testValue(DecisionContext context) override { return (m_conditional)? true : false; }
 
 private:
         bool m_conditional;
 };
 
-class FloatAboveDecision: public Decision {
+class isCloseProximityDecision: public Decision {
 public:
-    FloatAboveDecision(float *checkVal, float threshold, DecisionTreeNode& trueNode, DecisionTreeNode& falseNode): Decision(trueNode,falseNode), m_gameState(*checkVal), m_threshold(threshold) {}
-    ~FloatAboveDecision() = default;
-    bool testValue() override { return (m_gameState > m_threshold)? true : false; }
+    isCloseProximityDecision(float threshold, DecisionTreeNode& trueNode, DecisionTreeNode& falseNode): Decision(trueNode,falseNode), m_threshold(threshold) {}
+    ~isCloseProximityDecision() = default;
+    bool testValue(DecisionContext context) override { return (context.gameState.getDistance() < m_threshold)? true : false; }
 private:
-    float m_gameState;
     float m_threshold;
+};
+
+
+class WanderSteeringAction: public Action {
+public:
+    WanderSteeringAction() = default;
+    ~WanderSteeringAction() = default;
+    DecisionTreeNode& makeDecision(DecisionContext context) override 
+    {
+        auto enemySeekBehavior = std::make_unique<KinematicWander>();
+        if (!(context.boid.controller == enemySeekBehavior))
+        {
+            context.boid.controller = std::move(enemySeekBehavior);
+        }
+        return *this;
+    }
+};
+
+class SeekSteeringAction: public Action {
+public:
+    SeekSteeringAction() = default;
+    ~SeekSteeringAction() = default;
+    DecisionTreeNode& makeDecision(DecisionContext context) override 
+    {
+        auto enemySeekBehavior = std::make_unique<KinematicSeek>();
+        if (!(context.boid.controller == enemySeekBehavior))
+        {
+            context.boid.controller = std::move(enemySeekBehavior);
+        }
+        
+        context.boid.setTarget(context.gameState.getPlayer()); 
+        return *this;
+    }
+};
+
+
+class PathfindPlayerAction: public Action {
+public:
+    PathfindPlayerAction() = default;
+    ~PathfindPlayerAction() = default;
+    /**
+     * @brief Action to Pathfind to player
+     * ! need to handle cases to make sure the enemy is on a valid node.
+     * @param context: DecisionContext obj
+     * @return DecisionTreeNode& 
+     */
+    DecisionTreeNode& makeDecision(DecisionContext context) override 
+    {
+        auto enemyPos = context.gameState.getEnemyCatPos();
+        auto playerPos = context.gameState.getPlayerPos();
+
+        if (!m_path.empty())
+        {
+            if (m_path.front().getToNode() != calcNodeIndex(playerPos))
+                { m_path = std::vector<Connection>{}; }
+            else if (m_path.back().getFromNode() != calcNodeIndex(enemyPos))
+                m_path = std::vector<Connection>{};
+        }
+
+        if (m_path.empty() && context.gameState.getGraph().getNodes(calcNodeIndex(playerPos)).size() >= 1) 
+        {
+            m_path = context.gameState.getPath(enemyPos,playerPos);
+            if (!m_path.empty())
+                context.gameState.followPath(m_path, context.boid);
+        } else // continue following existing path
+            context.gameState.followPath(m_path, context.boid);
+        return *this;
+    }
+    std::vector<Connection> m_path;
+};
+
+class RandomPathfindAction: public Action {
+public:
+    RandomPathfindAction() = default;
+    ~RandomPathfindAction() = default;
+    DecisionTreeNode& makeDecision(DecisionContext context) override 
+    {
+        auto enemyPos = context.gameState.getEnemyCatPos();
+        auto random_position = sf::Vector2f(m_rng.getRandomInt(), m_rng.getRandomInt());
+        if (m_path.empty()) 
+        {
+            while (context.gameState.getGraph().getNodes(calcNodeIndex(random_position)).size() >= 1)
+            {
+                random_position = sf::Vector2f(m_rng.getRandomInt(), m_rng.getRandomInt());
+            }
+
+            m_path = context.gameState.getPath(enemyPos,random_position);
+        } else // continue following existing path
+            context.gameState.followPath(m_path, context.boid);
+
+        return *this;
+    }
+    std::vector<Connection> m_path;
+    RandomNumGen m_rng = RandomNumGen(40, 760);
 };
 #endif // DECISION_TREES_HPP

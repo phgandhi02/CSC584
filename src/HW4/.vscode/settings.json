@@ -110,8 +110,13 @@
     },
     "conventionalCommits.scopes": [
         "build",
-        "main"
+        "main",
+        "assets"
     ],
     "C_Cpp.default.cStandard": "c17",
-    "C_Cpp.clang_format_style": "{ColumnLimit: 80}"
+    "C_Cpp.clang_format_style": "{ColumnLimit: 80}",
+    "editor.tokenColorCustomizations": {
+        "comments": "",
+        "textMateRules": []
+    }
 }
