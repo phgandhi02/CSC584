@@ -64,22 +64,31 @@ Status PathfindPlayer::run(DecisionContext context)
     // If there is a current path being followed
     if (!m_path.empty())
     {
-        // check if the current path to the players location is valid
+        // check if the current path destination is the same as the current players location 
         if (m_path.front().getToNode() != calcNodeIndex(playerPos))
         {
-            // current path destination is false so clear current plan and return FAIL
+            // current path destination is not the same so clear current plan and return FAIL
             m_path = std::vector<Connection>{};
             return FAIL; 
         } 
+        // check if the current path start location is different than the current boid position
         else if (m_path.back().getFromNode() != calcNodeIndex(enemyPos))
         {
             // current path start location is different the current boid position so clear current plan and return FAIL
             m_path = std::vector<Connection>{};
             return FAIL; 
+        } 
+        // check if the current player position is on a valid node 
+        else if (context.gameState.getGraph().getNodes(calcNodeIndex(playerPos)).size() >= 1)
+        {
+            // current path destination location is not a valid node so clear current plan and return FAIL
+            m_path = std::vector<Connection>{};
+            return FAIL;    
         }
     }
 
-    if (m_path.empty() && context.gameState.getGraph().getNodes(calcNodeIndex(playerPos)).size() >= 1) 
+    // check if path is empty so new path must be planned
+    if (m_path.empty()) 
     {
         m_path = context.gameState.getPath(enemyPos,playerPos);
         if (!m_path.empty())
@@ -89,6 +98,41 @@ Status PathfindPlayer::run(DecisionContext context)
         context.gameState.followPath(m_path, context.boid);
         return RUNNING;
 
+}
+
+Status PathfindRandomNode::run(DecisionContext context)
+{
+    auto enemyPos = context.gameState.getEnemyCatPos();
+    auto random_position = sf::Vector2f(m_rng.getRandomInt(), m_rng.getRandomInt());
+    // If there is a current path being followed
+    if (!m_path.empty())
+    {
+        // check if the current path start location is different than the current boid position
+        if (m_path.back().getFromNode() != calcNodeIndex(enemyPos))
+        {
+            // current path start location is different the current boid position so clear current plan and return FAIL
+            return FAIL; 
+        } 
+        // check if the current random position is on a valid node 
+        else if (context.gameState.getGraph().getNodes(calcNodeIndex(random_position)).size() >= 1)
+        {
+            // current path destination location is not a valid node so clear current plan and return FAIL
+            m_path = std::vector<Connection>{};
+            return FAIL;
+        }
+    }
+
+    std::cout << m_path.size() << std::endl;
+    // check if path is empty so new path must be planned
+    if (m_path.empty()) 
+    {
+        m_path = context.gameState.getPath(enemyPos,random_position);
+        if (!m_path.empty())
+            context.gameState.followPath(m_path, context.boid);
+            return SUCCESS;
+    } else // continue following existing path
+        context.gameState.followPath(m_path, context.boid);
+        return RUNNING;
 }
 
 Status SeekPlayer::run(DecisionContext context)

@@ -6,6 +6,7 @@ used to construct a decision tree.
 #define BEHAVIOR_TREES_HPP
 
 #include <iostream>
+#include "../global.hpp"
 #include "game_state.hpp"
 
 enum Status {
@@ -101,6 +102,21 @@ public:
     Status run(DecisionContext context);
 private:
     std::vector<Connection> m_path;
+};
+
+/**
+ * @brief Return SUCCESS if path made to random position
+ * or RUNNING if current path is being followed 
+ * else return FAIL
+ * 
+ */
+class PathfindRandomNode: public BehaviorTreeNode
+{
+public:
+    Status run(DecisionContext context);
+private:
+    std::vector<Connection> m_path = std::vector<Connection>();
+    RandomNumGen m_rng = RandomNumGen(40,760);
 };
 
 
