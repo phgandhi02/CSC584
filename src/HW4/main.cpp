@@ -7,6 +7,7 @@ TODO: implement seed eating behavior
 
 // Repo Lib includes
 #include "decision-making/decision_trees.hpp"
+#include "decision-making/behavior_trees.hpp"
 #include "movement/boid.hpp" // boid object which handles inputs events and steering behavior
 #include "pathfinding/graph.hpp" // graph object for graph representation of world for pathfinding
 #include "pathfinding/pathfinding_algos.hpp" // algorithms for pathfinding (Dijkstra's and A*)
