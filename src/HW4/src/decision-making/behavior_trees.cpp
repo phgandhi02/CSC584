@@ -55,3 +55,38 @@ Status isEnemyOnValidNode::run(DecisionContext context)
     else
         return FAIL;
 }
+
+Status PathfindPlayer::run(DecisionContext context)
+{
+    auto enemyPos = context.boid.getPosition();
+    auto playerPos = context.gameState.getPlayerPos();
+
+    // If there is a current path being followed
+    if (!m_path.empty())
+    {
+        // check if the current path to the players location is valid
+        if (m_path.front().getToNode() != calcNodeIndex(playerPos))
+        {
+            // current path destination is false so clear current plan and return FAIL
+            m_path = std::vector<Connection>{};
+            return FAIL; 
+        } 
+        else if (m_path.back().getFromNode() != calcNodeIndex(enemyPos))
+        {
+            // current path start location is different the current boid position so clear current plan and return FAIL
+            m_path = std::vector<Connection>{};
+            return FAIL; 
+        }
+    }
+
+    if (m_path.empty() && context.gameState.getGraph().getNodes(calcNodeIndex(playerPos)).size() >= 1) 
+    {
+        m_path = context.gameState.getPath(enemyPos,playerPos);
+        if (!m_path.empty())
+            context.gameState.followPath(m_path, context.boid);
+            return SUCCESS;
+    } else // continue following existing path
+        context.gameState.followPath(m_path, context.boid);
+        return RUNNING;
+
+}

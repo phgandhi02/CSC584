@@ -83,11 +83,24 @@ private:
     float m_threshold = 150;
 };
 
-// Game Specific Behavior Tasks
 class isEnemyOnValidNode: public BehaviorTreeNode
 {
 public:
     Status run(DecisionContext context);
+};
+
+/**
+ * @brief Return SUCCESS if path made to player
+ * or RUNNING if current path is being followed
+ * to player else return FAIL
+ * 
+ */
+class PathfindPlayer: public BehaviorTreeNode
+{
+public:
+    Status run(DecisionContext context);
+private:
+    std::vector<Connection> m_path;
 };
 
 #endif // BEHAVIOR_TREES_HPP
