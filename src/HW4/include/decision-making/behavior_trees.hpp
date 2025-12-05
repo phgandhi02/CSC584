@@ -5,6 +5,7 @@ used to construct a decision tree.
 #ifndef BEHAVIOR_TREES_HPP
 #define BEHAVIOR_TREES_HPP
 
+#include <iostream>
 #include "game_state.hpp"
 
 enum Status {
@@ -26,21 +27,19 @@ public:
     virtual Status run(DecisionContext context) = 0; 
 };
 
-/**
- * @brief Leaf node for Decision Tree. Action will return itself and terminate
- * decision tree node recursion.
- * 
- */
-class Action : public BehaviorTreeNode {
+// BTNode that will return SUCCESS if any children return success 
+class Selector : public BehaviorTreeNode {
 public:
-    Action() = default;
-    ~Action() = default;
-    /**
-     * @brief Terminates Decision Tree search and returns self.
-     * 
-     * @return BehaviorTreeNode& 
-     */
-    BehaviorTreeNode& makeDecision(DecisionContext context) override { return *this; }
+    // Add child to Selector Task.
+    void addChild(std::unique_ptr<BehaviorTreeNode> child) {
+        if (child)
+            m_children.push_back(std::move(child));
+        else
+            std::cout << "Child NULL" << std::endl;
+    }
+    Status run(DecisionContext context);
+private:
+    std::vector<std::unique_ptr<BehaviorTreeNode>> m_children;
 };
 
 /**
