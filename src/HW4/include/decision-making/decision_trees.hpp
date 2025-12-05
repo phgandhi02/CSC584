@@ -145,10 +145,10 @@ public:
 };
 
 
-class PathfindAction: public Action {
+class PathfindPlayerAction: public Action {
 public:
-    PathfindAction() = default;
-    ~PathfindAction() = default;
+    PathfindPlayerAction() = default;
+    ~PathfindPlayerAction() = default;
     DecisionTreeNode& makeDecision(DecisionContext context) override 
     {
         auto enemyPos = context.gameState.getEnemyCatPos();
