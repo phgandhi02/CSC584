@@ -163,4 +163,29 @@ public:
     }
     std::vector<Connection> m_path;
 };
+
+class RandomPathfindAction: public Action {
+public:
+    RandomPathfindAction() = default;
+    ~RandomPathfindAction() = default;
+    DecisionTreeNode& makeDecision(DecisionContext context) override 
+    {
+        auto enemyPos = context.gameState.getEnemyCatPos();
+        auto random_position = sf::Vector2f(m_rng.getRandomInt(), m_rng.getRandomInt());
+        if (m_path.empty()) 
+        {
+            while (context.gameState.getGraph().getNodes(calcNodeIndex(random_position)).size() >= 1)
+            {
+                random_position = sf::Vector2f(m_rng.getRandomInt(), m_rng.getRandomInt());
+            }
+
+            m_path = context.gameState.getPath(enemyPos,random_position);
+        } else // continue following existing path
+            context.gameState.followPath(m_path, context.boid);
+
+        return *this;
+    }
+    std::vector<Connection> m_path;
+    RandomNumGen m_rng = RandomNumGen(40, 760);
+};
 #endif // DECISION_TREES_HPP
