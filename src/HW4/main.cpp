@@ -269,13 +269,28 @@ int main() {
   // Action action;
 
   // Construct Behavior Tree
+  auto goToValidNode = std::make_unique<Selector>();
+  goToValidNode->addChild(std::make_unique<IsEnemyOnValidNode>());
 
-  // Create actions
-  auto pathfindClosePlayer = Sequence();
-  pathfindClosePlayer.addChild(std::make_unique<CheckPlayerProximity>(150));
-  pathfindClosePlayer.addChild(std::make_unique<IsEnemyOnValidNode>());
-  pathfindClosePlayer.addChild(std::make_unique<PathfindPlayer>());
+  auto pathfindPlayer = std::make_unique<Sequence>();
+  pathfindPlayer->addChild(std::make_unique<IsEnemyOnValidNode>());
+  pathfindPlayer->addChild(std::make_unique<CheckPlayerProximity>(200));
+  pathfindPlayer->addChild(std::make_unique<PathfindPlayer>());
 
+  auto seekPlayerIfClose = std::make_unique<Sequence>();
+  seekPlayerIfClose->addChild(std::make_unique<CheckPlayerProximity>(40));
+  seekPlayerIfClose->addChild(std::make_unique<SeekPlayer>());
+
+  auto pathfindRandom = std::make_unique<Sequence>();
+  pathfindRandom->addChild(std::make_unique<IsEnemyOnValidNode>());
+  pathfindRandom->addChild(std::make_unique<PathfindRandomNode>());
+
+  auto chasePlayer = std::make_unique<Selector>();
+  chasePlayer->addChild(std::move(pathfindPlayer));
+  chasePlayer->addChild(std::move(pathfindRandom));
+  chasePlayer->addChild(std::move(seekPlayerIfClose));
+
+  auto rootNode = std::move(chasePlayer);
 
   // MAIN GAME LOOP
   
@@ -312,7 +327,7 @@ int main() {
     auto context = DecisionContext(enemyCat, gameState);
 
     // isPlayerFar.makeDecision(context);
-    pathfindClosePlayer.run(context);
+    rootNode->run(context);
 
     // * Must call clear before drawing anything o.w. content from previous
     // frames will show.
