@@ -262,7 +262,8 @@ int main() {
   auto wanderAction = WanderSteeringAction();
   auto seekAction = SeekSteeringAction();
 
-  auto isPlayerClose = isCloseProximityDecision(250,seekAction,wanderAction);
+  auto isPlayerClose = isCloseProximityDecision(150,seekAction,wanderAction);
+  auto isPlayerFar = isCloseProximityDecision(300,isPlayerClose,pathfindAction);
 
   Action action;
 
