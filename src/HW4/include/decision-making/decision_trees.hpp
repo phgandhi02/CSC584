@@ -149,14 +149,30 @@ class PathfindPlayerAction: public Action {
 public:
     PathfindPlayerAction() = default;
     ~PathfindPlayerAction() = default;
+    /**
+     * @brief Action to Pathfind to player
+     * ! need to handle cases to make sure the enemy is on a valid node.
+     * @param context: DecisionContext obj
+     * @return DecisionTreeNode& 
+     */
     DecisionTreeNode& makeDecision(DecisionContext context) override 
     {
         auto enemyPos = context.gameState.getEnemyCatPos();
         auto playerPos = context.gameState.getPlayerPos();
 
+        if (!m_path.empty())
+        {
+            if (m_path.front().getToNode() != calcNodeIndex(playerPos))
+                { m_path = std::vector<Connection>{}; }
+            else if (m_path.back().getFromNode() != calcNodeIndex(enemyPos))
+                m_path = std::vector<Connection>{};
+        }
+
         if (m_path.empty() && context.gameState.getGraph().getNodes(calcNodeIndex(playerPos)).size() >= 1) 
         {
             m_path = context.gameState.getPath(enemyPos,playerPos);
+            if (!m_path.empty())
+                context.gameState.followPath(m_path, context.boid);
         } else // continue following existing path
             context.gameState.followPath(m_path, context.boid);
         return *this;
