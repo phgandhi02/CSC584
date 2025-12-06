@@ -208,16 +208,13 @@ int main() {
   // Action action;
 
   // Construct Behavior Tree
-  auto goToValidNode = std::make_unique<Selector>();
-  goToValidNode->addChild(std::make_unique<IsEnemyOnValidNode>());
-
   auto pathfindPlayer = std::make_unique<Sequence>();
   pathfindPlayer->addChild(std::make_unique<IsEnemyOnValidNode>());
   pathfindPlayer->addChild(std::make_unique<CheckPlayerProximity>(200));
   pathfindPlayer->addChild(std::make_unique<PathfindPlayer>());
 
   auto seekPlayerIfClose = std::make_unique<Sequence>();
-  seekPlayerIfClose->addChild(std::make_unique<CheckPlayerProximity>(40));
+  seekPlayerIfClose->addChild(std::make_unique<CheckPlayerProximity>(50));
   seekPlayerIfClose->addChild(std::make_unique<SeekPlayer>());
 
   auto pathfindRandom = std::make_unique<Sequence>();
@@ -283,7 +280,7 @@ int main() {
       if (gameState.getSeedCurrentNode() == gameState.getPlayerCurrentNode())
       {
         score++;
-        i = 1000;
+        i = 999; // i will be 1000 and set new random position on next loop.
       } else
           window.draw(seed);
     }
