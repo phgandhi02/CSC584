@@ -61,6 +61,8 @@ Status PathfindPlayer::run(DecisionContext context)
     auto enemyPos = context.boid.getPosition();
     auto playerPos = context.gameState.getPlayerPos();
 
+    if (FAIL == m_isEnemyOnValidNode.run(context))
+        return FAIL;
     // If there is a current path being followed
     if (!m_path.empty())
     {
@@ -111,6 +113,7 @@ Status PathfindRandomNode::run(DecisionContext context)
         if (m_path.back().getFromNode() != calcNodeIndex(enemyPos))
         {
             // current path start location is different the current boid position so clear current plan and return FAIL
+            // TODO: implement conditional to check if graph contains connection from currentNode to FromNode in the back of m_path(). If not then clear plan.
             return FAIL; 
         } 
         // check if the current random position is on a valid node 

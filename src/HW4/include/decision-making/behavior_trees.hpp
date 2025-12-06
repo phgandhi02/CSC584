@@ -101,6 +101,7 @@ class PathfindPlayer: public BehaviorTreeNode
 public:
     Status run(DecisionContext context);
 private:
+    IsEnemyOnValidNode m_isEnemyOnValidNode;
     std::vector<Connection> m_path;
 };
 
