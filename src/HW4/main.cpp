@@ -18,6 +18,7 @@ TODO: implement seed eating behavior
 #include <SFML/Window.hpp>
 
 // STL
+#include <math.h>
 #include <iostream>
 #include <memory>
 
@@ -191,7 +192,7 @@ int main() {
   player.breadcrumbs_on = false;
   player.speed *= 2;
 
-  float distance;
+  float distance = NAN;
   auto gameState = GameState();
   auto context = DecisionContext(enemyCat,gameState);
 
