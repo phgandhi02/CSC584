@@ -45,8 +45,8 @@ public:
                            static_cast<int>(higher_limit)) {
     // a seed source for the random number engine
     std::random_device rd;
-    auto m_gen(rd()); // mersenne_twister_engine seeded with
-    auto m_distrib(m_gen);
+    m_gen.seed(rd()); // mersenne_twister_engine seeded with
+    m_distrib(m_gen);
   }
   ~RandomNumGen() = default;
   int getRandomInt() { return m_distrib(m_gen); }
