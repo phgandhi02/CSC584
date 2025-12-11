@@ -1,0 +1,84 @@
+# 🐭 Cat vs. bird AI Simulation (CSC584 HW4) (AI-Generated)
+
+This project is a simulation environment built using **SFML** to explore different Artificial Intelligence (AI) techniques for character movement and decision-making, specifically focusing on a cat (enemy) chasing a bird (player) in a maze environment.
+
+The simulation demonstrates the use of **Steering Behaviors**, \**Pathfinding (Graph/A*), Decision Trees,\*\* and **Behavior Trees** for controlling the enemy AI.
+
+-----
+
+## ✨ Features
+
+  * **Maze Environment:** A static, tile-based map representing walls and walkable floor, generated from a string array (`MAP_SKETCH`).
+  * **Graph-based World:** The environment is converted into a **Graph** structure to facilitate pathfinding algorithms.
+  * **Player Control:** The bird (player) is controlled by the user via bird clicks, utilizing a **Kinematic Seek** steering behavior to move to the target location.
+  * **AI Control:** The cat (enemy) is controlled by advanced AI architectures:
+      * **Decision Tree (DT):** A hierarchical structure for decision-making based on proximity to the player.
+      * **Behavior Tree (BT):** A modular, state-driven system used for complex behavior like pathfinding, seeking, and wandering.
+      * **Steering Behaviors:** Both the player and enemy use **Kinematic Seek** for movement toward a target.
+  * **Pathfinding:** Uses graph algorithms (Dijkstra's or A\*) to find optimal paths for the cat to navigate the maze.
+  * **Game Mechanics:** Includes basic scorekeeping for collecting scattered seeds (food).
+
+-----
+
+## 🕹️ Interactive Controls
+
+| Key/Input | Action | AI System |
+| :--- | :--- | :--- |
+| **D** | **Toggles the enemy AI logic** between the **Decision Tree** and the **Behavior Tree**. | Enemy AI |
+| **Close Window** | Quits the simulation. | N/A |
+
+-----
+
+## 🛠️ Project Structure and Libraries
+
+The project is structured into modular libraries for movement, pathfinding, and decision-making.
+
+### Key AI Components
+
+| Library | Functionality |
+| :--- | :--- |
+| `movement` | Contains the **Boid** object, which handles inputs, steering behaviors (`KinematicSeek`), and movement physics. |
+| `pathfinding` | Includes the **Graph** representation of the world and implementations of pathfinding algorithms (Dijkstra's, A\*). |
+| `decision-making` | Houses the AI logic: **Decision Trees** and **Behavior Trees** (Sequences, Selectors, Conditions, Actions). |
+
+### External Dependencies
+
+  * **SFML (Simple and Fast Multimedia Library):** Used for graphics, window management, and input handling.
+  * **GoogleTest:** Used for unit testing the various components.
+
+-----
+
+## 🚀 Build the Project
+
+### Prerequisites
+
+You need a C++ compiler (supporting C++17) and CMake installed. The required SFML and GoogleTest libraries are fetched automatically by CMake.
+
+### Build Steps
+
+1.  **Configure and Build:** From the project root directory (containing `CMakeLists.txt`), run the following commands:
+
+    ```bash
+    cmake -S . -B build
+    cmake --build build
+    ```
+
+    *Alternatively, you can run the provided helper script:*
+
+    ```bash
+    ./compile_and_test.sh
+    ```
+
+2.  **Run the Executable:** The main simulation can be run from the build directory:
+
+    ```bash
+    ./build/bin/main
+    ```
+
+### Running Tests
+
+To run the unit tests (if included in the build):
+
+```bash
+./build/bin/main_test
+```
